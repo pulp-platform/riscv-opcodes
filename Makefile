@@ -20,6 +20,13 @@ inst.chisel: $(ALL_OPCODES) parse-opcodes
 inst.go: opcodes opcodes-pseudo parse-opcodes
 	cat opcodes opcodes-pseudo | ./parse-opcodes -go > $@
 
+inst.c: opcodes opcodes-pseudo parse-opcodes
+	cat opcodes opcodes-pseudo | ./parse-opcodes -c > $@
+
+inst.py: opcodes opcodes-pseudo parse-opcodes
+	cat opcodes opcodes-pseudo | ./parse-opcodes -py > $@
+
+
 instr-table.tex: $(ALL_OPCODES) parse-opcodes
 	cat opcodes opcodes-pseudo | ./parse-opcodes -tex > $@
 
