@@ -21,7 +21,7 @@ inst.go: opcodes opcodes-pseudo parse-opcodes
 	cat opcodes opcodes-pseudo | ./parse-opcodes -go > $@
 
 inst.c: opcodes opcodes-pseudo parse-opcodes
-	cat opcodes opcodes-pseudo | ./parse-opcodes -c > $@
+	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -c > $@
 
 inst.py: opcodes opcodes-pseudo parse-opcodes
 	cat opcodes opcodes-pseudo | ./parse-opcodes -py > $@
