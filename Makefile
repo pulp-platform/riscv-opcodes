@@ -18,17 +18,17 @@ inst.chisel: $(ALL_OPCODES) parse-opcodes
 	cat opcodes opcodes-custom opcodes-pseudo | ./parse-opcodes -chisel > $@
 
 inst.go: opcodes opcodes-pseudo parse-opcodes
-	cat opcodes opcodes-pseudo | ./parse-opcodes -go > $@
+	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -go > $@
 
 inst.c: opcodes opcodes-pseudo parse-opcodes
 	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -c > $@
 
 inst.py: opcodes opcodes-pseudo parse-opcodes
-	cat opcodes opcodes-pseudo | ./parse-opcodes -py > $@
+	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -py > $@
 
 
 instr-table.tex: $(ALL_OPCODES) parse-opcodes
-	cat opcodes opcodes-pseudo | ./parse-opcodes -tex > $@
+	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -tex > $@
 
 priv-instr-table.tex: $(ALL_OPCODES) parse-opcodes
 	cat opcodes opcodes-pseudo | ./parse-opcodes -privtex > $@
