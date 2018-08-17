@@ -326,12 +326,12 @@ def make_sv(match,mask):
   print 'package riscv_defines;'
   for name in namelist:
     name2 = name.upper().replace('.','_')
-    print 'parameter MATCH_%s = 32\'h%x' % (name2, (match[name]))
-    print 'parameter MASK_%s  = 32\'h%x' % (name2, (mask[name]))
+    print 'parameter MATCH_%s = 32\'h%x;' % (name2, (match[name]))
+    print 'parameter MASK_%s = 32\'h%x;' % (name2, (mask[name]))
   for num, name in csrs+csrs32:
-    print 'parameter CSR_%s   = 32\'h%x' % (name.upper(), (num))
+    print 'parameter CSR_%s = 32\'h%x;' % (name.upper(), (num))
   for num, name in causes:
-    print 'parameter CAUSE_%s = 5\'h%x' % (name.upper().replace(' ', '_'), (num))
+    print 'parameter CAUSE_%s = 5\'h%x;' % (name.upper().replace(' ', '_'), (num))
   print 'endpackage'
 
 
