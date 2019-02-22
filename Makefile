@@ -19,6 +19,9 @@ inst.py: opcodes opcodes-pseudo parse-opcodes
 	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -py > $@
 
 
+inst.sverilog: opcodes opcodes-pseudo parse-opcodes
+	cat opcodes opcodes-rvc opcodes-rvc-pseudo opcodes-custom opcodes-pseudo | ./parse-opcodes -sverilog > $@
+
 instr-table.tex: $(ALL_OPCODES) parse-opcodes
 	cat opcodes opcodes-pseudo opcodes-pulp | ./parse-opcodes -tex > $@
 
