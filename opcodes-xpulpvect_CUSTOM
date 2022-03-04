@@ -149,70 +149,80 @@ pv.sdotusp.b     rd rs1 rs2  31..27=21 26=0 25=0 14..12=1 6..2=0x15 1..0=3
 pv.sdotusp.sc.b  rd rs1 rs2  31..27=21 26=0 25=0 14..12=5 6..2=0x15 1..0=3
 pv.sdotusp.sci.b rd rs1 imm6 31..27=21 26=0      14..12=7 6..2=0x15 1..0=3
 
-# missing
-# pv.cmpeq.h
-# pv.cmpeq.sc.h
-# pv.cmpeq.sci.h
-# pv.cmpeq.b
-# pv.cmpeq.sc.b
-# pv.cmpeq.sci.b
-# pv.cmpne.h
-# pv.cmpne.sc.h
-# pv.cmpne.sci.h
-# pv.cmpne.b
-# pv.cmpne.sc.b
-# pv.cmpne.sci.b
-# pv.cmpgt.h
-# pv.cmpgt.sc.h
-# pv.cmpgt.sci.h
-# pv.cmpgt.b
-# pv.cmpgt.sc.b
-# pv.cmpgt.sci.b
-# pv.cmpge.h
-# pv.cmpge.sc.h
-# pv.cmpge.sci.h
-# pv.cmpge.b
-# pv.cmpge.sc.b
-# pv.cmpge.sci.b
-# pv.cmplt.h
-# pv.cmplt.sc.h
-# pv.cmplt.sci.h
-# pv.cmplt.b
-# pv.cmplt.sc.b
-# pv.cmplt.sci.b
-# pv.cmple.h
-# pv.cmple.sc.h
-# pv.cmple.sci.h
-# pv.cmple.b
-# pv.cmple.sc.b
-# pv.cmple.sci.b
-# pv.cmpgtu.h
-# pv.cmpgtu.sc.h
-# pv.cmpgtu.sci.h
-# pv.cmpgtu.b
-# pv.cmpgtu.sc.b
-# pv.cmpgtu.sci.b
-# pv.cmpgeu.h
-# pv.cmpgeu.sc.h
-# pv.cmpgeu.sci.h
-# pv.cmpgeu.b
-# pv.cmpgeu.sc.b
-# pv.cmpgeu.sci.b
-# pv.cmpltu.h
-# pv.cmpltu.sc.h
-# pv.cmpltu.sci.h
-# pv.cmpltu.b
-# pv.cmpltu.sc.b
-# pv.cmpltu.sci.b
-# pv.cmpleu.h
-# pv.cmpleu.sc.h
-# pv.cmpleu.sci.h
-# pv.cmpleu.b
-# pv.cmpleu.sc.b
-# pv.cmpleu.sci.b
-# pv.add.h.div2
-# pv.add.h.div4
-# pv.add.h.div8
-# pv.sub.h.div2
-# pv.sub.h.div4
-# pv.sub.h.div8
+pv.cmpeq.h       rd rs1 rs2  31..27=0  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpeq.sc.h    rd rs1 rs2  31..27=0  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpeq.sci.h   rd rs1 imm6 31..27=0  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpeq.b       rd rs1 rs2  31..27=0  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpeq.sc.b    rd rs1 rs2  31..27=0  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpeq.sci.b   rd rs1 imm6 31..27=0  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpne.h       rd rs1 rs2  31..27=1  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpne.sc.h    rd rs1 rs2  31..27=1  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpne.sci.h   rd rs1 imm6 31..27=1  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpne.b       rd rs1 rs2  31..27=1  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpne.sc.b    rd rs1 rs2  31..27=1  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpne.sci.b   rd rs1 imm6 31..27=1  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpgt.h       rd rs1 rs2  31..27=2  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpgt.sc.h    rd rs1 rs2  31..27=2  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpgt.sci.h   rd rs1 imm6 31..27=2  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpgt.b       rd rs1 rs2  31..27=2  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpgt.sc.b    rd rs1 rs2  31..27=2  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpgt.sci.b   rd rs1 imm6 31..27=2  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpge.h       rd rs1 rs2  31..27=3  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpge.sc.h    rd rs1 rs2  31..27=3  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpge.sci.h   rd rs1 imm6 31..27=3  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpge.b       rd rs1 rs2  31..27=3  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpge.sc.b    rd rs1 rs2  31..27=3  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpge.sci.b   rd rs1 imm6 31..27=3  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmplt.h       rd rs1 rs2  31..27=4  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmplt.sc.h    rd rs1 rs2  31..27=4  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmplt.sci.h   rd rs1 imm6 31..27=4  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmplt.b       rd rs1 rs2  31..27=4  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmplt.sc.b    rd rs1 rs2  31..27=4  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmplt.sci.b   rd rs1 imm6 31..27=4  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmple.h       rd rs1 rs2  31..27=5  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmple.sc.h    rd rs1 rs2  31..27=5  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmple.sci.h   rd rs1 imm6 31..27=5  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmple.b       rd rs1 rs2  31..27=5  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmple.sc.b    rd rs1 rs2  31..27=5  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmple.sci.b   rd rs1 imm6 31..27=5  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpgtu.h       rd rs1 rs2  31..27=6  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpgtu.sc.h    rd rs1 rs2  31..27=6  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpgtu.sci.h   rd rs1 imm6 31..27=6  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpgtu.b       rd rs1 rs2  31..27=6  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpgtu.sc.b    rd rs1 rs2  31..27=6  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpgtu.sci.b   rd rs1 imm6 31..27=6  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpgeu.h       rd rs1 rs2  31..27=7  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpgeu.sc.h    rd rs1 rs2  31..27=7  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpgeu.sci.h   rd rs1 imm6 31..27=7  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpgeu.b       rd rs1 rs2  31..27=7  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpgeu.sc.b    rd rs1 rs2  31..27=7  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpgeu.sci.b   rd rs1 imm6 31..27=7  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpltu.h       rd rs1 rs2  31..27=8  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpltu.sc.h    rd rs1 rs2  31..27=8  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpltu.sci.h   rd rs1 imm6 31..27=8  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpltu.b       rd rs1 rs2  31..27=8  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpltu.sc.b    rd rs1 rs2  31..27=8  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpltu.sci.b   rd rs1 imm6 31..27=8  26=1      14..12=7 6..2=0x15 1..0=3
+
+pv.cmpleu.h       rd rs1 rs2  31..27=9  26=1 25=0 14..12=0 6..2=0x15 1..0=3
+pv.cmpleu.sc.h    rd rs1 rs2  31..27=9  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.cmpleu.sci.h   rd rs1 imm6 31..27=9  26=1      14..12=6 6..2=0x15 1..0=3
+pv.cmpleu.b       rd rs1 rs2  31..27=9  26=1 25=0 14..12=1 6..2=0x15 1..0=3
+pv.cmpleu.sc.b    rd rs1 rs2  31..27=9  26=1 25=0 14..12=5 6..2=0x15 1..0=3
+pv.cmpleu.sci.b   rd rs1 imm6 31..27=9  26=1      14..12=7 6..2=0x15 1..0=3
+
+#might have been renamed from pv.<op1>.h.<op2> to pv.<op1>.<op2>; added those
+pv.add.div2     rd rs1 rs2  31..27=14  26=1 25=0 14..12=2 6..2=0x15 1..0=3
+pv.add.div4     rd rs1 rs2  31..27=14  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.add.div8     rd rs1 rs2  31..27=14  26=1 25=0 14..12=6 6..2=0x15 1..0=3
+pv.sub.div2     rd rs1 rs2  31..27=12  26=1 25=0 14..12=2 6..2=0x15 1..0=3
+pv.sub.div4     rd rs1 rs2  31..27=12  26=1 25=0 14..12=4 6..2=0x15 1..0=3
+pv.sub.div8     rd rs1 rs2  31..27=12  26=1 25=0 14..12=6 6..2=0x15 1..0=3

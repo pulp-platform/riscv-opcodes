@@ -42,6 +42,7 @@ arglut['prs3'] = (11,7)
 arglut['imm6'] = (25,20)
 arglut['L'] = (7,7)
 arglut['uimms'] = (19,15)
+arglut['Luimm5'] = (29,25)
 
 # for vectors
 arglut['vd'] = (11,7)
