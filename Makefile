@@ -3,7 +3,7 @@ SHELL := /bin/sh
 ALL_REAL_ILEN32_OPCODES := opcodes-rv32i opcodes-rv64i opcodes-rv32m opcodes-rv64m opcodes-rv32a opcodes-rv64a opcodes-rv32h opcodes-rv64h opcodes-rv32f opcodes-rv64f opcodes-rv32d opcodes-rv64d opcodes-rv32q opcodes-rv64q opcodes-system
 ALL_REAL_OPCODES := $(ALL_REAL_ILEN32_OPCODES) opcodes-rvc opcodes-rv32c opcodes-rv64c opcodes-custom opcodes-rvv
 # Add here your opcodes
-XPULPIMG_OPCODES := opcodes-xpulpbitop_CUSTOM_INC opcodes-xpulpbitopsmall_CUSTOM_INC opcodes-xpulpbr_CUSTOM opcodes-xpulpclip_CUSTOM_INC opcodes-xpulphwloop_CUSTOM opcodes-xpulpmacsi_CUSTOM opcodes-xpulpminmax_CUSTOM_INC opcodes-xpulpslet_CUSTOM opcodes-xpulpvect_CUSTOM_INC opcodes-xpulpvectshufflepack_CUSTOM_INC
+XPULPIMG_OPCODES := opcodes-xpulpbitop_CUSTOM opcodes-xpulpbitopsmall_CUSTOM opcodes-xpulpbr_CUSTOM opcodes-xpulpclip_CUSTOM opcodes-xpulphwloop_CUSTOM opcodes-xpulpmacsi_CUSTOM opcodes-xpulpminmax_CUSTOM opcodes-xpulpslet_CUSTOM opcodes-xpulpvect_CUSTOM opcodes-xpulpvectshufflepack_CUSTOM
 MY_OPCODES := opcodes-frep_CUSTOM opcodes-xpulpimg_CUSTOM opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT opcodes_sflt_CUSTOM
 
 ALL_OPCODES := opcodes-pseudo $(ALL_REAL_OPCODES) $(MY_OPCODES) opcodes-rvv-pseudo
