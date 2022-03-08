@@ -3,7 +3,7 @@ riscv-opcodes
 
 This repo enumerates standard RISC-V instruction opcodes and control and
 status registers, as well as some custom modifications.  It also contains a
-script to convert them into several formats (C, SystemVerilog, Scala, LaTeX),
+script to convert them into several formats (C, Python, Go, SystemVerilog, Scala, LaTeX),
 starting from their high-level, human-readable description.
 
 ## Practical info
@@ -37,3 +37,30 @@ starting from their high-level, human-readable description.
   (`opcodes-rvv` file) have been set as pseudo-instruction due to the overlapping
   of their opcodes space with the opcodes space of the SIMD instructions from
   Xpulpv2, defined in `opcodes-xpulpimg_CUSTOM`.
+
+
+## Smallfloat notice
+
+The Snitch cores use `opcodes-flt-occamy` to decode smallfloat instructions.
+`opcodes-sflt` is not used but describes how ariane (CVA6) decodes 
+instructions. This file is not used but kept in this repository for reference.
+Ariane and Snitch do not use the same FPU configuration.
+
+
+## Snitch notices
+`opcodes-sflt = opcodes-sflt_CUSTOM opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT`
+for instructions `flb, fsb, fcvt.h.b, fcvt.b.h` an `@` is now used in front
+
+`opcodes-flt-occamy` will conflict with `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
+
+`hfence.bvma` was renamed to `hfence.vvma` (same opcode)
+
+the RV32B opcodes were put into its own custom file `opcodes-rv32b_CUSTOM`
+
+## Overlap notices
+`opcodes-rvv` and `opcodes-xpulpbitop` overlap
+`opcodes-xpulpbitop` is superset of `opcodes-xpulpbitopsmall`
+`opcodes-flt-occamy` overlaps `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
+`opcodes-rv32b_CUSTOM` overlaps `opcodes-xpulpbitop`,`opcodes-xpulpbitopsmall`
+`opcodes-xpulphwloop_CUSTOM` overlaps `opcodes-ipu`
+`opcodes-minmax` overlaps `opcodes-rv32b_CUSTOM`

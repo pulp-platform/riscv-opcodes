@@ -1,16 +1,48 @@
 SHELL := /bin/sh
 
 ALL_REAL_ILEN32_OPCODES := opcodes-rv32i opcodes-rv64i opcodes-rv32m opcodes-rv64m opcodes-rv32a opcodes-rv64a opcodes-rv32h opcodes-rv64h opcodes-rv32f opcodes-rv64f opcodes-rv32d opcodes-rv64d opcodes-rv32q opcodes-rv64q opcodes-system
-ALL_REAL_OPCODES := $(ALL_REAL_ILEN32_OPCODES) opcodes-rvc opcodes-rv32c opcodes-rv64c opcodes-custom opcodes-rvv
+ALL_REAL_OPCODES := $(ALL_REAL_ILEN32_OPCODES) opcodes-rvc opcodes-rv32c opcodes-rv64c opcodes-custom
+# set with possible overlap
+# ALL_REAL_OPCODES += opcodes-rvv
+
 # Add here your opcodes
-XPULPIMG_OPCODES := opcodes-xpulpbitop_CUSTOM opcodes-xpulpbitopsmall_CUSTOM opcodes-xpulpbr_CUSTOM opcodes-xpulpclip_CUSTOM opcodes-xpulphwloop_CUSTOM opcodes-xpulpmacsi_CUSTOM opcodes-xpulpminmax_CUSTOM opcodes-xpulpslet_CUSTOM opcodes-xpulpvect_CUSTOM opcodes-xpulpvectshufflepack_CUSTOM
-MY_OPCODES := opcodes-frep_CUSTOM opcodes-xpulpimg_CUSTOM opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT opcodes_sflt_CUSTOM
+XPULPIMG_OPCODES := opcodes-xpulpbr_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpclip_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpmacsi_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpslet_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpvect_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpvectshufflepack_CUSTOM
+# sets with possible overlaps
+#XPULPIMG_OPCODES += opcodes-xpulpminmax_CUSTOM
+#XPULPIMG_OPCODES += opcodes-xpulphwloop_CUSTOM
+#XPULPIMG_OPCODES += opcodes-xpulpbitop_CUSTOM
+# XPULPIMG_OPCODES += opcodes-xpulpbitopsmall_CUSTOM #is a subset of opcodes-xpulpbitop_CUSTOM
+
+SNITCH_OPCODES := opcodes-dma
+SNITCH_OPCODES += opcodes-ipu
+SNITCH_OPCODES += opcodes-rep
+SNITCH_OPCODES += opcodes-ssr
+SNITCH_OPCODES += opcodes-rv32b_CUSTOM
+# sets with possible overlaps
+# SNITCH_OPCODES += opcodes-flt-occamy
+
+MY_OPCODES := opcodes-frep_CUSTOM
+MY_OPCODES += opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT
+MY_OPCODES += opcodes-sflt_CUSTOM
+MY_OPCODES += $(XPULPIMG_OPCODES)
+#MY_OPCODES += $(SNITCH_OPCODES)
 
 ALL_OPCODES := opcodes-pseudo $(ALL_REAL_OPCODES) $(MY_OPCODES) opcodes-rvv-pseudo
 # Opcodes to be discarded
 DISCARDED_OPCODES := opcodes-frep_CUSTOM
 
 OPCODES = $(filter-out $(sort $(DISCARDED_OPCODES)), $(sort $(ALL_OPCODES)))
+
+# Snitch legacy opcode collection
+OPCODES_C  := $(ALL_REAL_OPCODES) $(XPULPIMG_OPCODES) opcodes-sflt_CUSTOM opcodes-ipu opcodes-dma
+OPCODES_SV := $(ALL_REAL_OPCODES) $(XPULPIMG_OPCODES) opcodes-sflt_CUSTOM opcodes-ipu
+OPCODES_PY := $(ALL_REAL_OPCODES) $(XPULPIMG_OPCODES)
+OPCODES_RS := $(ALL_REAL_OPCODES) $(XPULPIMG_OPCODES) opcodes-sflt_CUSTOM
 
 all: encoding_out.h inst.sverilog
 
@@ -29,6 +61,19 @@ inst.chisel: $(OPCODES) parse_opcodes Makefile
 
 inst.go: $(ALL_REAL_ILEN32_OPCODES) parse_opcodes Makefile
 	cat $(ALL_REAL_ILEN32_OPCODES) | ./parse_opcodes -go > $@
+
+inst.c: $(OPCODES) parse_opcodes Makefile
+	cat $(OPCODES_C) | ./parse_opcodes -c > $@
+
+inst.sv: $(OPCODES) parse_opcodes Makefile
+	cat $(OPCODES_SV) | ./parse_opcodes -sv > $@
+
+inst.py: $(OPCODES) parse_opcodes Makefile
+	cat $(OPCODES_PY) | ./parse_opcodes -py > $@
+
+inst.rs: $(OPCODES) parse_opcodes Makefile
+	cat $(OPCODES_RS) | ./parse_opcodes -rust > $@
+	rustfmt $@
 
 inst.sverilog: $(OPCODES) parse_opcodes Makefile
 	cat $(OPCODES) | ./parse_opcodes -sverilog > $@
