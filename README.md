@@ -59,8 +59,13 @@ the RV32B opcodes were put into its own custom file `opcodes-rv32b_CUSTOM`
 
 ## Overlap notices
 `opcodes-rvv` and `opcodes-xpulpbitop` overlap
+
 `opcodes-xpulpbitop` is superset of `opcodes-xpulpbitopsmall`
+
 `opcodes-flt-occamy` overlaps `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
+
 `opcodes-rv32b_CUSTOM` overlaps `opcodes-xpulpbitop`,`opcodes-xpulpbitopsmall`
+
 `opcodes-xpulphwloop_CUSTOM` overlaps `opcodes-ipu`
+
 `opcodes-minmax` overlaps `opcodes-rv32b_CUSTOM`
