@@ -7,6 +7,10 @@
 # <args> is one of rd, rs1, rs2, rs3, imm20, imm12, imm12lo, imm12hi,
 # shamtw, shamt, rm
 
+# TODO: check if overlap to opcodes-rvv needs to be fixed
+# TODO: check if overlap to opcodes-rv32b_CUSTOM needs to be fixed
+# INFO: this is a superset of opcodes-xpulpbitopsmall_CUSTOM
+
 p.exths  rd rs1      31..25=8  24..20=0 14..12=4 6..2=0x0C 1..0=3
 p.exthz  rd rs1      31..25=8  24..20=0 14..12=5 6..2=0x0C 1..0=3
 p.extbs  rd rs1      31..25=8  24..20=0 14..12=6 6..2=0x0C 1..0=3

@@ -1,3 +1,7 @@
+# TODO: check if overlap to opcodes-xpulpminmax_CUSTOM needs to be fixed
+# TODO: check if overlap to opcodes-xpulpbitop_CUSTOM,
+# opcodes-xpulpbitopsmall_CUSTOM needs to be fixed
+
 # RV32B
 andn       rd rs1 rs2 31..25=32 14..12=7 6..2=0x0C 1..0=3
 orn        rd rs1 rs2 31..25=32 14..12=6 6..2=0x0C 1..0=3

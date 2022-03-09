@@ -1,3 +1,5 @@
+# TODO: check if overlap to opcodes-flt-occamy_CUSTOM needs to be fixed
+
 fadd.h    rd rs1 rs2      31..27=0x00 rm       26..25=2 6..2=0x14 1..0=3
 fsub.h    rd rs1 rs2      31..27=0x01 rm       26..25=2 6..2=0x14 1..0=3
 fmul.h    rd rs1 rs2      31..27=0x02 rm       26..25=2 6..2=0x14 1..0=3

@@ -58,14 +58,14 @@ for instructions `flb, fsb, fcvt.h.b, fcvt.b.h` an `@` is now used in front
 the RV32B opcodes were put into its own custom file `opcodes-rv32b_CUSTOM`
 
 ## Overlap notices
-`opcodes-rvv` and `opcodes-xpulpbitop` overlap
+`opcodes-rvv` and `opcodes-xpulpbitop_CUSTOM` overlap
 
-`opcodes-xpulpbitop` is superset of `opcodes-xpulpbitopsmall`
+`opcodes-xpulpbitop_CUSTOM` is superset of `opcodes-xpulpbitopsmall_CUSTOM`
 
-`opcodes-flt-occamy` overlaps `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
+`opcodes-flt-occamy_CUSTOM` overlaps `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
 
-`opcodes-rv32b_CUSTOM` overlaps `opcodes-xpulpbitop`,`opcodes-xpulpbitopsmall`
+`opcodes-rv32b_CUSTOM` overlaps `opcodes-xpulpbitop_CUSTOM`,`opcodes-xpulpbitopsmall_CUSTOM`
 
-`opcodes-xpulphwloop_CUSTOM` overlaps `opcodes-ipu`
+`opcodes-xpulphwloop_CUSTOM` overlaps `opcodes-ipu_CUSTOM`
 
-`opcodes-minmax` overlaps `opcodes-rv32b_CUSTOM`
+`opcodes-xpulpminmax_CUSTOM` overlaps `opcodes-rv32b_CUSTOM`

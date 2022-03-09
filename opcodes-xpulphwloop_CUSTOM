@@ -7,6 +7,8 @@
 # <args> is one of rd, rs1, rs2, rs3, imm20, imm12, imm12lo, imm12hi,
 # shamtw, shamt, rm
 
+# TODO: check if overlap to opcodes-ipu_CUSTOM needs to be fixed
+
 lp.starti   L imm12               19..15=0 14..12=0 11..8=0 6..2=0x1E 1..0=3
 lp.endi     L imm12               19..15=0 14..12=1 11..8=0 6..2=0x1E 1..0=3
 lp.count    L rs1                 31..20=0 14..12=2 11..8=0 6..2=0x1E 1..0=3

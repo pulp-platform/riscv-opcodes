@@ -57,6 +57,7 @@ fcvt.ah.h rd rs1 24..20=2 31..27=0x08 14..12=5 26..25=2 6..2=0x14 1..0=3
 
 # RV32Xfquarter - quarter-precision floats
 # b collides with quad precision (q) so they are pseudo here.
+# TODO: might need to change Snitch s.t. flb, fsb are used with @
 @flb       rd rs1 imm12 14..12=0 6..2=0x01 1..0=3
 @fsb       imm12hi rs1 rs2 imm12lo 14..12=0 6..2=0x09 1..0=3
 @fmadd.b   rd rs1 rs2 rs3 rm 26..25=3 6..2=0x10 1..0=3
@@ -95,6 +96,7 @@ fcvt.ah.h rd rs1 24..20=2 31..27=0x08 14..12=5 26..25=2 6..2=0x14 1..0=3
 @fcvt.d.b  rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=1 6..2=0x14 1..0=3
 @fcvt.b.d  rd rs1 24..20=1 31..27=0x08 rm       26..25=3 6..2=0x14 1..0=3
 # Xfquarterwithhalf - quarter-precision conversions with Xfhalf extension
+# TODO: might need to change Snitch s.t. fcvt.h.b, fcvt.b.h are used with @
 @fcvt.h.b  rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=2 6..2=0x14 1..0=3
 @fcvt.b.h  rd rs1 24..20=2 31..27=0x08 rm       26..25=3 6..2=0x14 1..0=3
 # Xfquarterwithalthalf - quarter-precision conversions with Xfalthalf extension

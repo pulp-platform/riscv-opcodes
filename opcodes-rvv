@@ -6,6 +6,9 @@
 #
 # <args> is one of vd, vs3, vs1, vs2, vm, nf, wd, simm5, zimm11
 
+# TODO: check if overlap to opcodes-xpulpbitop_CUSTOM and
+# opcode-xpulpbitop_CUSTOM needs to be fixed
+
 # configuration setting
 # https://github.com/riscv/riscv-v-spec/blob/master/vcfg-format.adoc
 @vsetvli      31=0 zimm11         rs1 14..12=0x7 rd 6..0=0x57
