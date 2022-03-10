@@ -13,15 +13,15 @@ XPULPIMG_OPCODES += opcodes-xpulpslet_CUSTOM
 XPULPIMG_OPCODES += opcodes-xpulpvect_CUSTOM
 XPULPIMG_OPCODES += opcodes-xpulpvectshufflepack_CUSTOM
 # sets with possible overlaps
-#XPULPIMG_OPCODES += opcodes-xpulpminmax_CUSTOM
-#XPULPIMG_OPCODES += opcodes-xpulphwloop_CUSTOM
-#XPULPIMG_OPCODES += opcodes-xpulpbitop_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpminmax_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulphwloop_CUSTOM
+XPULPIMG_OPCODES += opcodes-xpulpbitop_CUSTOM
 # XPULPIMG_OPCODES += opcodes-xpulpbitopsmall_CUSTOM #is a subset of opcodes-xpulpbitop_CUSTOM
 
-SNITCH_OPCODES := opcodes-dma
-SNITCH_OPCODES += opcodes-ipu
-SNITCH_OPCODES += opcodes-rep
-SNITCH_OPCODES += opcodes-ssr
+SNITCH_OPCODES := opcodes-dma_CUSTOM
+SNITCH_OPCODES += opcodes-ipu_CUSTOM
+SNITCH_OPCODES += opcodes-rep_CUSTOM
+SNITCH_OPCODES += opcodes-ssr_CUSTOM
 SNITCH_OPCODES += opcodes-rv32b_CUSTOM
 # sets with possible overlaps
 # SNITCH_OPCODES += opcodes-flt-occamy
