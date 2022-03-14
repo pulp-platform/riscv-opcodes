@@ -35,14 +35,8 @@ arglut['bimm12lo'] = (11,7)
 arglut['zimm'] = (19,15)
 arglut['shamt'] = (25,20)
 arglut['shamtw'] = (24,20)
-
-# for xpulpimg
 arglut['imm5'] = (24,20)
-arglut['prs3'] = (11,7)
 arglut['imm6'] = (25,20)
-arglut['L'] = (7,7)
-arglut['uimms'] = (19,15)
-arglut['Luimm5'] = (29,25)
 
 # for vectors
 arglut['vd'] = (11,7)
@@ -56,7 +50,11 @@ arglut['nf'] = (31,29)
 arglut['simm5'] = (19,15)
 arglut['zimm11'] = (30,20)
 
-# for snitch
+# for custom extensions
+arglut['prs3'] = (11,7)
+arglut['L'] = (7,7)
+arglut['uimms'] = (19,15)
+arglut['Luimm5'] = (29,25)
 arglut['vseglen'] = (31,29)
 arglut['stagger_max'] = (14,12)
 arglut['stagger_mask'] = (11,8)
