@@ -1,7 +1,7 @@
 SHELL := /bin/sh
 
 ALL_REAL_ILEN32_OPCODES := opcodes-rv32i opcodes-rv64i opcodes-rv32m opcodes-rv64m opcodes-rv32a opcodes-rv64a opcodes-rv32h opcodes-rv64h opcodes-rv32f opcodes-rv64f opcodes-rv32d opcodes-rv64d opcodes-rv32q opcodes-rv64q opcodes-system
-ALL_REAL_OPCODES := $(ALL_REAL_ILEN32_OPCODES) opcodes-rvc opcodes-rv32c opcodes-rv64c opcodes-custom opcodes-rvv
+ALL_REAL_OPCODES := $(ALL_REAL_ILEN32_OPCODES) opcodes-rvc opcodes-rv32c opcodes-rv64c opcodes-custom #opcodes-rvv
 
 # Add your opcodes here
 include config.mk
@@ -11,7 +11,7 @@ ALL_OPCODES := opcodes-pseudo $(ALL_REAL_OPCODES) $(MY_OPCODES) opcodes-rvv-pseu
 # Opcodes to be discarded
 DISCARDED_OPCODES := opcodes-frep_CUSTOM
 
-OPCODES = $(filter-out $(sort $(DISCARDED_OPCODES)), $(sort $(ALL_OPCODES)))
+OPCODES ?= $(filter-out $(sort $(DISCARDED_OPCODES)), $(sort $(ALL_OPCODES)))
 
 all: encoding_out.h inst.sverilog
 
@@ -52,3 +52,7 @@ instr-table.tex: $(OPCODES) parse_opcodes Makefile
 
 priv-instr-table.tex: $(OPCODES) parse_opcodes Makefile
 	cat $(OPCODES) | ./parse_opcodes -privtex > $@
+
+.PHONY : clean
+clean :
+	-rm encoding_out.h inst.* priv-instr-table.tex

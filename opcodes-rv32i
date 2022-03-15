@@ -54,4 +54,3 @@ sw     imm12hi rs1 rs2 imm12lo 14..12=2 6..2=0x08 1..0=3
 
 fence       fm            pred succ     rs1 14..12=0 rd 6..2=0x03 1..0=3
 fence.i     imm12                       rs1 14..12=1 rd 6..2=0x03 1..0=3
-

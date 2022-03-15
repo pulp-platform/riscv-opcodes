@@ -17,7 +17,7 @@ starting from their high-level, human-readable description.
   ```
 
   For example the outputs of `parse-opcodes` can be used in other parts of a project like
-  assembler, ISA simulator, riscv-tests, apps runtime or RTL decoder
+  assembler, ISA simulator, riscv-tests, apps runtime or RTL decoder.
 
 - opcodes description files organization matches the same of the official
   repository upstream [riscv-opcodes](https://github.com/riscv/riscv-opcodes),
@@ -38,7 +38,7 @@ starting from their high-level, human-readable description.
 ## Smallfloat notice
 
 The Snitch cores use `opcodes-flt-occamy` to decode smallfloat instructions.
-`opcodes-sflt` is not used but describes how ariane (CVA6) decodes 
+`opcodes-sflt` is not used but describes how ariane (CVA6) decodes
 instructions. This file is not used but kept in this repository for reference.
 Ariane and Snitch do not use the same FPU configuration.
 

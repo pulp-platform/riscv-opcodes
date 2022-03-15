@@ -117,7 +117,7 @@ csrs = [
   (0x042, 'ucause'),
   (0x043, 'utval'),
   (0x044, 'uip'),
-  
+
   # Custom User R/W
   (0x800, 'fmode'),
 
@@ -326,7 +326,7 @@ csrs = [
   (0xF12, 'marchid'),
   (0xF13, 'mimpid'),
   (0xF14, 'mhartid'),
-  
+
   # Custom CSR
   (0x7C0, 'ssr'),
   (0x7C1, 'fpmode'),
