@@ -44,14 +44,6 @@ Ariane and Snitch do not use the same FPU configuration.
 
 
 ## Overlap notices
-`opcodes-rvv` and `opcodes-xpulpvect_CUSTOM`, `opcodes-xpulpvectshufflepack_CUSTOM` overlap
-
-`opcodes-xpulpbitop_CUSTOM` is superset of `opcodes-xpulpbitopsmall_CUSTOM`
-
-`opcodes-flt-occamy_CUSTOM` overlaps `opcodes-sflt_CUSTOM`, `opcodes-rv32d-zfh_DRAFT`, `opcodes-rv32q-zfh_DRAFT`, `opcodes-rv32zfh_DRAFT`, `opcodes-rv64zfh_DRAFT`
-
-`opcodes-rv32b_CUSTOM` overlaps `opcodes-xpulpbitop_CUSTOM`,`opcodes-xpulpbitopsmall_CUSTOM`
-
-`opcodes-xpulphwloop_CUSTOM` overlaps `opcodes-ipu_CUSTOM`
-
-`opcodes-xpulpminmax_CUSTOM` overlaps `opcodes-rv32b_CUSTOM`
+There might be some overlap in opcodes between extensions. These are noted as far as known
+in the corresponding files. In some cases these overlaps can be avoided by making one of the
+opcodes a pseudo-opcodes using `@` in front.

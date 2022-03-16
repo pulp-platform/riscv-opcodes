@@ -1,11 +1,17 @@
+# Xpulp extension subset: SIMD ALU operations and Dot Product operations
+# and SIMD comparison operations
+
 # format of a line in this file:
 # <instruction name> <args> <opcode>
 #
 # <opcode> is given by specifying one or more range/value pairs:
 # hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
 #
-# <args> is one of rd, rs1, rs2, rs3, imm20, imm12, imm12lo, imm12hi,
-# shamtw, shamt, rm
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
 
 pv.add.h     rd rs1 rs2  31..27=0  26=0 25=0       14..12=0 6..2=0x15 1..0=3
 pv.add.sc.h  rd rs1 rs2  31..27=0  26=0 25=0       14..12=4 6..2=0x15 1..0=3
@@ -219,7 +225,6 @@ pv.cmpleu.b       rd rs1 rs2  31..27=9  26=1 25=0 14..12=1 6..2=0x15 1..0=3
 pv.cmpleu.sc.b    rd rs1 rs2  31..27=9  26=1 25=0 14..12=5 6..2=0x15 1..0=3
 pv.cmpleu.sci.b   rd rs1 imm6 31..27=9  26=1      14..12=7 6..2=0x15 1..0=3
 
-#might have been renamed from pv.<op1>.h.<op2> to pv.<op1>.<op2>; added those
 pv.add.h.div2     rd rs1 rs2  31..27=14  26=1 25=0 14..12=2 6..2=0x15 1..0=3
 pv.add.h.div4     rd rs1 rs2  31..27=14  26=1 25=0 14..12=4 6..2=0x15 1..0=3
 pv.add.h.div8     rd rs1 rs2  31..27=14  26=1 25=0 14..12=6 6..2=0x15 1..0=3
