@@ -1,4 +1,4 @@
-# IPU extension
+# Integer processing unit extension
 
 # format of a line in this file:
 # <instruction name> <args> <opcode>
