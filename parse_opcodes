@@ -652,6 +652,7 @@ def make_rust():
   for a in distinct_args:
     print("    // Format::{0}".format(make_camel_case_arg(a)))
     for n in insts_by_args[a]:
+      n = n.lower()
       print("    {}: u8,".format("_".join(n.split('.'))))
   print("}")
   print()
@@ -663,6 +664,7 @@ def make_rust():
   print("        Latency {")
   for a in distinct_args:
     for n in insts_by_args[a]:
+      n = n.lower()
       print("        {}: 1,".format("_".join(n.split('.'))))
   print("        }")
   print("    }")
