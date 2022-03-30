@@ -78,6 +78,11 @@ bits_jimm20 = [
   ("jimm20", 19, 19, 20), # jimm20[19]   -> imm[20]
 ]
 
+bits_imm6 = [
+  ("imm6", 4, 0, 1),      # imm6[4:0] -> imm[5:1]
+  ("imm6", 5, 5, 0),      # imm6[5] -> imm[0]
+]
+
 causes = [
   (0x00, 'misaligned fetch'),
   (0x01, 'fetch access'),
@@ -566,6 +571,10 @@ def make_rust():
     if "jimm20" in a:
       print("    pub fn jimm(&self) -> i32 {")
       print("        {}".format(make_rust_field_shuffle(bits_jimm20, 21)));
+      print("    }")
+    if "imm6" in a:
+      print("    pub fn imm(&self) -> i32 {")
+      print("        {}".format(make_rust_field_shuffle(bits_imm6, 6)));
       print("    }")
     print("}")
     print()
