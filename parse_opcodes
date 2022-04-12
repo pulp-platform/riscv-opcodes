@@ -78,6 +78,11 @@ bits_jimm20 = [
   ("jimm20", 19, 19, 20), # jimm20[19]   -> imm[20]
 ]
 
+bits_imm6 = [
+  ("imm6", 4, 0, 1),      # imm6[4:0] -> imm[5:1]
+  ("imm6", 5, 5, 0),      # imm6[5] -> imm[0]
+]
+
 causes = [
   (0x00, 'misaligned fetch'),
   (0x01, 'fetch access'),
@@ -567,6 +572,10 @@ def make_rust():
       print("    pub fn jimm(&self) -> i32 {")
       print("        {}".format(make_rust_field_shuffle(bits_jimm20, 21)));
       print("    }")
+    if "imm6" in a:
+      print("    pub fn imm(&self) -> i32 {")
+      print("        {}".format(make_rust_field_shuffle(bits_imm6, 6)));
+      print("    }")
     print("}")
     print()
     print("/// Opcodes with the `{}` instruction format.".format(name))
@@ -652,6 +661,7 @@ def make_rust():
   for a in distinct_args:
     print("    // Format::{0}".format(make_camel_case_arg(a)))
     for n in insts_by_args[a]:
+      n = n.lower()
       print("    {}: u8,".format("_".join(n.split('.'))))
   print("}")
   print()
@@ -663,6 +673,7 @@ def make_rust():
   print("        Latency {")
   for a in distinct_args:
     for n in insts_by_args[a]:
+      n = n.lower()
       print("        {}: 1,".format("_".join(n.split('.'))))
   print("        }")
   print("    }")
