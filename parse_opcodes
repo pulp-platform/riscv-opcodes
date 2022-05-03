@@ -685,7 +685,7 @@ def make_rust():
   print("#[repr(C)]")
   print("pub enum Csr {")
   for csr in csrs+csrs32:
-    print(f'    {make_camel_case(csr[1])} = 0x{csr[0]:03x},')
+    print("    {} = 0x{:03x},".format(make_camel_case(csr[1]), csr[0]))
   print("}")
 
 
