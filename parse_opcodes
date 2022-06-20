@@ -49,6 +49,7 @@ arglut['amoop'] = (31,27)
 arglut['nf'] = (31,29)
 arglut['simm5'] = (19,15)
 arglut['zimm11'] = (30,20)
+arglut['zimm10'] = (29,20)
 
 # for custom extensions
 arglut['prs3'] = (11,7)
