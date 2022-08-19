@@ -33,6 +33,12 @@ starting from their high-level, human-readable description.
   (`opcodes-rvv` file) have been set as pseudo-instruction due to the overlapping
   of their opcodes space with the opcodes space of the SIMD instructions from
   Xpulpv2, defined in `opcodes-xpulpvect_CUSTOM` and `opcodes-xpulpvectshufflepack_CUSTOM`.
+- For quick reference: commonly in our projects, `encoding.h` is employed in
+  - the instruction decoder in the RTL: `riscv_instr.sv`
+  - bare-metal runtime
+  - `riscv-isa-sim`: `riscv-isa-sim/riscv/encoding.h`
+  - `riscv-tests`: `riscv-tests/env/encoding.h`
+  - `riscv-gnu-toolchain`: `riscv-binutils-gdb/include/opcode/riscv-opc.h`
 
 
 ## Smallfloat notice
