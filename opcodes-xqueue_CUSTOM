@@ -1,0 +1,15 @@
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, imm20, imm12, imm12lo, imm12hi,
+# shamtw, shamt, rm
+
+# Xqueue extension (atomic queue operations)
+# IMPORTANT: THIS IS AN ILLEGAL EXTENSION OF THE STANDARD ATOMIC INSTRUCTIONS
+
+# queue push and pop (32-bit)
+q.push   rd rs1 rs2      aqrl 31..29=1 28..27=3 14..12=2 6..2=0x0B 1..0=3
+q.pop    rd rs1 24..20=0 aqrl 31..29=1 28..27=2 14..12=2 6..2=0x0B 1..0=3
