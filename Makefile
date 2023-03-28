@@ -9,7 +9,7 @@ MY_OPCODES ?= $(MEMPOOL_ISA)
 
 ALL_OPCODES := opcodes-pseudo $(ALL_REAL_OPCODES) $(MY_OPCODES) opcodes-rvv-pseudo
 # Opcodes to be discarded
-DISCARDED_OPCODES := opcodes-frep_CUSTOM
+DISCARDED_OPCODES :=
 
 OPCODES ?= $(filter-out $(sort $(DISCARDED_OPCODES)), $(sort $(ALL_OPCODES)))
 
