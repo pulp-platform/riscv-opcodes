@@ -135,7 +135,7 @@ csrs = [
   (0x801, 'lpend0'),
   (0x802, 'lpcount0'),
   (0x804, 'lpstart1'),
-  (0x805, 'lpsend1'),
+  (0x805, 'lpend1'),
   (0x806, 'lpcount1'),
   
   # HW Loop Registers for PULPv3
@@ -144,7 +144,7 @@ csrs = [
   # (0x7C1, 'lpend0'),
   # (0x7C2, 'lpcount0'),
   # (0x7C4, 'lpstart1'),
-  # (0x7C5, 'lpsend1'),
+  # (0x7C5, 'lpend1'),
   # (0x7C6, 'lpcount1'),
   
   # HW Loop for PULPv1, DO NOT USE
@@ -153,7 +153,7 @@ csrs = [
   # (0x7B1, 'lpend0'),
   # (0x7B2, 'lpcount0'),
   # (0x7B4, 'lpstart1'),
-  # (0x7B5, 'lpsend1'),
+  # (0x7B5, 'lpend1'),
   # (0x7B6, 'lpcount1'),
 
   # Standard User RO

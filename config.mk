@@ -6,6 +6,7 @@
 RV32XPULPIMG := opcodes-xpulpabs_CUSTOM opcodes-xpulpbr_CUSTOM opcodes-xpulpclip_CUSTOM opcodes-xpulpmacsi_CUSTOM opcodes-xpulpminmax_CUSTOM opcodes-xpulpslet_CUSTOM opcodes-xpulpvect_CUSTOM opcodes-xpulpvectshufflepack_CUSTOM
 RV32XPULPIMG += opcodes-xpulpmacrnhi_CUSTOM
 RV32XPULPIMG += opcodes-xpulpbitop_CUSTOM
+RV32XPULPIMG += opcodes-xpulphwloop_CUSTOM
 # RV32XPULPIMG += opcodes-xpulpbitopsmall_CUSTOM #is a subset of opcodes-xpulpbitop_CUSTOM
 # RV32XPULPIMG += opcodes-xpulppostmod_CUSTOM #conflict with opcodes-ssr_CUSTOM
 
