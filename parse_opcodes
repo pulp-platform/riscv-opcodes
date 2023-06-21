@@ -123,8 +123,35 @@ csrs = [
   (0x043, 'utval'),
   (0x044, 'uip'),
 
-  # Custom User R/W
+  # Custom User R/W Snitch
   (0x800, 'fmode'),
+  
+  # Custom User R/W Xpulp
+  # HW Loop Registers for PULPv3
+  (0x7C0, 'lpstart0'),
+  (0x7C1, 'lpend0'),
+  (0x7C2, 'lpcount0'),
+  (0x7C4, 'lpstart1'),
+  (0x7C5, 'lpsend1'),
+  (0x7C6, 'lpcount1'),
+  
+  # HW Loop as defined by CV32E40P
+  # Snitch added fmode at 0x800 breaking compatibility
+  # (0x800, 'lpstart0'),
+  # (0x801, 'lpend0'),
+  # (0x802, 'lpcount0'),
+  # (0x804, 'lpstart1'),
+  # (0x805, 'lpsend1'),
+  # (0x806, 'lpcount1'),
+  
+  # HW Loop for PULPv1, DO NOT USE
+  # collides with debug mode regs (dcsr, dpc, dscratch)
+  # (0x7B0, 'lpstart0'),
+  # (0x7B1, 'lpend0'),
+  # (0x7B2, 'lpcount0'),
+  # (0x7B4, 'lpstart1'),
+  # (0x7B5, 'lpsend1'),
+  # (0x7B6, 'lpcount1'),
 
   # Standard User RO
   (0xC00, 'cycle'),
