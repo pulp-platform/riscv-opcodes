@@ -5,6 +5,7 @@
 # Xpulpimg
 RV32XPULPIMG := opcodes-xpulpabs_CUSTOM opcodes-xpulpbr_CUSTOM opcodes-xpulpclip_CUSTOM opcodes-xpulpmacsi_CUSTOM opcodes-xpulpminmax_CUSTOM opcodes-xpulpslet_CUSTOM opcodes-xpulpvect_CUSTOM opcodes-xpulpvectshufflepack_CUSTOM
 RV32XPULPIMG += opcodes-xpulpmulrnhi_CUSTOM
+RV32XPULPIMG += opcodes-xpulppartmac_CUSTOM # subset of xpulpmacrnhi (declared as pseudo instructions)
 RV32XPULPIMG += opcodes-xpulpmacrnhi_CUSTOM
 RV32XPULPIMG += opcodes-xpulpbitop_CUSTOM
 RV32XPULPIMG += opcodes-xpulphwloop_CUSTOM
