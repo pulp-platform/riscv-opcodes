@@ -1,0 +1,31 @@
+# Xpulp extension subset: addition/subtraction with round and norm operations
+
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
+
+p.addN   	rd rs1 rs2 Luimm5   31..30=0 14..12=2 6..2=0x16 1..0=3
+p.adduN   	rd rs1 rs2 Luimm5   31..30=2 14..12=2 6..2=0x16 1..0=3
+p.addRN   	rd rs1 rs2 Luimm5   31..30=0 14..12=6 6..2=0x16 1..0=3
+p.adduRN   	rd rs1 rs2 Luimm5   31..30=2 14..12=6 6..2=0x16 1..0=3
+p.subN   	rd rs1 rs2 Luimm5   31..30=0 14..12=3 6..2=0x16 1..0=3
+p.subuN   	rd rs1 rs2 Luimm5   31..30=2 14..12=3 6..2=0x16 1..0=3
+p.subRN   	rd rs1 rs2 Luimm5   31..30=0 14..12=7 6..2=0x16 1..0=3
+p.subuRN   	rd rs1 rs2 Luimm5   31..30=2 14..12=7 6..2=0x16 1..0=3
+
+p.addNr   	rd rs1 rs2 31..30=1 29..25=0 14..12=2 6..2=0x16 1..0=3
+p.adduNr   	rd rs1 rs2 31..30=3 29..25=0 14..12=2 6..2=0x16 1..0=3
+p.addRNr   	rd rs1 rs2 31..30=1 29..25=0 14..12=6 6..2=0x16 1..0=3
+p.adduRNr   rd rs1 rs2 31..30=3 29..25=0 14..12=6 6..2=0x16 1..0=3
+p.subNr   	rd rs1 rs2 31..30=1 29..25=0 14..12=3 6..2=0x16 1..0=3
+p.subuNr   	rd rs1 rs2 31..30=3 29..25=0 14..12=3 6..2=0x16 1..0=3
+p.subRNr   	rd rs1 rs2 31..30=1 29..25=0 14..12=7 6..2=0x16 1..0=3
+p.subuRNr  	rd rs1 rs2 31..30=3 29..25=0 14..12=7 6..2=0x16 1..0=3

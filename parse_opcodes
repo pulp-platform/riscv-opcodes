@@ -55,6 +55,7 @@ arglut['prs3'] = (11,7)
 arglut['L'] = (7,7)
 arglut['uimms'] = (19,15)
 arglut['Luimm5'] = (29,25)
+arglut['Luimm2'] = (26,25)
 arglut['vseglen'] = (31,29)
 arglut['stagger_max'] = (14,12)
 arglut['stagger_mask'] = (11,8)
@@ -123,8 +124,38 @@ csrs = [
   (0x043, 'utval'),
   (0x044, 'uip'),
 
-  # Custom User R/W
-  (0x800, 'fmode'),
+  # Custom User R/W Snitch
+  # Removed due to collisions with HW Loop
+  # Todo: Find a better solution
+  # (0x800, 'fmode'),
+  
+  # Custom User R/W Xpulp
+  # HW Loop as defined by CV32E40P
+  # Collides with Snitch CSRs, namely fmode at 0x800
+  (0x800, 'lpstart0'),
+  (0x801, 'lpend0'),
+  (0x802, 'lpcount0'),
+  (0x804, 'lpstart1'),
+  (0x805, 'lpend1'),
+  (0x806, 'lpcount1'),
+  
+  # HW Loop Registers for PULPv3
+  # Collides with Snitch CSRs, namely ssr and fpmode at 0x7C0-0x7C1
+  # (0x7C0, 'lpstart0'),
+  # (0x7C1, 'lpend0'),
+  # (0x7C2, 'lpcount0'),
+  # (0x7C4, 'lpstart1'),
+  # (0x7C5, 'lpend1'),
+  # (0x7C6, 'lpcount1'),
+  
+  # HW Loop for PULPv1, DO NOT USE
+  # Collides with debug mode regs (dcsr, dpc, dscratch)
+  # (0x7B0, 'lpstart0'),
+  # (0x7B1, 'lpend0'),
+  # (0x7B2, 'lpcount0'),
+  # (0x7B4, 'lpstart1'),
+  # (0x7B5, 'lpend1'),
+  # (0x7B6, 'lpcount1'),
 
   # Standard User RO
   (0xC00, 'cycle'),

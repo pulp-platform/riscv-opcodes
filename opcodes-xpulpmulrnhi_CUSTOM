@@ -1,0 +1,27 @@
+# Xpulp extension subset: 16x16->32bit MUL with round and norm operations
+
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
+
+p.muluN     rd rs1 rs2 Luimm5   31..30=0 14..12=0 6..2=0x16 1..0=3
+p.mulhhuN   rd rs1 rs2 Luimm5   31..30=1 14..12=0 6..2=0x16 1..0=3
+p.mulsN     rd rs1 rs2 Luimm5   31..30=2 14..12=0 6..2=0x16 1..0=3
+p.mulhhsN   rd rs1 rs2 Luimm5   31..30=3 14..12=0 6..2=0x16 1..0=3
+p.muluRN    rd rs1 rs2 Luimm5   31..30=0 14..12=4 6..2=0x16 1..0=3
+p.mulhhuRN  rd rs1 rs2 Luimm5   31..30=1 14..12=4 6..2=0x16 1..0=3
+p.mulsRN    rd rs1 rs2 Luimm5   31..30=2 14..12=4 6..2=0x16 1..0=3
+p.mulhhsRN  rd rs1 rs2 Luimm5   31..30=3 14..12=4 6..2=0x16 1..0=3
+
+@p.mulu     rd rs1 rs2 31..30=0 29..25=0 14..12=0 6..2=0x16 1..0=3
+@p.mulhhu   rd rs1 rs2 31..30=1 29..25=0 14..12=0 6..2=0x16 1..0=3
+@p.muls     rd rs1 rs2 31..30=2 29..25=0 14..12=0 6..2=0x16 1..0=3
+@p.mulhhs   rd rs1 rs2 31..30=3 29..25=0 14..12=0 6..2=0x16 1..0=3
