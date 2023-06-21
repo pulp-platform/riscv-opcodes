@@ -47,3 +47,27 @@ Ariane and Snitch do not use the same FPU configuration.
 There might be some overlap in opcodes between extensions. These are noted as far as known
 in the corresponding files. In some cases these overlaps can be avoided by making one of the
 opcodes a pseudo-opcodes using `@` in front.
+
+## Control and Status Registers
+
+### HW-Loop Register Collisions
+
+There are three existing address spaces for the HW-Loop [CSRs defined in binutils](https://iis-git.ee.ethz.ch/gnu/riscv-binutils-gdb/-/blob/riscv-binutils-2.34-pulp/include/opcode/riscv-opc.h#L829), all of them have collisions.
+The default configuration uses the CV32E40P addresses.
+
+#### CV32E40P
+
+The addresses 0x800-0x802 and 0x804-0x806 are used, this collides with the fmode CSR used in Snitch.
+The source of the HW-Loop addresses: https://cv32e40p.readthedocs.io/en/latest/control_status_registers/
+The [offending riscv-opcodes commit](https://github.com/pulp-platform/riscv-opcodes/commit/1e5fa7787b4e388c51956f6e7fd26d4d249a7d80) that adds the collisions from Snitch: (file parse_opcodes, line 124)
+
+#### PULPv3
+
+The addresses 0x7C0 - 0x7C2 and 0x7C4-0x7C6 are used, this collides with the ssr and fpmode CSRs used in Snitch.
+The [offending riscv-opcodes commit](https://github.com/pulp-platform/riscv-opcodes/commit/1e5fa7787b4e388c51956f6e7fd26d4d249a7d80) that adds the collisions from Snitch: (file parse_opcodes, line 133-134)
+
+#### PULPv1
+
+The addresses 0x7B0 - 0x7B2 and 0x7B4-0x7B6 are used, this collides with the debug mode registers (dcsr, dpc, dscratch0) from the official spec (page 11 in [RISCV priviliged v1.12](https://github.com/riscv/riscv-isa-manual/releases/download/Priv-v1.12/riscv-privileged-20211203.pdf)).
+There is no reason to use this for anything new, it is considered DEPRECATED.
+
