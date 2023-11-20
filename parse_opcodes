@@ -336,6 +336,7 @@ csrs = [
   # Custom CSR
   (0x7C0, 'ssr'),
   (0x7C1, 'fpmode'),
+  (0x7C2, 'barrier'),
 ]
 
 csrs32 = [
