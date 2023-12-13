@@ -413,3 +413,9 @@ vfdotpex.s.b    rd rs1 rs2  31..30=2 29..25=0x0B 14=0 13..12=3 6..2=0x0C 1..0=3
 vfdotpex.s.r.b  rd rs1 rs2  31..30=2 29..25=0x0B 14=1 13..12=3 6..2=0x0C 1..0=3
 vfavg.b     rd rs1 rs2      31..30=2 29..25=0x16 14=0 13..12=3 6..2=0x0C 1..0=3
 vfavg.r.b   rd rs1 rs2      31..30=2 29..25=0x16 14=1 13..12=3 6..2=0x0C 1..0=3
+
+# Xfcdotphalf - half-precision complex dotp
+fcdotpex.s.h    rd rs1 rs2         31..30=2 29..25=0x1E 14=0 13..12=0 6..2=0x0C 1..0=3
+fcndotpex.s.h   rd rs1 rs2         31..30=2 29..25=0x1E 14=1 13..12=0 6..2=0x0C 1..0=3
+fccdotpex.s.h   rd rs1 rs2         31..30=2 29..25=0x1F 14=0 13..12=0 6..2=0x0C 1..0=3
+fccndotpex.s.h  rd rs1 rs2         31..30=2 29..25=0x1F 14=1 13..12=0 6..2=0x0C 1..0=3
