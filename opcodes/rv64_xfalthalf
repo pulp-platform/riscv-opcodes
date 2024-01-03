@@ -1,0 +1,6 @@
+# RV64Xfhalf: in addition to the above
+
+@fcvt.l.ah  rd rs1 24..20=2 31..27=0x18 rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.lu.ah rd rs1 24..20=3 31..27=0x18 rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.ah.l  rd rs1 24..20=2 31..27=0x1A rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.ah.lu rd rs1 24..20=3 31..27=0x1A rm       26..25=2 6..2=0x14 1..0=3

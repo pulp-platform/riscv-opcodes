@@ -1,0 +1,15 @@
+# Xpulp extension subset: bit manipulation operations
+
+# INFO: overlaps with opcodes-rvv, opcodes-rv32b_CUSTOM
+# INFO: this is a subset of opcodes-xpulpbitop_CUSTOM
+
+p.cnt    rd rs1 rs2  31..25=8           14..12=3 6..2=0x0C 1..0=3
+p.clb    rd rs1      31..25=8  24..20=0 14..12=2 6..2=0x0C 1..0=3
+p.fl1    rd rs1      31..25=8  24..20=0 14..12=1 6..2=0x0C 1..0=3
+p.ff1    rd rs1      31..25=8  24..20=0 14..12=0 6..2=0x0C 1..0=3
+p.ror    rd rs1      31..25=4  24..20=0 14..12=5 6..2=0x0C 1..0=3
+
+p.exths  rd rs1      31..25=8  24..20=0 14..12=4 6..2=0x0C 1..0=3
+p.exthz  rd rs1      31..25=8  24..20=0 14..12=5 6..2=0x0C 1..0=3
+p.extbs  rd rs1      31..25=8  24..20=0 14..12=6 6..2=0x0C 1..0=3
+p.extbz  rd rs1      31..25=8  24..20=0 14..12=7 6..2=0x0C 1..0=3

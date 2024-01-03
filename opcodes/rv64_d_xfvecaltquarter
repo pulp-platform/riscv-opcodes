@@ -1,0 +1,6 @@
+# XfvecquarterwithD - vectorial quarter-precision conversions with D extension, a-d legality depends on FLEN (in addition to above)
+
+@vfcpka.ab.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=0 13..12=3 6..2=0x0C 1..0=3
+@vfcpkb.ab.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=1 13..12=3 6..2=0x0C 1..0=3
+@vfcpkc.ab.d  rd rs1 rs2      31..30=2 29..25=0x1B 14=0 13..12=3 6..2=0x0C 1..0=3
+@vfcpkd.ab.d  rd rs1 rs2      31..30=2 29..25=0x1B 14=1 13..12=3 6..2=0x0C 1..0=3

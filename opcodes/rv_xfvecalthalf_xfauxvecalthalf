@@ -1,0 +1,8 @@
+# Xfauxvecalthalf - vectorial alternate half-precision auxiliary operations - requires Xfvecalthalf extension
+
+@vfsum.ah        rd rs1 24..20=0x1E 31..30=2 29..25=0x07 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfnsum.ah       rd rs1 24..20=0x1E 31..30=2 29..25=0x17 14=0 13..12=2 6..2=0x0C 1..0=3
+#@vfdotp.ah        rd rs1 rs2        31..30=2 29..25=0x0A 14=0 13..12=2 6..2=0x0C 1..0=3
+#@vfdotp.r.ah      rd rs1 rs2        31..30=2 29..25=0x0A 14=1 13..12=2 6..2=0x0C 1..0=3
+#@vfavg.ah         rd rs1 rs2        31..30=2 29..25=0x16 14=0 13..12=2 6..2=0x0C 1..0=3
+#@vfavg.r.ah       rd rs1 rs2        31..30=2 29..25=0x16 14=1 13..12=2 6..2=0x0C 1..0=3

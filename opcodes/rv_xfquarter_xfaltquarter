@@ -1,0 +1,6 @@
+# Xfaltquarterwithquarter - quarter-precision conversions with Xfalthalf extension
+
+fcvt.b.b    rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fcvt.ab.b  rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fcvt.b.ab  rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fcvt.ab.ab rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=3 6..2=0x14 1..0=3

@@ -1,0 +1,4 @@
+# Xfauxaltquarter - alternate quarter-precision auxiliary operations - requires Xfaltquarter extension
+
+@fmulex.s.ab rd rs1 rs2     31..27=0x09 rm       26..25=3 6..2=0x14 1..0=3
+@fmacex.s.ab rd rs1 rs2     31..27=0x0A rm       26..25=3 6..2=0x14 1..0=3

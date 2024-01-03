@@ -1,0 +1,4 @@
+# XfaltquarterwithD - quarter-precision conversions with D extension (in addition to XfquarterwithF)
+
+@fcvt.d.ab  rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=1 6..2=0x14 1..0=3 # same as .b
+@fcvt.ab.d  rd rs1 24..20=1 31..27=0x08 rm       26..25=3 6..2=0x14 1..0=3 # same as .b

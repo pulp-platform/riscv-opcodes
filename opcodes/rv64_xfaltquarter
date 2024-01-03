@@ -1,0 +1,6 @@
+# RV64Xfaltquarter: in addition to the above
+
+@fcvt.l.ab  rd rs1 24..20=2 31..27=0x18 rm       26..25=3 6..2=0x14 1..0=3 # same as .b
+@fcvt.lu.ab rd rs1 24..20=3 31..27=0x18 rm       26..25=3 6..2=0x14 1..0=3 # same as .b
+@fcvt.ab.l  rd rs1 24..20=2 31..27=0x1A rm       26..25=3 6..2=0x14 1..0=3 # same as .b
+@fcvt.ab.lu rd rs1 24..20=3 31..27=0x1A rm       26..25=3 6..2=0x14 1..0=3 # same as .b

@@ -1,0 +1,6 @@
+# Xfalthalfwithhalf - alternate half-precision conversions with Xfhalf extension
+
+fcvt.h.h    rd rs1 24..20=2 31..27=0x08 rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.ah.h  rd rs1 24..20=2 31..27=0x08 rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.h.ah  rd rs1 24..20=2 31..27=0x08 rm       26..25=2 6..2=0x14 1..0=3
+@fcvt.ah.ah rd rs1 24..20=2 31..27=0x08 rm       26..25=2 6..2=0x14 1..0=3

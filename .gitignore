@@ -1,11 +1,6 @@
 .*.swp
-encoding_out.h
-inst.chisel
-inst.go
-inst.c
-inst.sv
-inst.py
-inst.rs
-inst.sverilog
-instr-table.tex
-priv-instr-table.tex
+encoding*.h
+inst*
+!util/*
+*.tex
+*.pdf

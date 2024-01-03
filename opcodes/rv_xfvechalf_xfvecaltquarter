@@ -1,0 +1,6 @@
+# Xfvecquarterwithhalf - vectorial quarter-precision conversions with Xfvechalf extension
+
+@vfcvt.h.ab   rd rs1 24..20=7 31..30=2 29..25=0x0C 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfcvtu.h.ab  rd rs1 24..20=7 31..30=2 29..25=0x0C 14=1 13..12=2 6..2=0x0C 1..0=3
+@vfcvt.ab.h   rd rs1 24..20=6 31..30=2 29..25=0x0C 14=0 13..12=3 6..2=0x0C 1..0=3
+@vfcvtu.ab.h  rd rs1 24..20=6 31..30=2 29..25=0x0C 14=1 13..12=3 6..2=0x0C 1..0=3

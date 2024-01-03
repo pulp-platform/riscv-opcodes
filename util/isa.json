@@ -1,0 +1,45 @@
+{
+    "D": [
+        "F"
+    ],
+    "F": [
+        "Zicsr"
+    ],
+    "G": [
+        "I",
+        "M",
+        "A"
+    ],
+    "Zicsr": [
+        "I"
+    ],
+    "Zifencei": [
+        "I"
+    ],
+    "Xpulpimg": [
+        "Xpulpabs",
+        "Xpulpbr",
+        "Xpulpclip",
+        "Xpulpmacsi",
+        "Xpulpminmax",
+        "Xpulpslet",
+        "Xpulpvect",
+        "Xpulpvectshufflepack",
+        "Xpulpbitop"
+    ],
+    "Xsflt": [
+        "Xfalthalf",
+        "Xfaltquarter",
+        "Xfhalf",
+        "Xfquarter",
+        "Xfvecalthalf",
+        "Xfvecaltquarter",
+        "Xfvechalf",
+        "Xfvecquarter",
+        "Xfvecsingle",
+        "Xfauxhalf",
+        "Xfauxvecalthalf",
+        "Xfexpauxvecaltquarter",
+        "Xfexpauxvecquarter"
+    ]
+}

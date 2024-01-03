@@ -1,0 +1,4 @@
+# Xfquarterwithhalf - quarter-precision conversions with Xfhalf extension
+
+fcvt.h.b    rd rs1 24..20=3 31..27=0x08 14..12=0 26..25=2 6..2=0x14 1..0=3
+fcvt.b.h    rd rs1 24..20=2 31..27=0x08 rm       26..25=3 6..2=0x14 1..0=3

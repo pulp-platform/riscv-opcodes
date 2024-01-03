@@ -1,0 +1,29 @@
+# RV32Xfaltquarter - alternate quarter-precision floats
+# ab collides with quad precision (q) so they are pseudo here.
+
+@flab       rd rs1 imm12 14..12=0 6..2=0x01 1..0=3
+@fsab       imm12hi rs1 rs2 imm12lo 14..12=0 6..2=0x09 1..0=3
+@fmadd.ab   rd rs1 rs2 rs3 rm 26..25=3 6..2=0x10 1..0=3
+@fmsub.ab   rd rs1 rs2 rs3 rm 26..25=3 6..2=0x11 1..0=3
+@fnmsub.ab  rd rs1 rs2 rs3 rm 26..25=3 6..2=0x12 1..0=3
+@fnmadd.ab  rd rs1 rs2 rs3 rm 26..25=3 6..2=0x13 1..0=3
+@fadd.ab    rd rs1 rs2      31..27=0x00 rm       26..25=3 6..2=0x14 1..0=3
+@fsub.ab    rd rs1 rs2      31..27=0x01 rm       26..25=3 6..2=0x14 1..0=3
+@fmul.ab    rd rs1 rs2      31..27=0x02 rm       26..25=3 6..2=0x14 1..0=3
+@fdiv.ab    rd rs1 rs2      31..27=0x03 rm       26..25=3 6..2=0x14 1..0=3
+@fsqrt.ab   rd rs1 24..20=0 31..27=0x0B rm       26..25=3 6..2=0x14 1..0=3
+@fsgnj.ab   rd rs1 rs2      31..27=0x04 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fsgnjn.ab  rd rs1 rs2      31..27=0x04 14..12=1 26..25=3 6..2=0x14 1..0=3
+@fsgnjx.ab  rd rs1 rs2      31..27=0x04 14..12=2 26..25=3 6..2=0x14 1..0=3
+@fmin.ab    rd rs1 rs2      31..27=0x05 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fmax.ab    rd rs1 rs2      31..27=0x05 14..12=1 26..25=3 6..2=0x14 1..0=3
+@feq.ab     rd rs1 rs2      31..27=0x14 14..12=2 26..25=3 6..2=0x14 1..0=3
+@flt.ab     rd rs1 rs2      31..27=0x14 14..12=1 26..25=3 6..2=0x14 1..0=3
+@fle.ab     rd rs1 rs2      31..27=0x14 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fcvt.w.ab  rd rs1 24..20=0 31..27=0x18 rm       26..25=3 6..2=0x14 1..0=3
+@fcvt.wu.ab rd rs1 24..20=1 31..27=0x18 rm       26..25=3 6..2=0x14 1..0=3
+@fcvt.ab.w  rd rs1 24..20=0 31..27=0x1A rm       26..25=3 6..2=0x14 1..0=3
+@fcvt.ab.wu rd rs1 24..20=1 31..27=0x1A rm       26..25=3 6..2=0x14 1..0=3
+@fmv.x.ab   rd rs1 24..20=0 31..27=0x1C 14..12=0 26..25=3 6..2=0x14 1..0=3
+@fclass.ab  rd rs1 24..20=0 31..27=0x1C 14..12=1 26..25=3 6..2=0x14 1..0=3
+@fmv.ab.x   rd rs1 24..20=0 31..27=0x1E 14..12=0 26..25=3 6..2=0x14 1..0=3

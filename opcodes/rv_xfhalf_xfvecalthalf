@@ -1,0 +1,8 @@
+# Xfvecalthalfwithhalf - vectorial alternate half-precision conversions with Xfvechalf extension
+
+vfcvt.h.h     rd rs1 24..20=5 31..30=2 29..25=0x0C 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfcvt.h.ah   rd rs1 24..20=5 31..30=2 29..25=0x0C 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfcvt.ah.h   rd rs1 24..20=5 31..30=2 29..25=0x0C 14=0 13..12=2 6..2=0x0C 1..0=3
+vfcvtu.h.h    rd rs1 24..20=5 31..30=2 29..25=0x0C 14=1 13..12=2 6..2=0x0C 1..0=3
+@vfcvtu.h.ah  rd rs1 24..20=5 31..30=2 29..25=0x0C 14=1 13..12=2 6..2=0x0C 1..0=3
+@vfcvtu.ah.h  rd rs1 24..20=5 31..30=2 29..25=0x0C 14=1 13..12=2 6..2=0x0C 1..0=3

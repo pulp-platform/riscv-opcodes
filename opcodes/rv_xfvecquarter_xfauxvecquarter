@@ -1,0 +1,8 @@
+# Xfauxvecquarter & Xfauxvechalf - vectorial quarter-precision auxiliary operations - requires Xfvecquarter extension
+
+vfsum.b          rd rs1 24..20=0x07 31..30=2 29..25=0x07 14=0 13..12=3 6..2=0x0C 1..0=3
+vfnsum.b         rd rs1 24..20=0x07 31..30=2 29..25=0x17 14=0 13..12=3 6..2=0x0C 1..0=3
+#vfdotp.b         rd rs1 rs2         31..30=2 29..25=0x0A 14=0 13..12=3 6..2=0x0C 1..0=3
+#vfdotp.r.b       rd rs1 rs2         31..30=2 29..25=0x0A 14=1 13..12=3 6..2=0x0C 1..0=3
+#vfavg.b          rd rs1 rs2         31..30=2 29..25=0x16 14=0 13..12=3 6..2=0x0C 1..0=3
+#vfavg.r.b        rd rs1 rs2         31..30=2 29..25=0x16 14=1 13..12=3 6..2=0x0C 1..0=3

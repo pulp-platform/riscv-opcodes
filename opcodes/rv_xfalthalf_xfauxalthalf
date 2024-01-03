@@ -1,0 +1,4 @@
+# Xfauxalthalf - alternate half-precision auxiliary operations - requires Xfalthalf extension
+
+@fmulex.s.ah     rd rs1 rs2         31..27=0x09 rm       26..25=2 6..2=0x14 1..0=3
+@fmacex.s.ah     rd rs1 rs2         31..27=0x0A rm       26..25=2 6..2=0x14 1..0=3

@@ -1,0 +1,8 @@
+# Xfexpauxvecalthalf - vectorial alternate half-precision expanding auxiliary operations
+
+@vfsumex.s.ah    rd rs1 24..20=0x16 31..30=2 29..25=0x07 14=0 13..12=0 6..2=0x0C 1..0=3
+@vfnsumex.s.ah   rd rs1 24..20=0x16 31..30=2 29..25=0x17 14=0 13..12=0 6..2=0x0C 1..0=3
+@vfdotpex.s.ah    rd rs1 rs2        31..30=2 29..25=0x0B 14=0 13..12=0 6..2=0x0C 1..0=3
+@vfdotpex.s.r.ah  rd rs1 rs2        31..30=2 29..25=0x0B 14=1 13..12=0 6..2=0x0C 1..0=3
+@vfndotpex.s.ah   rd rs1 rs2        31..30=2 29..25=0x1D 14=0 13..12=0 6..2=0x0C 1..0=3
+@vfndotpex.s.r.ah rd rs1 rs2        31..30=2 29..25=0x1D 14=1 13..12=0 6..2=0x0C 1..0=3

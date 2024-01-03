@@ -1,0 +1,8 @@
+# Xfexpauxvecaltquarter - vectorial alternate quarter-precision expanding auxiliary operations
+
+@vfsumex.h.ab     rd rs1 24..20=0x17 31..30=2 29..25=0x07 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfnsumex.h.ab    rd rs1 24..20=0x17 31..30=2 29..25=0x17 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfdotpex.h.ab    rd rs1 rs2         31..30=2 29..25=0x0B 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfdotpex.h.r.ab  rd rs1 rs2         31..30=2 29..25=0x0B 14=1 13..12=2 6..2=0x0C 1..0=3
+@vfndotpex.h.ab   rd rs1 rs2         31..30=2 29..25=0x1D 14=0 13..12=2 6..2=0x0C 1..0=3
+@vfndotpex.h.r.ab rd rs1 rs2         31..30=2 29..25=0x1D 14=1 13..12=2 6..2=0x0C 1..0=3
