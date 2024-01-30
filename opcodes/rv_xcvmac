@@ -1,0 +1,22 @@
+# Xpulp for OpenHW subset
+
+cv.muluN    rd rs1 rs2 31..30=0 Luimm5 14..12=5 6..2=0x16 1..0=3
+cv.mulhhuN  rd rs1 rs2 31..30=1 Luimm5 14..12=5 6..2=0x16 1..0=3
+cv.mulsN    rd rs1 rs2 31..30=0 Luimm5 14..12=4 6..2=0x16 1..0=3
+cv.mulhhsN  rd rs1 rs2 31..30=1 Luimm5 14..12=4 6..2=0x16 1..0=3
+cv.muluRN   rd rs1 rs2 31..30=2 Luimm5 14..12=5 6..2=0x16 1..0=3
+cv.mulhhuRN rd rs1 rs2 31..30=3 Luimm5 14..12=5 6..2=0x16 1..0=3
+cv.mulsRN   rd rs1 rs2 31..30=2 Luimm5 14..12=4 6..2=0x16 1..0=3
+cv.mulhhsRN rd rs1 rs2 31..30=3 Luimm5 14..12=4 6..2=0x16 1..0=3
+
+cv.macuN    rd rs1 rs2 31..30=0 Luimm5 14..12=7 6..2=0x16 1..0=3
+cv.machhuN  rd rs1 rs2 31..30=1 Luimm5 14..12=7 6..2=0x16 1..0=3
+cv.macsN    rd rs1 rs2 31..30=0 Luimm5 14..12=6 6..2=0x16 1..0=3
+cv.machhsN  rd rs1 rs2 31..30=1 Luimm5 14..12=6 6..2=0x16 1..0=3
+cv.macuRN   rd rs1 rs2 31..30=2 Luimm5 14..12=7 6..2=0x16 1..0=3
+cv.machhuRN rd rs1 rs2 31..30=3 Luimm5 14..12=7 6..2=0x16 1..0=3
+cv.macsRN   rd rs1 rs2 31..30=2 Luimm5 14..12=6 6..2=0x16 1..0=3
+cv.machhsRN rd rs1 rs2 31..30=3 Luimm5 14..12=6 6..2=0x16 1..0=3
+
+cv.mac      rd rs1 rs2 31..25=0x48 14..12=3 6..2=0x0A 1..0=3
+cv.msu      rd rs1 rs2 31..25=0x49 14..12=3 6..2=0x0A 1..0=3

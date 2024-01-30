@@ -1,0 +1,21 @@
+# Xpulp for OpenHW subset
+
+# Immediate
+cv.extract    rd rs1 Luimm5 imm5   31..30=0          14..12=0 6..2=0x16 1..0=3
+cv.extractu   rd rs1 Luimm5 imm5   31..30=1          14..12=0 6..2=0x16 1..0=3
+cv.insert     rd rs1 Luimm5 imm5   31..30=2          14..12=0 6..2=0x16 1..0=3
+cv.bclr       rd rs1 Luimm5 imm5   31..30=0          14..12=1 6..2=0x16 1..0=3
+cv.bset       rd rs1 Luimm5 imm5   31..30=1          14..12=1 6..2=0x16 1..0=3
+cv.bitrev     rd rs1 Luimm5 imm5   31..30=3          14..12=1 6..2=0x16 1..0=3
+
+# Register
+cv.extractr   rd rs1 rs2  31..30=0 29..25=0x18          14..12=3 6..2=0x0A 1..0=3
+cv.extractur  rd rs1 rs2  31..30=0 29..25=0x19          14..12=3 6..2=0x0A 1..0=3
+cv.insertr    rd rs1 rs2  31..30=0 29..25=0x1A          14..12=3 6..2=0x0A 1..0=3
+cv.bclrr      rd rs1 rs2  31..30=0 29..25=0x1C          14..12=3 6..2=0x0A 1..0=3
+cv.bsetr      rd rs1 rs2  31..30=0 29..25=0x1D          14..12=3 6..2=0x0A 1..0=3
+cv.ror        rd rs1 rs2  31..30=1 29..25=0x00          14..12=3 6..2=0x0A 1..0=3
+cv.ff1        rd rs1      31..30=1 29..25=0x01 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.fl1        rd rs1      31..30=1 29..25=0x02 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.clb        rd rs1      31..30=1 29..25=0x03 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.cnt        rd rs1      31..30=1 29..25=0x04 24..20=0 14..12=3 6..2=0x0A 1..0=3

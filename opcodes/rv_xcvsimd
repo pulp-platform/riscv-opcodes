@@ -1,0 +1,265 @@
+# Xpulp for OpenHW subset
+
+# SIMD ALU
+cv.add.h           rd rs1 rs2   31..27=0x00  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.add.sc.h        rd rs1 rs2   31..27=0x00  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.add.sci.h       rd rs1 imm6  31..27=0x00  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.add.b           rd rs1 rs2   31..27=0x00  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.add.sc.b        rd rs1 rs2   31..27=0x00  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.add.sci.b       rd rs1 imm6  31..27=0x00  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sub.h           rd rs1 rs2   31..27=0x01  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sub.sc.h        rd rs1 rs2   31..27=0x01  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sub.sci.h       rd rs1 imm6  31..27=0x01  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sub.b           rd rs1 rs2   31..27=0x01  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sub.sc.b        rd rs1 rs2   31..27=0x01  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sub.sci.b       rd rs1 imm6  31..27=0x01  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.avg.h           rd rs1 rs2   31..27=0x02  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.avg.sc.h        rd rs1 rs2   31..27=0x02  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.avg.sci.h       rd rs1 imm6  31..27=0x02  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.avg.b           rd rs1 rs2   31..27=0x02  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.avg.sc.b        rd rs1 rs2   31..27=0x02  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.avg.sci.b       rd rs1 imm6  31..27=0x02  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.avgu.h          rd rs1 rs2   31..27=0x03  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.avgu.sc.h       rd rs1 rs2   31..27=0x03  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.avgu.sci.h      rd rs1 imm6  31..27=0x03  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.avgu.b          rd rs1 rs2   31..27=0x03  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.avgu.sc.b       rd rs1 rs2   31..27=0x03  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.avgu.sci.b      rd rs1 imm6  31..27=0x03  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.min.h           rd rs1 rs2   31..27=0x04  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.min.sc.h        rd rs1 rs2   31..27=0x04  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.min.sci.h       rd rs1 imm6  31..27=0x04  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.min.b           rd rs1 rs2   31..27=0x04  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.min.sc.b        rd rs1 rs2   31..27=0x04  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.min.sci.b       rd rs1 imm6  31..27=0x04  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.minu.h          rd rs1 rs2   31..27=0x05  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.minu.sc.h       rd rs1 rs2   31..27=0x05  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.minu.sci.h      rd rs1 imm6  31..27=0x05  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.minu.b          rd rs1 rs2   31..27=0x05  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.minu.sc.b       rd rs1 rs2   31..27=0x05  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.minu.sci.b      rd rs1 imm6  31..27=0x05  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.max.h           rd rs1 rs2   31..27=0x06  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.max.sc.h        rd rs1 rs2   31..27=0x06  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.max.sci.h       rd rs1 imm6  31..27=0x06  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.max.b           rd rs1 rs2   31..27=0x06  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.max.sc.b        rd rs1 rs2   31..27=0x06  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.max.sci.b       rd rs1 imm6  31..27=0x06  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.maxu.h          rd rs1 rs2   31..27=0x07  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.maxu.sc.h       rd rs1 rs2   31..27=0x07  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.maxu.sci.h      rd rs1 imm6  31..27=0x07  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.maxu.b          rd rs1 rs2   31..27=0x07  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.maxu.sc.b       rd rs1 rs2   31..27=0x07  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.maxu.sci.b      rd rs1 imm6  31..27=0x07  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.srl.h           rd rs1 rs2   31..27=0x08  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.srl.sc.h        rd rs1 rs2   31..27=0x08  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.srl.sci.h       rd rs1 imm6  31..27=0x08  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.srl.b           rd rs1 rs2   31..27=0x08  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.srl.sc.b        rd rs1 rs2   31..27=0x08  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.srl.sci.b       rd rs1 imm6  31..27=0x08  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sra.h           rd rs1 rs2   31..27=0x09  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sra.sc.h        rd rs1 rs2   31..27=0x09  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sra.sci.h       rd rs1 imm6  31..27=0x09  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sra.b           rd rs1 rs2   31..27=0x09  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sra.sc.b        rd rs1 rs2   31..27=0x09  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sra.sci.b       rd rs1 imm6  31..27=0x09  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sll.h           rd rs1 rs2   31..27=0x0A  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sll.sc.h        rd rs1 rs2   31..27=0x0A  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sll.sci.h       rd rs1 imm6  31..27=0x0A  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sll.b           rd rs1 rs2   31..27=0x0A  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sll.sc.b        rd rs1 rs2   31..27=0x0A  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sll.sci.b       rd rs1 imm6  31..27=0x0A  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.or.h            rd rs1 rs2   31..27=0x0B  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.or.sc.h         rd rs1 rs2   31..27=0x0B  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.or.sci.h        rd rs1 imm6  31..27=0x0B  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.or.b            rd rs1 rs2   31..27=0x0B  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.or.sc.b         rd rs1 rs2   31..27=0x0B  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.or.sci.b        rd rs1 imm6  31..27=0x0B  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.xor.h           rd rs1 rs2   31..27=0x0C  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.xor.sc.h        rd rs1 rs2   31..27=0x0C  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.xor.sci.h       rd rs1 imm6  31..27=0x0C  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.xor.b           rd rs1 rs2   31..27=0x0C  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.xor.sc.b        rd rs1 rs2   31..27=0x0C  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.xor.sci.b       rd rs1 imm6  31..27=0x0C  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.and.h           rd rs1 rs2   31..27=0x0D  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.and.sc.h        rd rs1 rs2   31..27=0x0D  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.and.sci.h       rd rs1 imm6  31..27=0x0D  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.and.b           rd rs1 rs2   31..27=0x0D  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.and.sc.b        rd rs1 rs2   31..27=0x0D  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.and.sci.b       rd rs1 imm6  31..27=0x0D  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.abs.h           rd rs1       31..27=0x0E  26=0 25=0 24..20=0 14..12=0 6..2=0x1E 1..0=3
+cv.abs.b           rd rs1       31..27=0x0E  26=0 25=0 24..20=0 14..12=1 6..2=0x1E 1..0=3
+
+cv.extract.h       rd rs1 imm6  31..27=0x17  26=0               14..12=0 6..2=0x1E 1..0=3
+cv.extract.b       rd rs1 imm6  31..27=0x17  26=0               14..12=1 6..2=0x1E 1..0=3
+cv.extractu.h      rd rs1 imm6  31..27=0x17  26=0               14..12=2 6..2=0x1E 1..0=3
+cv.extractu.b      rd rs1 imm6  31..27=0x17  26=0               14..12=3 6..2=0x1E 1..0=3
+cv.insert.h        rd rs1 imm6  31..27=0x17  26=0               14..12=4 6..2=0x1E 1..0=3
+cv.insert.b        rd rs1 imm6  31..27=0x17  26=0               14..12=5 6..2=0x1E 1..0=3
+
+cv.dotup.h         rd rs1 rs2   31..27=0x10  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.dotup.sc.h      rd rs1 rs2   31..27=0x10  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.dotup.sci.h     rd rs1 imm6  31..27=0x10  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.dotup.b         rd rs1 rs2   31..27=0x10  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.dotup.sc.b      rd rs1 rs2   31..27=0x10  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.dotup.sci.b     rd rs1 imm6  31..27=0x10  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.dotusp.h        rd rs1 rs2   31..27=0x11  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.dotusp.sc.h     rd rs1 rs2   31..27=0x11  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.dotusp.sci.h    rd rs1 imm6  31..27=0x11  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.dotusp.b        rd rs1 rs2   31..27=0x11  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.dotusp.sc.b     rd rs1 rs2   31..27=0x11  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.dotusp.sci.b    rd rs1 imm6  31..27=0x11  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.dotsp.h         rd rs1 rs2   31..27=0x12  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.dotsp.sc.h      rd rs1 rs2   31..27=0x12  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.dotsp.sci.h     rd rs1 imm6  31..27=0x12  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.dotsp.b         rd rs1 rs2   31..27=0x12  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.dotsp.sc.b      rd rs1 rs2   31..27=0x12  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.dotsp.sci.b     rd rs1 imm6  31..27=0x12  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sdotup.h        rd rs1 rs2   31..27=0x13  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sdotup.sc.h     rd rs1 rs2   31..27=0x13  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sdotup.sci.h    rd rs1 imm6  31..27=0x13  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sdotup.b        rd rs1 rs2   31..27=0x13  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sdotup.sc.b     rd rs1 rs2   31..27=0x13  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sdotup.sci.b    rd rs1 imm6  31..27=0x13  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sdotusp.h       rd rs1 rs2   31..27=0x14  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sdotusp.sc.h    rd rs1 rs2   31..27=0x14  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sdotusp.sci.h   rd rs1 imm6  31..27=0x14  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sdotusp.b       rd rs1 rs2   31..27=0x14  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sdotusp.sc.b    rd rs1 rs2   31..27=0x14  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sdotusp.sci.b   rd rs1 imm6  31..27=0x14  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.sdotsp.h        rd rs1 rs2   31..27=0x15  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.sdotsp.sc.h     rd rs1 rs2   31..27=0x15  26=0 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sdotsp.sci.h    rd rs1 imm6  31..27=0x15  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.sdotsp.b        rd rs1 rs2   31..27=0x15  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.sdotsp.sc.b     rd rs1 rs2   31..27=0x15  26=0 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.sdotsp.sci.b    rd rs1 imm6  31..27=0x15  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.shuffle.h       rd rs1 rs2   31..27=0x18  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.shuffle.sci.h   rd rs1 imm6  31..27=0x18  26=0               14..12=6 6..2=0x1E 1..0=3
+cv.shuffle.b       rd rs1 rs2   31..27=0x18  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.shufflel0.sci.b rd rs1 imm6  31..27=0x18  26=0               14..12=7 6..2=0x1E 1..0=3
+cv.shufflel1.sci.b rd rs1 imm6  31..27=0x19  26=0               14..12=7 6..2=0x1E 1..0=3
+cv.shufflel2.sci.b rd rs1 imm6  31..27=0x1A  26=0               14..12=7 6..2=0x1E 1..0=3
+cv.shufflel3.sci.b rd rs1 imm6  31..27=0x1B  26=0               14..12=7 6..2=0x1E 1..0=3
+
+cv.shuffle2.h      rd rs1 rs2   31..27=0x1C  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.shuffle2.b      rd rs1 rs2   31..27=0x1C  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+
+cv.pack            rd rs1 rs2   31..27=0x1E  26=0 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.pack.h          rd rs1 rs2   31..27=0x1E  26=0 25=1          14..12=0 6..2=0x1E 1..0=3
+cv.packhi.b        rd rs1 rs2   31..27=0x1F  26=0 25=1          14..12=1 6..2=0x1E 1..0=3
+cv.packlo.b        rd rs1 rs2   31..27=0x1F  26=0 25=0          14..12=1 6..2=0x1E 1..0=3
+
+# SIMD Comparison
+cv.cmpeq.h         rd rs1 rs2   31..27=0x00  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpeq.sc.h      rd rs1 rs2   31..27=0x00  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpeq.sci.h     rd rs1 imm6  31..27=0x00  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpeq.b         rd rs1 rs2   31..27=0x00  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpeq.sc.b      rd rs1 rs2   31..27=0x00  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpeq.sci.b     rd rs1 imm6  31..27=0x00  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpneq.h        rd rs1 rs2   31..27=0x01  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpneq.sc.h     rd rs1 rs2   31..27=0x01  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpneq.sci.h    rd rs1 imm6  31..27=0x01  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpneq.b        rd rs1 rs2   31..27=0x01  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpneq.sc.b     rd rs1 rs2   31..27=0x01  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpneq.sci.b    rd rs1 imm6  31..27=0x01  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpgt.h         rd rs1 rs2   31..27=0x02  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpgt.sc.h      rd rs1 rs2   31..27=0x02  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpgt.sci.h     rd rs1 imm6  31..27=0x02  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpgt.b         rd rs1 rs2   31..27=0x02  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpgt.sc.b      rd rs1 rs2   31..27=0x02  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpgt.sci.b     rd rs1 imm6  31..27=0x02  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpge.h         rd rs1 rs2   31..27=0x03  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpge.sc.h      rd rs1 rs2   31..27=0x03  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpge.sci.h     rd rs1 imm6  31..27=0x03  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpge.b         rd rs1 rs2   31..27=0x03  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpge.sc.b      rd rs1 rs2   31..27=0x03  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpge.sci.b     rd rs1 imm6  31..27=0x03  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmplt.h         rd rs1 rs2   31..27=0x04  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmplt.sc.h      rd rs1 rs2   31..27=0x04  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmplt.sci.h     rd rs1 imm6  31..27=0x04  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmplt.b         rd rs1 rs2   31..27=0x04  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmplt.sc.b      rd rs1 rs2   31..27=0x04  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmplt.sci.b     rd rs1 imm6  31..27=0x04  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmple.h         rd rs1 rs2   31..27=0x05  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmple.sc.h      rd rs1 rs2   31..27=0x05  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmple.sci.h     rd rs1 imm6  31..27=0x05  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmple.b         rd rs1 rs2   31..27=0x05  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmple.sc.b      rd rs1 rs2   31..27=0x05  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmple.sci.b     rd rs1 imm6  31..27=0x05  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpgtu.h        rd rs1 rs2   31..27=0x06  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpgtu.sc.h     rd rs1 rs2   31..27=0x06  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpgtu.sci.h    rd rs1 imm6  31..27=0x06  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpgtu.b        rd rs1 rs2   31..27=0x06  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpgtu.sc.b     rd rs1 rs2   31..27=0x06  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpgtu.sci.b    rd rs1 imm6  31..27=0x06  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpgeu.h        rd rs1 rs2   31..27=0x07  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpgeu.sc.h     rd rs1 rs2   31..27=0x07  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpgeu.sci.h    rd rs1 imm6  31..27=0x07  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpgeu.b        rd rs1 rs2   31..27=0x07  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpgeu.sc.b     rd rs1 rs2   31..27=0x07  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpgeu.sci.b    rd rs1 imm6  31..27=0x07  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpltu.h        rd rs1 rs2   31..27=0x08  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpltu.sc.h     rd rs1 rs2   31..27=0x08  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpltu.sci.h    rd rs1 imm6  31..27=0x08  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpltu.b        rd rs1 rs2   31..27=0x08  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpltu.sc.b     rd rs1 rs2   31..27=0x08  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpltu.sci.b    rd rs1 imm6  31..27=0x08  26=1               14..12=7 6..2=0x1E 1..0=3
+
+cv.cmpleu.h        rd rs1 rs2   31..27=0x09  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cmpleu.sc.h     rd rs1 rs2   31..27=0x09  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cmpleu.sci.h    rd rs1 imm6  31..27=0x09  26=1               14..12=6 6..2=0x1E 1..0=3
+cv.cmpleu.b        rd rs1 rs2   31..27=0x09  26=1 25=0          14..12=1 6..2=0x1E 1..0=3
+cv.cmpleu.sc.b     rd rs1 rs2   31..27=0x09  26=1 25=0          14..12=5 6..2=0x1E 1..0=3
+cv.cmpleu.sci.b    rd rs1 imm6  31..27=0x09  26=1               14..12=7 6..2=0x1E 1..0=3
+
+# SIMD Complex Numbers
+cv.cplxmul.r       rd rs1 rs2   31..27=0x0A  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.cplxmul.r.div2  rd rs1 rs2   31..27=0x0A  26=1 25=0          14..12=2 6..2=0x1E 1..0=3
+cv.cplxmul.r.div4  rd rs1 rs2   31..27=0x0A  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.cplxmul.r.div8  rd rs1 rs2   31..27=0x0A  26=1 25=0          14..12=6 6..2=0x1E 1..0=3
+
+cv.cplxmul.i       rd rs1 rs2   31..27=0x0A  26=1 25=1          14..12=0 6..2=0x1E 1..0=3
+cv.cplxmul.i.div2  rd rs1 rs2   31..27=0x0A  26=1 25=1          14..12=2 6..2=0x1E 1..0=3
+cv.cplxmul.i.div4  rd rs1 rs2   31..27=0x0A  26=1 25=1          14..12=4 6..2=0x1E 1..0=3
+cv.cplxmul.i.div8  rd rs1 rs2   31..27=0x0A  26=1 25=1          14..12=6 6..2=0x1E 1..0=3
+
+cv.cplxconj        rd rs1       31..27=0x0B  26=1 25=0 24..20=0 14..12=0 6..2=0x1E 1..0=3
+
+cv.subrotmj        rd rs1 rs2   31..27=0x0C  26=1 25=0          14..12=0 6..2=0x1E 1..0=3
+cv.subrotmj.div2   rd rs1 rs2   31..27=0x0C  26=1 25=0          14..12=2 6..2=0x1E 1..0=3
+cv.subrotmj.div4   rd rs1 rs2   31..27=0x0C  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.subrotmj.div8   rd rs1 rs2   31..27=0x0C  26=1 25=0          14..12=6 6..2=0x1E 1..0=3
+
+cv.add.div2        rd rs1 rs2   31..27=0x0D  26=1 25=0          14..12=2 6..2=0x1E 1..0=3
+cv.add.div4        rd rs1 rs2   31..27=0x0D  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.add.div8        rd rs1 rs2   31..27=0x0D  26=1 25=0          14..12=6 6..2=0x1E 1..0=3
+
+cv.sub.div2        rd rs1 rs2   31..27=0x0E  26=1 25=0          14..12=2 6..2=0x1E 1..0=3
+cv.sub.div4        rd rs1 rs2   31..27=0x0E  26=1 25=0          14..12=4 6..2=0x1E 1..0=3
+cv.sub.div8        rd rs1 rs2   31..27=0x0E  26=1 25=0          14..12=6 6..2=0x1E 1..0=3

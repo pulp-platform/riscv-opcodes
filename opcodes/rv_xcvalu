@@ -1,0 +1,36 @@
+# Xpulp for OpenHW subset
+
+cv.abs    rd rs1          31..25=0x28 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.sle    rd rs1 rs2      31..25=0x29          14..12=3 6..2=0x0A 1..0=3
+cv.sleu   rd rs1 rs2      31..25=0x2A          14..12=3 6..2=0x0A 1..0=3
+cv.min    rd rs1 rs2      31..25=0x2B          14..12=3 6..2=0x0A 1..0=3
+cv.minu   rd rs1 rs2      31..25=0x2C          14..12=3 6..2=0x0A 1..0=3
+cv.max    rd rs1 rs2      31..25=0x2D          14..12=3 6..2=0x0A 1..0=3
+cv.maxu   rd rs1 rs2      31..25=0x2E          14..12=3 6..2=0x0A 1..0=3
+cv.exths  rd rs1          31..25=0x30 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.exthz  rd rs1          31..25=0x31 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.extbs  rd rs1          31..25=0x32 24..20=0 14..12=3 6..2=0x0A 1..0=3
+cv.extbz  rd rs1          31..25=0x33 24..20=0 14..12=3 6..2=0x0A 1..0=3
+
+cv.clip   rd rs1 imm5     31..25=0x38          14..12=3 6..2=0x0A 1..0=3
+cv.clipu  rd rs1 imm5     31..25=0x39          14..12=3 6..2=0x0A 1..0=3
+cv.clipr  rd rs1 rs2      31..25=0x3A          14..12=3 6..2=0x0A 1..0=3
+cv.clipur rd rs1 rs2      31..25=0x3B          14..12=3 6..2=0x0A 1..0=3
+
+cv.addN     rd rs1 rs2 31..30=0 Luimm5 14..12=2 6..2=0x16 1..0=3
+cv.adduN    rd rs1 rs2 31..30=1 Luimm5 14..12=2 6..2=0x16 1..0=3
+cv.addRN    rd rs1 rs2 31..30=2 Luimm5 14..12=2 6..2=0x16 1..0=3
+cv.adduRN   rd rs1 rs2 31..30=3 Luimm5 14..12=2 6..2=0x16 1..0=3
+cv.subN     rd rs1 rs2 31..30=0 Luimm5 14..12=3 6..2=0x16 1..0=3
+cv.subuN    rd rs1 rs2 31..30=1 Luimm5 14..12=3 6..2=0x16 1..0=3
+cv.subRN    rd rs1 rs2 31..30=2 Luimm5 14..12=3 6..2=0x16 1..0=3
+cv.subuRN   rd rs1 rs2 31..30=3 Luimm5 14..12=3 6..2=0x16 1..0=3
+
+cv.addNr   rd rs1 rs2        31..25=0x40        14..12=3 6..2=0x0A 1..0=3
+cv.adduNr  rd rs1 rs2        31..25=0x41        14..12=3 6..2=0x0A 1..0=3
+cv.addRNr  rd rs1 rs2        31..25=0x42        14..12=3 6..2=0x0A 1..0=3
+cv.adduRNr rd rs1 rs2        31..25=0x43        14..12=3 6..2=0x0A 1..0=3
+cv.subNr   rd rs1 rs2        31..25=0x44        14..12=3 6..2=0x0A 1..0=3
+cv.subuNr  rd rs1 rs2        31..25=0x45        14..12=3 6..2=0x0A 1..0=3
+cv.subRNr  rd rs1 rs2        31..25=0x46        14..12=3 6..2=0x0A 1..0=3
+cv.subuRNr rd rs1 rs2        31..25=0x47        14..12=3 6..2=0x0A 1..0=3

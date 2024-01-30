@@ -29,6 +29,7 @@ RVOP_CVA6    ?= RV64CGZicsr_Zifencei --pseudo --system
 RVOP_SNITCH  ?= RV32ADFIMQZicsr_Zifencei_Xdma_Xfrep_Xssr
 RVOP_MEMPOOL ?= RV32ADFIMQZicsr_Zifencei_Zfh_Xdma_Xfrep_Xssr_Xpulppostmod_Xpulpimg_Xsflt
 
+RVOP_CV ?= RV32IMADFZicsr_Xcvmem_Xcvhwlp_Xcvbitmanip_Xcvalu_Xcvbi_Xcvmac_Xcvsimd_Xcvelw
 # Ensure half-built targets are purged
 .DELETE_ON_ERROR:
 

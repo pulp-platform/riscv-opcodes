@@ -1,0 +1,4 @@
+# Xpulp for OpenHW subset
+
+cv.beqimm rs1 imm5 bimm12hi bimm12lo 14..12=6 6..2=0x02 1..0=3
+cv.bneimm rs1 imm5 bimm12hi bimm12lo 14..12=7 6..2=0x02 1..0=3
