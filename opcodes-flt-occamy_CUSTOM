@@ -491,8 +491,7 @@ vfcvt.b.xu  rd rs1 24..20=3 31..30=2 29..25=0x0C 14=1 13..12=3 6..2=0x0C 1..0=3
 vfcpka.b.s  rd rs1 rs2      31..30=2 29..25=0x18 14=0 13..12=3 6..2=0x0C 1..0=3
 vfcpkb.b.s  rd rs1 rs2      31..30=2 29..25=0x18 14=1 13..12=3 6..2=0x0C 1..0=3
 vfcpkc.b.s  rd rs1 rs2      31..30=2 29..25=0x19 14=0 13..12=3 6..2=0x0C 1..0=3
-# use this opcode for shuffling for now
-#vfcpkd.b.s  rd rs1 rs2      31..30=2 29..25=0x19 14=1 13..12=3 6..2=0x0C 1..0=3
+vfcpkd.b.s  rd rs1 rs2      31..30=2 29..25=0x19 14=1 13..12=3 6..2=0x0C 1..0=3
 # XfvecquarterwithD - vectorial quarter-precision conversions with D extension, a-d legality depends on FLEN (in addition to above)
 vfcpka.b.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=0 13..12=3 6..2=0x0C 1..0=3
 vfcpkb.b.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=1 13..12=3 6..2=0x0C 1..0=3
