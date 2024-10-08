@@ -1,0 +1,20 @@
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
+
+# Both customized flt.d.ssr and fcvt.d.wu.ssr utilize ssr for data reading and writing
+
+flt.d.ssr     rd rs1 rs2      31..27=0x14 14..12=1 26..25=1 6..2=0x0A 1..0=3
+
+fcvt.d.w.ssr  rd rs1 24..20=0 31..27=0x1A rm       26..25=1 6..2=0x0A 1..0=3
+fcvt.d.wu.ssr rd rs1 24..20=1 31..27=0x1A rm       26..25=1 6..2=0x0A 1..0=3
+
+
