@@ -1,0 +1,15 @@
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of vd, vs3, vs1, vs2, vm, nf, wd, simm5, zimm10, zimm11
+
+# narrowing (FP32 accumulation)
+vmxdotp.wf     rs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x5f
+vmxdotp.ww   mxvs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x7f
+
+# double-narrowing (BF16 accumulation)
+vmxdotp.qf     rs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x1f
+vmxdotp.qq   mxvs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x3f

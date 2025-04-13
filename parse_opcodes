@@ -60,6 +60,13 @@ arglut['vseglen'] = (31,29)
 arglut['stagger_max'] = (14,12)
 arglut['stagger_mask'] = (11,8)
 
+# for vmxdotp custom extension
+arglut['mxvs3'] = (31,27)
+# vs4hi[1:0] -> vs4[4:3]
+# vs4lo[2:0] -> vs4[2:0]
+arglut['vs4hi'] = (26,25)
+arglut['vs4lo'] = (14,12)
+
 bits_imm12 = [
   ("imm12lo", 4, 0, 0), # imm12lo[4:0]  -> imm[4:0]
   ("imm12hi", 6, 0, 5), # imm12hi[6:0] -> imm[11:5]
