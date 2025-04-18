@@ -497,6 +497,9 @@ vfcpka.b.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=0 13..12=3 6..2=0x0C 1..0=3
 vfcpkb.b.d  rd rs1 rs2      31..30=2 29..25=0x1A 14=1 13..12=3 6..2=0x0C 1..0=3
 vfcpkc.b.d  rd rs1 rs2      31..30=2 29..25=0x1B 14=0 13..12=3 6..2=0x0C 1..0=3
 vfcpkd.b.d  rd rs1 rs2      31..30=2 29..25=0x1B 14=1 13..12=3 6..2=0x0C 1..0=3
+# Xfvecsinglewithdouble - vectorial single-precision conversions with double
+vfcvt.d.s   rd rs1 24..20=4 31..30=2 29..25=0x0C 14=0 13..12=1 6..2=0x0C 1..0=3
+vfcvtu.d.s  rd rs1 24..20=4 31..30=2 29..25=0x0C 14=1 13..12=1 6..2=0x0C 1..0=3
 # Xfvecquarterwithsingle - vectorial quarter-precision conversions with Xfvecsingle extension
 vfcvt.s.b   rd rs1 24..20=7 31..30=2 29..25=0x0C 14=0 13..12=0 6..2=0x0C 1..0=3
 vfcvtu.s.b  rd rs1 24..20=7 31..30=2 29..25=0x0C 14=1 13..12=0 6..2=0x0C 1..0=3
