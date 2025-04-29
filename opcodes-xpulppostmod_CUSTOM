@@ -33,6 +33,9 @@ p.lh.rr      rd rs1 rs2   31..25=0x08 14..12=7 6..2=0x00 1..0=3
 p.lhu.rr     rd rs1 rs2   31..25=0x28 14..12=7 6..2=0x00 1..0=3
 p.lw.rr      rd rs1 rs2   31..25=0x10 14..12=7 6..2=0x00 1..0=3
 
+p.lw.rrpost.s  rd rs1 rs2   31..25=0x11 14..12=7 6..2=0x02 1..0=3
+p.lw.irpost.s  rd rs1 imm12             14..12=3 6..2=0x02 1..0=3
+
 # Post-increment and reg-reg stores
 p.sb.irpost  rs1 rs2 imm12hi imm12lo              14..12=0 6..2=0x0A 1..0=3
 p.sh.irpost  rs1 rs2 imm12hi imm12lo              14..12=1 6..2=0x0A 1..0=3
