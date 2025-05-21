@@ -203,6 +203,7 @@
 #define IRQ_HOST      13
 #define IRQ_S_CLUSTER 17
 #define IRQ_M_CLUSTER 19
+#define IRQ_M_HWPE    20
 
 #define DEFAULT_RSTVEC     0x00001000
 #define CLINT_BASE         0x02000000
