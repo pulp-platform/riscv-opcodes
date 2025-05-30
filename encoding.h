@@ -132,6 +132,7 @@
 #define MIP_SGEIP           (1 << IRQ_S_GEXT)
 #define MIP_SCIP            (1 << IRQ_S_CLUSTER)
 #define MIP_MCIP            (1 << IRQ_M_CLUSTER)
+#define MIP_MXIP            (1 << IRQ_M_ACC)
 
 #define MIP_S_MASK          (MIP_SSIP | MIP_STIP | MIP_SEIP)
 #define MIP_VS_MASK         (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
@@ -203,6 +204,7 @@
 #define IRQ_HOST      13
 #define IRQ_S_CLUSTER 17
 #define IRQ_M_CLUSTER 19
+#define IRQ_M_ACC     20
 
 #define DEFAULT_RSTVEC     0x00001000
 #define CLINT_BASE         0x02000000
