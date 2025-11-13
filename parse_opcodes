@@ -1314,7 +1314,7 @@ def make_go():
   print('\treturn nil, false')
   print('}')
 
-def parse_inputs(args):
+def parse_inputs(args, warn_overlap=False):
   inputs = []
   for fn in args:
       try:
@@ -1384,7 +1384,10 @@ def parse_inputs(args):
       else:
         for name2,match2 in match.items():
           if name2 not in pseudos and (match2 & mymask) == mymatch:
-            sys.exit("%s and %s overlap" % (name,name2))
+            if warn_overlap:
+              print("WARNING: %s and %s overlap" % (name, name2), file=sys.stderr)
+            else:
+              sys.exit("%s and %s overlap" % (name,name2))
 
       mask[name] = mymask
       match[name] = mymatch
@@ -1395,7 +1398,12 @@ def parse_inputs(args):
   return (namelist, pseudos, mask, match, arguments)
 
 if __name__ == "__main__":
-  parse_inputs(sys.argv[2:])
+  warn_overlap = False
+  if len(sys.argv) > 2 and sys.argv[-1] in ("--warn-overlap"):
+    warn_overlap = True
+    sys.argv.pop()
+
+  parse_inputs(sys.argv[2:], warn_overlap)
 
   if sys.argv[1] == '-tex':
     make_latex_table()
