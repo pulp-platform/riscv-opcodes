@@ -338,7 +338,8 @@ csrs = [
   (0x7C1, 'fpmode'),
   (0x7C2, 'barrier'),
   (0x7C3, 'sc'),
-  (0x7C4, 'mcast'),
+  (0x7C4, 'fpq'),
+  (0x7C5, 'mcast'),
 ]
 
 csrs32 = [
