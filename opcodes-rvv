@@ -24,10 +24,10 @@ vle8.v         nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x0  vd 6..0=0x07
 vle16.v        nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x5  vd 6..0=0x07
 vle32.v        nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x6  vd 6..0=0x07
 vle64.v        nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x7  vd 6..0=0x07
-vle128.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x0  vd 6..0=0x07
-vle256.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x5  vd 6..0=0x07
-vle512.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x6  vd 6..0=0x07
-vle1024.v      nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x7  vd 6..0=0x07
+p.vle8.v.rrpost     nf 28=1 27..26=0 vm rs2 rs1 14..12=0x0 vd 6..0=0x07
+p.vle16.v.rrpost    nf 28=1 27..26=0 vm rs2 rs1 14..12=0x5 vd 6..0=0x07
+p.vle32.v.rrpost    nf 28=1 27..26=0 vm rs2 rs1 14..12=0x6 vd 6..0=0x07
+p.vle64.v.rrpost    nf 28=1 27..26=0 vm rs2 rs1 14..12=0x7 vd 6..0=0x07
 vse8.v         nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x0 vs3 6..0=0x27
 vse16.v        nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x5 vs3 6..0=0x27
 vse32.v        nf 28=0 27..26=0 vm 24..20=0 rs1 14..12=0x6 vs3 6..0=0x27
@@ -36,6 +36,20 @@ vse128.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x0 vs3 6..0=0x27
 vse256.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x5 vs3 6..0=0x27
 vse512.v       nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x6 vs3 6..0=0x27
 vse1024.v      nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x7 vs3 6..0=0x27
+
+# Custom scalar FP load + RRPOST (custom-0)
+# Encoding:
+#   [31:25] funct7 = 0x50
+#   [24:20] rs2 (post-increment register)
+#   [19:15] rs1 (base register, updated)
+#   [14:12] width
+#   [11:7]  rd  (FP destination field in hardware encoding)
+#   [6:0]   opcode = 0x2b (custom-0)
+
+p.flb.rrpost    31..25=0x50 rs2 rs1 14..12=0x0 rd 6..0=0x2b
+p.flh.rrpost    31..25=0x50 rs2 rs1 14..12=0x1 rd 6..0=0x2b
+p.flw.rrpost    31..25=0x50 rs2 rs1 14..12=0x2 rd 6..0=0x2b
+p.fld.rrpost    31..25=0x50 rs2 rs1 14..12=0x3 rd 6..0=0x2b
 
 # Vector Indexed-Unordered Instructions (including segment part)
 # https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc#76-vector-indexed-instructions
