@@ -1,0 +1,28 @@
+# Custom VLXBLK extension: vector indexed block loads
+
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
+
+vlxblk4ei8.v   rd rs1 rs2 31..25=0x08 14..12=0x0 6..2=0x0A 1..0=3
+vlxblk4ei16.v  rd rs1 rs2 31..25=0x08 14..12=0x5 6..2=0x0A 1..0=3
+
+vlxblk6ei8.v   rd rs1 rs2 31..25=0x09 14..12=0x0 6..2=0x0A 1..0=3
+vlxblk6ei16.v  rd rs1 rs2 31..25=0x09 14..12=0x5 6..2=0x0A 1..0=3
+
+vlxblk8ei8.v   rd rs1 rs2 31..25=0x0A 14..12=0x0 6..2=0x0A 1..0=3
+vlxblk8ei16.v  rd rs1 rs2 31..25=0x0A 14..12=0x5 6..2=0x0A 1..0=3
+
+vlxblk12ei8.v  rd rs1 rs2 31..25=0x0B 14..12=0x0 6..2=0x0A 1..0=3
+vlxblk12ei16.v rd rs1 rs2 31..25=0x0B 14..12=0x5 6..2=0x0A 1..0=3
+
+vlxblk16ei8.v  rd rs1 rs2 31..25=0x0C 14..12=0x0 6..2=0x0A 1..0=3
+vlxblk16ei16.v rd rs1 rs2 31..25=0x0C 14..12=0x5 6..2=0x0A 1..0=3
