@@ -14,3 +14,6 @@ SNITCH_OPCODES := opcodes-dma_CUSTOM opcodes-frep_CUSTOM opcodes-ssr_CUSTOM
 # default configurations
 MEMPOOL_ISA := opcodes-frep_CUSTOM $(RV32XPULPIMG) opcodes-xpulppostmod_CUSTOM opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT opcodes-sflt_CUSTOM
 SNITCH_ISA := $(RV32XPULPIMG) $(SNITCH_OPCODES) opcodes-sflt_CUSTOM
+
+# Non-linear ext
+NL_ISA := $(SNITCH_ISA) opcodes-nl_CUSTOM
