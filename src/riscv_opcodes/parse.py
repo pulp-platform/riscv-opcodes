@@ -8,6 +8,7 @@ from .chisel_utils import make_chisel
 from .constants import emitted_pseudo_ops
 from .go_utils import make_go
 from .latex_utils import make_latex_table, make_priv_latex_table
+from .llvm_utils import make_llvm
 from .rust_utils import make_rust
 from .shared_utils import add_segmented_vls_insn, create_inst_dict
 from .sverilog_utils import make_sverilog
@@ -31,6 +32,7 @@ def generate_extensions(
     go: bool,
     latex: bool,
     svg: bool,
+    llvm: bool,
     warn_overlap: bool = False,
 ):
     instr_dict = create_inst_dict(extensions, include_pseudo, warn_overlap=warn_overlap)
@@ -78,6 +80,9 @@ def generate_extensions(
         make_svg(instr_dict)
         logging.info("inst.svg generated successfully")
 
+    if llvm:
+        make_llvm(instr_dict, extensions)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Generate RISC-V constants headers")
@@ -98,6 +103,7 @@ def main():
     parser.add_argument("-go", action="store_true", help="Generate output for Go")
     parser.add_argument("-latex", action="store_true", help="Generate output for Latex")
     parser.add_argument("-svg", action="store_true", help="Generate .svg output")
+    parser.add_argument("-llvm", action="store_true", help="Generate LLVM TableGen output")
     parser.add_argument(
         "--warn-overlap",
         action="store_true",
@@ -124,5 +130,6 @@ def main():
         args.go,
         args.latex,
         args.svg,
+        args.llvm,
         args.warn_overlap,
     )
