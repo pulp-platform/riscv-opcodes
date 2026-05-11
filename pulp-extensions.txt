@@ -3,6 +3,8 @@ unratified/rv_xfrep
 unratified/rv_xssr
 unratified/rv_xipu
 unratified/rv_xcopift
+unratified/rv_xfcdotphalf
+unratified/rv_xsflt_mempool
 unratified/rv_xsmallfloat
 unratified/rv32_xb
 unratified/rv32_xpulppostmod
@@ -15,3 +17,7 @@ unratified/rv32_xpulpminmax
 unratified/rv32_xpulpslet
 unratified/rv32_xpulpvect
 unratified/rv32_xpulpvectshufflepack
+unratified/rv32_zfh_mempool
+unratified/rv64_zfh_mempool
+unratified/rv_system_mempool
+

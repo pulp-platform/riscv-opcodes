@@ -267,6 +267,7 @@
 0x7C5, "user_high"
 0x7C6, "copift"
 0x7C7, "dump"
+0x7D0, "trace"
 0x7D1, "stacklimit"
 0x800, "fmode"
 0xB00, "mcycle"

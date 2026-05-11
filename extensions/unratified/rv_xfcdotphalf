@@ -1,0 +1,5 @@
+# Xfcdotphalf - half-precision complex dotp
+fcdotpex.s.h    rd rs1 rs2         31..30=2 29..25=0x0B 14=0 13..12=0 6..2=0x1D 1..0=3
+fcndotpex.s.h   rd rs1 rs2         31..30=2 29..25=0x0B 14=1 13..12=0 6..2=0x1D 1..0=3
+fccdotpex.s.h   rd rs1 rs2         31..30=2 29..25=0x1D 14=0 13..12=0 6..2=0x1D 1..0=3
+fccndotpex.s.h  rd rs1 rs2         31..30=2 29..25=0x1D 14=1 13..12=0 6..2=0x1D 1..0=3
