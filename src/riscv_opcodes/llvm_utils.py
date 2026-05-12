@@ -310,7 +310,7 @@ TBLGEN_OPERAND_TYPES = {
 }
 
 
-def _get_dtypes(mnemonic: str) -> dict:
+def _get_dtypes(mnemonic: str, ext_name: str) -> dict:
     match mnemonic:
         case "flh":
             return {"rs1": "GPR", "rd": TBLGEN_OPERAND_TYPES[DataType.f16]}
@@ -328,6 +328,12 @@ def _get_dtypes(mnemonic: str) -> dict:
             return {"rs1": "GPR", "rs2": TBLGEN_OPERAND_TYPES[DataType.f8]}
         case "fsab":
             return {"rs1": "GPR", "rs2": TBLGEN_OPERAND_TYPES[DataType.f8alt]}
+
+    # Zfinx & similar are created as duplicate dictionary entries with
+    # extension .inx. After discovering the type the .inx suffix is discarded
+    if ext_name.endswith("inx"):
+        integer_dtype = {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+        return integer_dtype
 
     # COPIFT instructions exchange data through SSR-backed floating-point
     # registers even when their mnemonics resemble integer/FP conversions or
@@ -372,7 +378,7 @@ def _get_properties(mnemonic: str) -> dict:
 
 def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     e = inst.encoding
-    dtype = _get_dtypes(inst.mnemonic)
+    dtype = _get_dtypes(inst.mnemonic, ext_name)
     defprefix = _ext_to_defprefix(ext_name)
     decoderns = _ext_to_decoderns(ext_name)
     tblgen_name = defprefix + inst.mnemonic.upper().replace(".", "_")
