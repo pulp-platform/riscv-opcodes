@@ -148,6 +148,7 @@ class InstructionFormat(IntEnum):
     R = 0
     RPRS3 = auto()
     RLUIMM5 = auto()
+    RIMM6 = auto()
     I = auto()
     R_RDZ = auto()
     U = auto()
@@ -176,7 +177,8 @@ class InstructionFormat(IntEnum):
         return (
             (cls.R,      {"rd", "rs1", "rs2"}),
             (cls.RPRS3,  {"rs1", "rs2", "prs3"}),
-            (cls.RLUIMM5, {"rd", "rs1", "rs2", "Luimm5"}),
+            (cls.RLUIMM5, {"rd", "rs1", "Luimm5", "imm5"}),
+            (cls.RIMM6, {"rd", "rs1", "imm6"}),
             (cls.I,      {"rd", "rs1"}),
             (cls.R_RDZ,  {"rs1", "rs2"}),
             (cls.U,      {"rd"}),
@@ -282,10 +284,6 @@ class Instruction:
                 fmt = InstructionFormat.RVF
             elif fmt == InstructionFormat.I:
                 fmt = InstructionFormat.IVF
-            else:
-                raise RuntimeError(
-                    f"Unknown vector instruction format for {mnemonic}: {fmt}"
-                )
         return cls(mnemonic=mnemonic, encoding=enc, format=fmt,
                    encoding_repr=spec["encoding"])
 
@@ -404,18 +402,38 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
         return (
             f"{props_str}"
             f"def {tblgen_name} : RVInst<\n"
-            f"                (outs {dtype['rd']}:$rd),\n"
-            f"                (ins {dtype['rs1']}:$rs1, {dtype['rs2']}:$rs2, uimm5:$imm5),\n"
-            f"                \"{mnemonic}\", \"$rd, $rs1, $rs2, $imm5\",\n"
+                f"                (outs {dtype['rd']}:$rd),\n"
+            f"                (ins {dtype['rs1']}:$rs1, uimm5:$imm5_hi, uimm5:$imm5_lo),\n"
+            f"                \"{mnemonic}\", \"$rd, $rs1, $imm5_hi, $imm5_lo\",\n"
             f"                [], InstFormatR>,\n"
             f"                Sched<[]> {{\n"
             f"    bits<5> rd;\n"
             f"    bits<5> rs1;\n"
-            f"    bits<5> rs2;\n"
-            f"    bits<5> imm5;\n"
+            f"    bits<5> imm5_hi;\n"
+            f"    bits<5> imm5_lo;\n"
             f"    let Inst{{31-30}} = {e.funct2};\n"
-            f"    let Inst{{29-25}} = imm5;\n"
-            f"    let Inst{{24-20}} = rs2;\n"
+            f"    let Inst{{29-25}} = imm5_hi;\n"
+            f"    let Inst{{24-20}} = imm5_lo;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = rd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    elif fmt == InstructionFormat.RIMM6:
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs {dtype['rd']}:$rd),\n"
+            f"                (ins {dtype['rs1']}:$rs1, uimm6:$imm6),\n"
+            f"                \"{mnemonic}\", \"$rd, $rs1, $imm6\",\n"
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> rd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<6> imm6;\n"
+            f"    let Inst{{31-26}} = {e.funct7}{{6-1}};\n"
+            f"    let Inst{{25-20}} = imm6;\n"
             f"    let Inst{{19-15}} = rs1;\n"
             f"    let Inst{{14-12}} = {e.funct3};\n"
             f"    let Inst{{11-7}} = rd;\n"
@@ -799,7 +817,7 @@ def _tblgen_alias(
     uses_extension: str,
     defprefix: Optional[str],
 ) -> str:
-    dtype = _get_dtypes(inst.mnemonic)
+    dtype = _get_dtypes(inst.mnemonic, uses_extension)
     mnemonic = inst.mnemonic.replace("_", ".")
     use = uses_mnemonic.upper().replace(".", "_")
     if defprefix:
@@ -813,8 +831,13 @@ def _tblgen_alias(
         )
     elif fmt == InstructionFormat.RLUIMM5:
         return (
-            f"def : InstAlias<\"{mnemonic} $rd, $rs1, $rs2, $imm5\","
-            f" ({use} {dtype['rd']}:$rd, {dtype['rs1']}:$rs1, {dtype['rs2']}:$rs2, uimm5:$imm5), 0>;\n"
+            f"def : InstAlias<\"{mnemonic} $rd, $rs1, $imm5_hi, $imm5_lo\","
+            f" ({use} {dtype['rd']}:$rd, {dtype['rs1']}:$rs1, uimm5:$imm5_hi, uimm5:$imm5_lo), 0>;\n"
+        )
+    elif fmt == InstructionFormat.RIMM6:
+        return (
+            f"def : InstAlias<\"{mnemonic} $rd, $rs1, $imm6\","
+            f" ({use} {dtype['rd']}:$rd, {dtype['rs1']}:$rs1, uimm6:$imm6), 0>;\n"
         )
     elif fmt == InstructionFormat.RPRS3:
         return (
@@ -1012,7 +1035,8 @@ def _get_asm_operands(inst: Instruction) -> List[str]:
 
     asm_operand_map = {
         InstructionFormat.R:      ("rd", "rs1", "rs2"),
-        InstructionFormat.RLUIMM5: ("rd", "rs1", "rs2", "imm5"),
+        InstructionFormat.RLUIMM5: ("rd", "rs1", "imm5_hi", "imm5_lo"),
+        InstructionFormat.RIMM6: ("rd", "rs1", "imm6"),
         InstructionFormat.RPRS3:  ("rs1", "rs2", "prs3"),
         InstructionFormat.I:      ("rd", "rs1"),
         InstructionFormat.R_RDZ:  ("rs1", "rs2"),
@@ -1036,12 +1060,13 @@ def _get_asm_operands(inst: Instruction) -> List[str]:
         InstructionFormat.R_RS1Z: ("rd", "rs2"),
         InstructionFormat.R_RDZ_RS2Z: ("rs1",),
     }
-    dtypes = _get_dtypes(inst.mnemonic)
+    dtypes = _get_dtypes(inst.mnemonic, "")
     operands = []
     for op in asm_operand_map[inst.format]:
         if op == "rm":
             operands.append("rne")
-        elif op in {"imm12", "imm12lo", "imm12hi", "shamt", "imm5", "stagger_max", "stagger_mask"}:
+        elif op in {"imm12", "imm12lo", "imm12hi", "shamt", "imm5", "imm5_hi", "imm5_lo", "imm6",
+                    "stagger_max", "stagger_mask"}:
             operands.append("0")
         elif dtypes.get(op) == "GPR" or (op == "prs3" and dtypes.get("rs3") == "GPR"):
             operands.append("x0")
