@@ -35,6 +35,7 @@ arglut['bimm12lo'] = (11,7)
 arglut['zimm'] = (19,15)
 arglut['shamt'] = (25,20)
 arglut['shamtw'] = (24,20)
+arglut['imm2'] = (24,23)
 arglut['imm5'] = (24,20)
 arglut['imm6'] = (25,20)
 
