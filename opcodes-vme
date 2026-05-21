@@ -33,7 +33,7 @@ vtmv.v.t       31..26=0x10 25=1 24..20=0x1f rs1 14..12=0x6 vd 6..0=0x57
 vtmv.t.v       31..26=0x17 25=1 vs2 rs1 14..12=0x6 11..7=0x00 6..0=0x57
 
 # Matrix Tile-Zero Instruction
-vtzero         31..26=0x10 25=1 24..20=0x1e 19..15=0x00 14..12=0x6 rd 6..0=0x57
+vtzero         31..26=0x10 25=1 24..20=0x1e 19..15=0x00 14..12=0x6 rdhi4 7=0 6..0=0x57
 
 # Zvt Context Discard Instruction
 vtdiscard      31..26=0x10 25=1 24..20=0x1c 19..15=0x00 14..12=0x6 11..7=0x00 6..0=0x57
