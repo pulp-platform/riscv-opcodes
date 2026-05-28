@@ -177,6 +177,7 @@ csrs = [
   (0xC20, 'vl'),
   (0xC21, 'vtype'),
   (0xC22, 'vlenb'),
+  (0xC23, 'mtype'),
 
   # Standard Supervisor R/W
   (0x100, 'sstatus'),
