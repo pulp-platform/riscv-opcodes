@@ -10,12 +10,12 @@ msetmtypei    31=1 30..25=0x02 imm2 22..20=0x3 zimm 14..12=0x7 11..7=0x00 6..0=0
 
 # Matrix Arithmetic Instructions
 ## FP matmul
-vtfmm.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi3 8..7=0x0 6..0=0x77
-vtfmm.alt.tvv     31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi3 8..7=0x1 6..0=0x77
+vtfmm.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi4 7=0x0 6..0=0x77
+vtfmm.alt.tvv     31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi4 7=0x1 6..0=0x77
 
 ## Integer matmul
-vtmmu.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi3 8..7=0x0 6..0=0x77
-vtmms.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi3 8..7=0x1 6..0=0x77
+vtmmu.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi4 7=0x0 6..0=0x77
+vtmms.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi4 7=0x1 6..0=0x77
 
 # Load/Store Tile Subset to Memory
 vtle8          31..29=0x0 28=1 27..26=0 25=1 rs2 rs1 14..12=0x3 11..7=0 6..0=0x07
