@@ -133,6 +133,10 @@ csrs = [
 
   # Custom User R/W
   (0x800, 'fmode'),
+  (0x7C3, 'vtlreg'),
+  (0x7C4, 'vtlidxw'),
+  (0x7C5, 'vtlblks'),
+  (0x7C6, 'vtlratio'),
 
   # Standard User RO
   (0xC00, 'cycle'),
