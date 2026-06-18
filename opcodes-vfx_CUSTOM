@@ -1,0 +1,37 @@
+# Ventaglio extension
+
+# format of a line in this file:
+# <instruction name> <args> <opcode>
+#
+# <opcode> is given by specifying one or more range/value pairs:
+# hi..lo=value or bit=value or arg=value (e.g. 6..2=0x45 10=1 rd=0)
+#
+# <args> is one of rd, rs1, rs2, rs3, aqrl, fm, pred, succ, rm,
+# funct3, imm20, jimm20, imm12, imm12hi, bimm12hi, imm12lo,
+# bimm12lo, zimm, shamt, shamtw, imm5, imm6, vd, vs3, vs1, vs2,
+# vm, wd, amoop, nf, simm5, zimm11, prs3, L, uimms, Luimm5,
+# vseglen, stagger_max, stagger_mask
+
+# INFO: overlaps with opcodes-rvv.
+
+vfxmacc.vf     31..26=0x25 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
+vfxmul.vf      31..26=0x26 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
+
+vfxmacc.vrf    rs3 26..25=0x0 rs2 rs1 14..12=0x2 vd 6..0=0x0B
+vfxmul.vrf     rs3 26..25=0x1 rs2 rs1 14..12=0x2 vd 6..0=0x0B
+vventclr       31..20=0x060 19..15=0x00 14..12=0x2 11..7=0x00 6..0=0x0B
+
+p.vle8.v.rrpost  31..26=0x30 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vle16.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vle32.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vle64.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+p.vlx8.v.rrpost  31..26=0x31 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vlx16.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vlx32.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vlx64.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+p.flb.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x0 6..0=0x7B
+p.flh.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x1 6..0=0x7B
+p.flw.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x2 6..0=0x7B
+p.fld.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x3 6..0=0x7B

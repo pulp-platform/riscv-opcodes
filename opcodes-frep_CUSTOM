@@ -14,5 +14,5 @@
 
 # INFO: overlaps with opcodes-xpulppostmod_CUSTOM
 
-frep.o          rs1 imm12 stagger_max stagger_mask 7=1 6..2=0x02 1..0=3
-frep.i          rs1 imm12 stagger_max stagger_mask 7=0 6..2=0x02 1..0=3
+frep.o          rs1 imm12 stagger_mask 14..12=0 7=1 6..2=0x02 1..0=3
+frep.i          rs1 imm12 stagger_mask 14..12=0 7=0 6..2=0x02 1..0=3
