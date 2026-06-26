@@ -11,6 +11,14 @@ RV32XPULPIMG += opcodes-xpulpbitop_CUSTOM
 # Snitch
 SNITCH_OPCODES := opcodes-dma_CUSTOM opcodes-frep_CUSTOM opcodes-ssr_CUSTOM opcodes-sflt_CUSTOM
 
+# RVV (Spatz) opcode subset
+RV32RVV := opcodes-frep_CUSTOM opcodes-rvv opcodes-smallfloat
+
 # default configurations
 MEMPOOL_ISA := $(RV32XPULPIMG) opcodes-xpulppostmod_CUSTOM opcodes-rv32d-zfh_DRAFT opcodes-rv32q-zfh_DRAFT opcodes-rv32zfh_DRAFT opcodes-rv64zfh_DRAFT opcodes-sflt_CUSTOM
 SNITCH_ISA := $(RV32XPULPIMG) $(SNITCH_OPCODES)
+
+# Select the opcode subset: XpulpIMG superset (default) or RVV (RVV=1).
+ifeq ($(RVV),1)
+MEMPOOL_ISA := $(RV32RVV)
+endif
