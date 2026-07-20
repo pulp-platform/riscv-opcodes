@@ -66,6 +66,19 @@ arglut['xs1']   = (19, 15)    # Standard RISC-V integer source register
 arglut['areg']  = (21, 20)    # Accumulator register for mmov.a.m
 arglut['msd']   = (11, 7)     # Matrix store data for mss family
 
+# for XTheadMatrix extension
+arglut['mds3']       = (14, 11)   # 4-bit matrix destination/source 3
+arglut['md_2b_hi']   = (24, 23)   # 2-bit matrix dest (high bits)
+arglut['md_2b_mid']  = (22, 21)   # 2-bit matrix dest (mid bits)
+arglut['md_4b_lo']   = (14, 11)   # 4-bit matrix dest (low bits, alias for mds3)
+arglut['ms1_2b_hi']  = (24, 23)   # 2-bit matrix source 1 (high bits)
+arglut['ms1_4b_mid'] = (18, 15)   # 4-bit matrix source 1 (mid bits)
+arglut['ms2_4b_mid'] = (22, 19)   # 4-bit matrix source 2 (mid bits)
+arglut['imm2']       = (14, 13)   # 2-bit immediate
+arglut['Cimm5']      = (24, 20)   # 5-bit immediate C
+arglut['Aimm5']      = (19, 15)   # 5-bit immediate A
+arglut['Bimm5']      = (14, 10)   # 5-bit immediate B
+
 # for custom extensions
 arglut['prs3'] = (11,7)
 arglut['L'] = (7,7)

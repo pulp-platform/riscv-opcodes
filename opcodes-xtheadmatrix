@@ -1,0 +1,28 @@
+# XTheadMatrix Extension - Custom Opcode File
+# Major Opcode: CUSTOM-0 (6..0=0x0B)
+
+# --- Matrix Memory Instructions ---
+# RVMLoadStore: 31..29=000, 25=0, 10..7=0000
+mld.lhs        mds3 rs1 rs2            31..25=0x00 24..20=rs2 19..15=rs1 14..11=mds3 10..7=0x0 6..0=0x0B
+mld.rhs        mds3 rs1 rs2            31..25=0x02 24..20=rs2 19..15=rs1 14..11=mds3 10..7=0x0 6..0=0x0B
+mst            mds3 rs1 rs2            31..25=0x04 24..20=rs2 19..15=rs1 14..11=mds3 10..7=0x0 6..0=0x0B
+
+# --- Matrix Arithmetic Instructions ---
+# RVMArithBase: 31..29=001, 25=0, 14..11=0000, 10..7=0000
+mmacc          md_2b_hi ms2_4b_mid ms1_4b_mid  31..25=0x14 24..23=md_2b_hi 22..19=ms2_4b_mid 18..15=ms1_4b_mid 14..11=0x0 10..7=0x0 6..0=0x0B
+mzero.a        md_2b_hi                31..25=0x10 24..23=md_2b_hi 22..15=0x00 14..11=0x0 10..7=0x0 6..0=0x0B
+mzero.m        ms1_4b_mid              31..25=0x12 24..19=0x00 18..15=ms1_4b_mid 14..11=0x0 10..7=0x0 6..0=0x0B
+
+# --- Matrix Move Instructions ---
+# RVMMoveBase: 31..29=010, 25=0, 20..19=00, 10..7=0000
+mmov.am        md_4b_lo ms1_2b_hi      31..25=0x20 24..23=ms1_2b_hi 22..15=0x00 14..11=md_4b_lo 10..7=0x0 6..0=0x0B
+mmov.aa        md_2b_mid ms1_2b_hi     31..25=0x22 24..23=ms1_2b_hi 22..21=md_2b_mid 18..11=0x00 10..7=0x0 6..0=0x0B
+mmov.ma        md_2b_mid ms1_4b_mid    31..25=0x24 24..23=0x0 22..21=md_2b_mid 18..15=ms1_4b_mid 14..11=0x0 10..7=0x0 6..0=0x0B
+mmov.mm        md_4b_lo ms1_4b_mid     31..25=0x26 24..21=0x0 18..15=ms1_4b_mid 14..11=md_4b_lo 10..7=0x0 6..0=0x0B
+
+# --- Matrix Configuration Instructions ---
+# RVMCfgBase: 31..29=011, 25=0
+mcfgk          rd rs1                  31..25=0x30 24..20=0x00 19..15=rs1 14..12=0x0 11..7=rd 6..0=0x0B
+mcfgm          rd rs1 imm2             31..25=0x32 24..20=0x00 19..15=rs1 14..13=imm2 12=0 11..7=rd 6..0=0x0B
+mcfgn          rd rs1 imm2             31..25=0x34 24..20=0x00 19..15=rs1 14..13=imm2 12=0 11..7=rd 6..0=0x0B
+mmac.dt        Cimm5 Aimm5 Bimm5       31..25=0x36 24..20=Cimm5 19..15=Aimm5 14..10=Bimm5 9..7=0x0 6..0=0x0B
