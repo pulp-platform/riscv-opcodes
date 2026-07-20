@@ -1,0 +1,39 @@
+# Zvt Family of Vector Matrix Extensions
+# https://github.com/aswaterman/riscv-misc/blob/main/isa/zvt/zvt.adoc
+
+# Matrix Configuration Instructions
+msetmtype     31=1 30..25=0x01 rs2 rs1 14..12=0x7 11..7=0x0 6..0=0x57
+msettn        31=1 30..25=0x02 24..20=0x00 rs1 14..12=0x7 rd 6..0=0x57
+msettm        31=1 30..25=0x02 24..20=0x01 rs1 14..12=0x7 rd 6..0=0x57
+msettk        31=1 30..25=0x02 24..20=0x02 rs1 14..12=0x7 rd 6..0=0x57
+msetmtypei    31=1 30..25=0x02 imm3 21..20=0x3 zimm 14..12=0x7 11..7=0x00 6..0=0x57
+
+# Matrix Arithmetic Instructions
+## FP matmul
+vtfmm.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi4 7=0x0 6..0=0x77
+vtfmm.alt.tvv     31..26=0x3c 25=1 vs2 vs1 14..12=0x1 rdhi4 7=0x1 6..0=0x77
+
+## Integer matmul
+vtmmu.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi4 7=0x0 6..0=0x77
+vtmms.tvv         31..26=0x3c 25=1 vs2 vs1 14..12=0x0 rdhi4 7=0x1 6..0=0x77
+
+# Load/Store Tile Subset to Memory
+vtle8          31..29=0x0 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x07
+vtle16         31..29=0x1 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x07
+vtle32         31..29=0x2 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x07
+vtle64         31..29=0x3 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x07
+
+vtse8          31..29=0x0 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x27
+vtse16         31..29=0x1 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x27
+vtse32         31..29=0x2 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x27
+vtse64         31..29=0x3 28=1 27..26=0 25=1 rs2 rs1 14..12=0x7 11..7=0 6..0=0x27
+
+# Move Tile Subset between Tile State and Vector Registers
+vtmv.v.t       31..26=0x10 25=1 24..20=0x1f rs1 14..12=0x6 vd 6..0=0x57
+vtmv.t.v       31..26=0x17 25=1 vs2 rs1 14..12=0x6 11..7=0x00 6..0=0x57
+
+# Matrix Tile-Zero Instruction
+vtzero         31..26=0x10 25=1 24..20=0x1e 19..15=0x00 14..12=0x6 rdhi4 7=0 6..0=0x57
+
+# Zvt Context Discard Instruction
+vtdiscard      31..26=0x10 25=1 24..20=0x1c 19..15=0x00 14..12=0x6 11..7=0x00 6..0=0x57
