@@ -52,6 +52,20 @@ arglut['simm5'] = (19,15)
 arglut['zimm11'] = (30,20)
 arglut['zimm10'] = (29,20)
 
+# for Zvame extension
+arglut['acc']   = (9, 8)      # Accumulator selector for 2D matmul (mmul.2d family)
+arglut['ad']    = (16, 15)    # Accumulator datatype for agettyp
+arglut['ad_set']= (9, 8)      # Accumulator datatype for asettyp
+arglut['md']    = (11, 7)     # Matrix destination
+arglut['ms1']   = (19, 15)    # Matrix source 1
+arglut['ms2']   = (24, 20)    # Matrix source 2
+arglut['ms']    = (24, 20)    # Matrix source (alias for ms2, used in mmov.m.m)
+arglut['xd']    = (11, 7)     # Integer destination
+arglut['imm']   = (26, 20)    # 7-bit signed immediate (for mshift.ew)
+arglut['xs1']   = (19, 15)    # Standard RISC-V integer source register
+arglut['areg']  = (21, 20)    # Accumulator register for mmov.a.m
+arglut['msd']   = (11, 7)     # Matrix store data for mss family
+
 # for custom extensions
 arglut['prs3'] = (11,7)
 arglut['L'] = (7,7)

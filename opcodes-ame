@@ -1,0 +1,127 @@
+# Zvame: Attached Matrix Extension - Custom Opcode File
+# Major Opcode: CUSTOM-2 (6..0=0x5B)
+
+# --- Datatype Management ---
+agettyp        xd ad                   31..25=0x01 24..17=0x00 16..15=ad 14..12=0x5 11..7=xd 6..0=0x5B
+mgettyp        xd ms1                  31..25=0x02 24..20=0x00 19..15=ms1 14..12=0x5 11..7=xd 6..0=0x5B
+asettyp        ad_set xs1              31..25=0x03 24..20=0x00 19..15=xs1 14..12=0x1 11..10=0x0 9..8=ad_set 7=0 6..0=0x5B
+msettyp        md xs1                  31..25=0x04 24..20=0x00 19..15=xs1 14..12=0x5 11..7=md 6..0=0x5B
+
+# --- Unary Elementwise (md, ms1) ---
+mabs.ew        md ms1                  31..25=0x00 24..20=0x00 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mexp2.ew       md ms1                  31..25=0x05 24..20=0x00 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mlog2.ew       md ms1                  31..25=0x06 24..20=0x00 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mbcast.x       md xs1                  31..25=0x07 24..20=0x00 19..15=xs1 14..12=0x1 11..7=md 6..0=0x5B
+mconv.ew       md ms1                  31..25=0x08 24..20=0x00 19..15=ms1 14..12=0x5 11..7=md 6..0=0x5B
+mcolunzip.ew   md ms1                  31..25=0x09 24..20=0x10 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mcolzip.ew     md ms1                  31..25=0x0A 24..20=0x00 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mrowunzip.ew   md ms1                  31..25=0x0B 24..20=0x10 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+
+# --- Binary Elementwise (md, ms1, ms2) ---
+madd.ew        md ms1 ms2              31..25=0x00 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+msub.ew        md ms1 ms2              31..25=0x40 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmul.ew        md ms1 ms2              31..25=0x1C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mabsdiff.ew    md ms1 ms2              31..25=0x10 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mand.ew        md ms1 ms2              31..25=0x70 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mor.ew         md ms1 ms2              31..25=0x48 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mxor.ew        md ms1 ms2              31..25=0x68 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mandnot.ew     md ms1 ms2              31..25=0x08 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mornot.ew      md ms1 ms2              31..25=0x28 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmax.ew        md ms1 ms2              31..25=0x50 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmin.ew        md ms1 ms2              31..25=0x30 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmean.ew       md ms1 ms2              31..25=0x20 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mhdiff.ew      md ms1 ms2              31..25=0x60 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mgather.ew     md ms1 ms2              31..25=0x0C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mrowzip.ew     md ms1 ms2              31..25=0x6C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+
+# --- Scalar Binary (.x) (md, xs1, ms2) ---
+madd.ew.x      md xs1 ms2              31..25=0x00 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+msub.ew.x      md xs1 ms2              31..25=0x40 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmul.ew.x      md xs1 ms2              31..25=0x24 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mabsdiff.ew.x  md xs1 ms2              31..25=0x50 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mand.ew.x      md xs1 ms2              31..25=0x70 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mor.ew.x       md xs1 ms2              31..25=0x48 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mxor.ew.x      md xs1 ms2              31..25=0x68 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mandnot.ew.x   md xs1 ms2              31..25=0x08 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mornot.ew.x    md xs1 ms2              31..25=0x28 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmax.ew.x      md xs1 ms2              31..25=0x60 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmin.ew.x      md xs1 ms2              31..25=0x20 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmean.ew.x     md xs1 ms2              31..25=0x10 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mhdiff.ew.x    md xs1 ms2              31..25=0x30 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+
+# --- Compare & Select ---
+mcmpge.ew      md ms1 ms2              31..25=0x18 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mcmplt.ew      md ms1 ms2              31..25=0x58 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mcmpge.ew.x    md xs1 ms2              31..25=0x18 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mcmplt.ew.x    md xs1 ms2              31..25=0x58 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mcmovge.ew     md ms1 ms2              31..25=0x04 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mcmovlt.ew     md ms1 ms2              31..25=0x44 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mselge.ew      md ms1 ms2              31..25=0x38 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+msellt.ew      md ms1 ms2              31..25=0x78 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+
+# --- Fused Multiply-Add Variants ---
+mmulacc.ew     md ms1 ms2              31..25=0x5C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmulaccneg.ew  md ms1 ms2              31..25=0x02 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmuladd.ew     md ms1 ms2              31..25=0x3C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmulsub.ew     md ms1 ms2              31..25=0x7C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmulacc.ew.x   md xs1 ms2              31..25=0x64 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmulaccneg.ew.x md xs1 ms2             31..25=0x34 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmuladd.ew.x   md xs1 ms2              31..25=0x14 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmulsub.ew.x   md xs1 ms2              31..25=0x54 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mmulneg.ew     md ms1 ms2              31..25=0x42 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mmulneg.ew.x   md xs1 ms2              31..25=0x74 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+
+# --- Log/Exp with Bias ---
+mlog2sub.ew    md ms1 ms2              31..25=0x34 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+msublog2.ew    md ms1 ms2              31..25=0x74 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mlog2sub.ew.x  md xs1 ms2              31..25=0x38 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+msublog2.ew.x  md xs1 ms2              31..25=0x78 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+
+# --- Shift/Scale ---
+mldexp.ew      md ms1 ms2              31..25=0x24 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mrdexp.ew      md ms1 ms2              31..25=0x14 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mldexp.ew.x    md xs1 ms2              31..25=0x04 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mldexpacc.ew   md ms1 ms2              31..25=0x64 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mrdexpacc.ew   md ms1 ms2              31..25=0x54 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mldexpacc.ew.x md xs1 ms2              31..25=0x44 24..20=ms2 19..15=xs1 14..12=0x2 11..7=md 6..0=0x5B
+mshift.ew      md ms1 imm              31..27=0x00 26..20=imm 19..15=ms1 14..12=0x3 11..7=md 6..0=0x5B
+
+# --- Prefix & Reduce ---
+mprefixadd.row md ms1                  31..25=0x0C 24..20=0x08 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mprefixadd.col md ms1                  31..25=0x0D 24..20=0x18 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mprefixmax.row md ms1                  31..25=0x0E 24..20=0x08 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mprefixmax.col md ms1                  31..25=0x0F 24..20=0x18 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mreduceadd.row md ms1                  31..25=0x10 24..20=0x1C 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mreduceadd.col md ms1                  31..25=0x11 24..20=0x14 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mreducemax.row md ms1                  31..25=0x12 24..20=0x1C 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+mreducemax.col md ms1                  31..25=0x13 24..20=0x14 19..15=ms1 14..12=0x4 11..7=md 6..0=0x5B
+
+# --- Scatter ---
+mscatadd.col   md ms1 ms2              31..25=0x22 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mscatadd.row   md ms1 ms2              31..25=0x4C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mscatmax.col   md ms1 ms2              31..25=0x62 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+mscatmax.row   md ms1 ms2              31..25=0x2C 24..20=ms2 19..15=ms1 14..12=0x0 11..7=md 6..0=0x5B
+
+# --- Matrix Multiply (2D) ---
+# Note: 11..10 and 7 are explicitly zeroed to match the placeholder diagrams exactly.
+mmul.2d        acc ms1 ms2             31..25=0x00 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulacc.2d     acc ms1 ms2             31..25=0x40 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulaccneg.2d  acc ms1 ms2             31..25=0x60 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulneg.2d     acc ms1 ms2             31..25=0x20 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulat.2d      acc ms1 ms2             31..25=0x10 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulatacc.2d   acc ms1 ms2             31..25=0x50 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulbt.2d      acc ms1 ms2             31..25=0x30 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmulbtacc.2d   acc ms1 ms2             31..25=0x70 24..20=ms2 19..15=ms1 14..12=0x7 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+
+# --- Accumulator Management ---
+mzero.2d       acc                     31..25=0x0F 24..20=0x00 19..15=0x00 14..12=0x0 11..10=0x0 9..8=acc 7=0 6..0=0x5B
+mmov.a.m       md areg                 31..22=0x0C0 21..20=areg 19..15=0x00 14..12=0x1 11..7=md 6..0=0x5B
+mmov.m.m       md ms                   31..25=0x20 24..20=ms 19..15=0x00 14..12=0x1 11..7=md 6..0=0x5B
+
+# --- Load/Store ---
+mls            md xs1                  31..25=0x01 24..20=0x00 19..15=xs1 14..12=0x6 11..7=md 6..0=0x5B
+mls.rm         md xs1                  31..25=0x00 24..20=0x00 19..15=xs1 14..12=0x6 11..7=md 6..0=0x5B
+mls.cm         md xs1                  31..25=0x02 24..20=0x00 19..15=xs1 14..12=0x6 11..7=md 6..0=0x5B
+mss            msd xs1                 31..25=0x14 24..20=0x00 19..15=xs1 14..12=0x6 11..7=msd 6..0=0x5B
+mss.rm         msd xs1                 31..25=0x18 24..20=0x00 19..15=xs1 14..12=0x6 11..7=msd 6..0=0x5B
+mss.cm         msd xs1                 31..25=0x08 24..20=0x00 19..15=xs1 14..12=0x6 11..7=msd 6..0=0x5B
