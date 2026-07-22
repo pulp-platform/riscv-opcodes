@@ -1,0 +1,13 @@
+# Ventaglio (Spatz VFX) custom CSRs.
+#
+# format of a line in this file:
+# 0xENCODING, "csr_name"
+#
+# WARNING: addresses 0x7C3-0x7C6 are also assigned to Snitch CSRs
+# (sc, user_low, user_high, copift) in rv_xpulp.csv. The two sets belong
+# to different cores and never coexist on one hart; kept as-is until the
+# planned Ventaglio encoding cleanup.
+0x7C3, "vtlreg"
+0x7C4, "vtlidxw"
+0x7C5, "vtlblks"
+0x7C6, "vtlratio"

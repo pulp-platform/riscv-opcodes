@@ -1,0 +1,44 @@
+# Ventaglio (VFX) extension for Spatz
+# Ported from the spatz branch (opcodes-vfx_CUSTOM + the vlx*.v entries of
+# opcodes-rvv, commit c411f5b). Ventaglio instructions are distributed over
+# several encoding regions; keep them together in this file until the
+# planned Ventaglio encoding cleanup.
+
+# INFO: overlaps with rv_v (OP-V major opcode 0x57 and the mew=1
+#       unit-stride load slots formerly assigned to vle128..vle1024)
+# INFO: shares the custom-0 (0x0B) major opcode with rv_xfrep;
+#       disambiguated via funct3 (frep.o/frep.i are pinned to 14..12=0,
+#       Ventaglio uses 14..12=2)
+
+# OP-V arithmetic (OPFVF, funct6 0x25/0x26)
+vfxmacc.vf     31..26=0x25 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
+vfxmul.vf      31..26=0x26 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
+
+# custom-0 (0x0B), funct3=2
+vfxmacc.vrf    rs3 26..25=0x0 rs2 rs1 14..12=0x2 vd 6..0=0x0B
+vfxmul.vrf     rs3 26..25=0x1 rs2 rs1 14..12=0x2 vd 6..0=0x0B
+vventclr       31..20=0x060 19..15=0x00 14..12=0x2 11..7=0x00 6..0=0x0B
+
+# custom vector loads in the V mew=1 unit-stride slots
+# (encodings formerly held by the draft vle128.v..vle1024.v)
+vlx8.v         nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x0  vd 6..0=0x07
+vlx16.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x5  vd 6..0=0x07
+vlx32.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x6  vd 6..0=0x07
+vlx64.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x7  vd 6..0=0x07
+
+# custom-3 (0x7B): register-register post-increment vector loads
+p.vle8.v.rrpost  31..26=0x30 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vle16.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vle32.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vle64.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+p.vlx8.v.rrpost  31..26=0x31 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vlx16.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vlx32.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vlx64.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+# custom-3 (0x7B): register-register post-increment scalar FP loads
+p.flb.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x0 6..0=0x7B
+p.flh.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x1 6..0=0x7B
+p.flw.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x2 6..0=0x7B
+p.fld.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x3 6..0=0x7B
