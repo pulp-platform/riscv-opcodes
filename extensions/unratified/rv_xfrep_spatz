@@ -1,0 +1,21 @@
+# Floating-Point Repetition extension — Spatz/Ventaglio variant
+#
+# Spatz-specific alternative to unratified/rv_xfrep. A hardware target
+# selects EITHER rv_xfrep (Snitch) OR rv_xfrep_spatz (Spatz), never both.
+# See "Spatz variant extensions" in extensions/unratified/README.md for
+# the full rationale and the retirement plan.
+#
+# Differences to rv_xfrep:
+# - bits 14..12 (Snitch's stagger_max field) are pinned to 0. Spatz does
+#   not implement staggering, and the Ventaglio instructions in
+#   unratified/rv_xvfx occupy custom-0 (0x0B) with funct3=2, which a
+#   funct3-wildcard frep would shadow in the Spatz decoder (unique casez).
+# - frep.i (bit 7 = 0) is implemented by Spatz and kept here.
+# - the mnemonics carry a .spatz suffix so this file can coexist with
+#   rv_xfrep in the repository-wide build (same names would be a hard
+#   duplicate-definition error; overlapping encodings are only a warning).
+#
+# INFO: overlaps with rv_xfrep, rv32_xpulppostmod
+
+frep.o.spatz    rs1 imm12 stagger_mask 14..12=0 7=1 6..2=0x02 1..0=3
+frep.i.spatz    rs1 imm12 stagger_mask 14..12=0 7=0 6..2=0x02 1..0=3
