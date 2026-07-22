@@ -1,0 +1,29 @@
+# Register-register post-increment loads for Spatz
+# Split out of the Ventaglio (VFX) extension: these loads are usable
+# whenever Spatz is present, also with Ventaglio disabled.
+#
+# The Spatz core internally re-encodes these to the corresponding plain
+# load (vle*.v / vlx*.v / fl*) on the accelerator interface, with the
+# post-increment handled in the scalar core.
+#
+# NOTE: the p.vlx*.v.rrpost forms re-encode to the vlx*.v loads defined
+# in rv_xvfx, so they additionally require that extension.
+#
+# INFO: overlaps with rv_xipu, rv32_xpulphwloop (custom-3 space)
+
+# custom-3 (0x7B): register-register post-increment vector loads
+p.vle8.v.rrpost  31..26=0x30 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vle16.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vle32.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vle64.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+p.vlx8.v.rrpost  31..26=0x31 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
+p.vlx16.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
+p.vlx32.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
+p.vlx64.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
+
+# custom-3 (0x7B): register-register post-increment scalar FP loads
+p.flb.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x0 6..0=0x7B
+p.flh.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x1 6..0=0x7B
+p.flw.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x2 6..0=0x7B
+p.fld.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x3 6..0=0x7B

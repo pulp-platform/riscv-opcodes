@@ -3,12 +3,14 @@
 # opcodes-rvv, commit c411f5b). Ventaglio instructions are distributed over
 # several encoding regions; keep them together in this file until the
 # planned Ventaglio encoding cleanup.
+#
+# The register-register post-increment loads (p.*.rrpost) live in
+# rv_xrrpost — they are usable without Ventaglio.
 
 # INFO: overlaps with rv_v (OP-V major opcode 0x57 and the mew=1
 #       unit-stride load slots formerly assigned to vle128..vle1024)
-# INFO: shares the custom-0 (0x0B) major opcode with rv_xfrep;
-#       disambiguated via funct3 (frep.o/frep.i are pinned to 14..12=0,
-#       Ventaglio uses 14..12=2)
+# INFO: overlaps with rv_xfrep (custom-0 0x0B; Spatz does not implement
+#       frep, so no Spatz decoder ambiguity arises)
 
 # OP-V arithmetic (OPFVF, funct6 0x25/0x26)
 vfxmacc.vf     31..26=0x25 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
@@ -25,20 +27,3 @@ vlx8.v         nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x0  vd 6..0=0x07
 vlx16.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x5  vd 6..0=0x07
 vlx32.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x6  vd 6..0=0x07
 vlx64.v        nf 28=1 27..26=0 vm 24..20=0 rs1 14..12=0x7  vd 6..0=0x07
-
-# custom-3 (0x7B): register-register post-increment vector loads
-p.vle8.v.rrpost  31..26=0x30 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
-p.vle16.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
-p.vle32.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
-p.vle64.v.rrpost 31..26=0x30 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
-
-p.vlx8.v.rrpost  31..26=0x31 vm rs2 rs1 14..12=0x0 vd 6..0=0x7B
-p.vlx16.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x5 vd 6..0=0x7B
-p.vlx32.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x6 vd 6..0=0x7B
-p.vlx64.v.rrpost 31..26=0x31 vm rs2 rs1 14..12=0x7 vd 6..0=0x7B
-
-# custom-3 (0x7B): register-register post-increment scalar FP loads
-p.flb.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x0 6..0=0x7B
-p.flh.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x1 6..0=0x7B
-p.flw.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x2 6..0=0x7B
-p.fld.rrpost   rd rs1 rs2 31..25=0x50 14..12=0x3 6..0=0x7B
