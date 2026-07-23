@@ -18,8 +18,13 @@
 
 # RV32Xfquarter - quarter-precision floats
 # startgroup Xfquarter quarter-precision floats
-flb       rd rs1 imm12 14..12=0 6..2=0x01 1..0=3
-fsb       imm12hi rs1 rs2 imm12lo 14..12=0 6..2=0x09 1..0=3
+# flb/fsb use funct3=4 (the Spatz-implemented encoding): funct3=0 at
+# LOAD-FP/STORE-FP is the vle8.v/vse8.v space and cannot coexist with the
+# V extension in one decoder. Consumers of the former funct3=0 encoding
+# must regenerate decoder and toolchain together.
+# INFO: overlaps with rv_q (flq/fsq; none of our cores implement Q)
+flb       rd rs1 imm12 14..12=4 6..2=0x01 1..0=3
+fsb       imm12hi rs1 rs2 imm12lo 14..12=4 6..2=0x09 1..0=3
 fmadd.b   rd rs1 rs2 rs3 rm 26..25=3 6..2=0x10 1..0=3
 fmsub.b   rd rs1 rs2 rs3 rm 26..25=3 6..2=0x11 1..0=3
 fnmsub.b  rd rs1 rs2 rs3 rm 26..25=3 6..2=0x12 1..0=3
