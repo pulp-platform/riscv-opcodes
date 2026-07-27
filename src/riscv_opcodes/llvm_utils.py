@@ -177,6 +177,15 @@ class InstructionFormat(IntEnum):
     R_RS1Z = auto()
     R_RDZ_RS2Z = auto()
     BIMM12 = auto()
+    # True-vector formats (VR register operands). Encodings follow the
+    # OP-V layout; asm conventions follow the existing Spatz kernels.
+    VEC_UNARY = auto()    # vd, vs2, vm            (funct6 | vm | vs2 | fixed | funct3 | vd)
+    VEC_VV = auto()       # vd, vs1, vs2, vm       (funct6 | vm | vs2 | vs1   | funct3 | vd)
+    VEC_VF = auto()       # vd, rs1(scalar), vs2, vm
+    VEC_LOAD_US = auto()  # vd, (rs1), vm; nf pinned to 0
+    VEC_LOAD_RR = auto()  # vd, (rs1), rs2, vm
+    VEC_R4RF = auto()     # vd, rs1(scalar), rs2(VR), rs3(VR) in scalar field positions
+    NULLARY = auto()      # fully fixed encoding, no operands
 
     @classmethod
     def _operand_map(cls):
@@ -208,6 +217,15 @@ class InstructionFormat(IntEnum):
             (cls.R_RS1Z, {"rd", "rs2"}),
             (cls.R_RDZ_RS2Z, {"rs1"}),
             (cls.BIMM12, {"rs1", "imm5", "bimm12hi", "bimm12lo"}),
+            (cls.VEC_UNARY, {"vd", "vs2", "vm"}),
+            (cls.VEC_VV, {"vd", "vs1", "vs2", "vm"}),
+            (cls.VEC_VF, {"vd", "vs2", "rs1", "vm"}),
+            # nf is canonicalized to a fixed 0 by the parser, so it never
+            # appears among the variable fields of vector loads.
+            (cls.VEC_LOAD_US, {"vm", "rs1", "vd"}),
+            (cls.VEC_LOAD_RR, {"vm", "rs1", "rs2", "vd"}),
+            (cls.VEC_R4RF, {"vd", "rs1", "rs2", "rs3"}),
+            (cls.NULLARY, set()),
         )
 
     @classmethod
@@ -283,6 +301,7 @@ class Instruction:
     encoding: Encoding
     format: InstructionFormat
     encoding_repr: str
+    match_int: int = 0
 
     @classmethod
     def from_dict(cls, mnemonic: str, spec: SingleInstr) -> "Instruction":
@@ -292,16 +311,30 @@ class Instruction:
         )
         enc = Encoding.from_string(spec["match"])
         if _is_vector(mnemonic):
+            # SIMD-in-FPR smallfloat "vector" mnemonics reuse scalar formats;
+            # true-vector formats (VEC_*) already carry VR operands.
             if fmt == InstructionFormat.R:
                 fmt = InstructionFormat.RVF
             elif fmt == InstructionFormat.I:
                 fmt = InstructionFormat.IVF
-            else:
+            elif fmt not in (
+                InstructionFormat.VEC_UNARY,
+                InstructionFormat.VEC_VV,
+                InstructionFormat.VEC_VF,
+                InstructionFormat.VEC_LOAD_US,
+                InstructionFormat.VEC_LOAD_RR,
+                InstructionFormat.VEC_R4RF,
+                InstructionFormat.NULLARY,
+            ):
                 raise RuntimeError(
                     f"Unknown vector instruction format for {mnemonic}: {fmt}"
                 )
         return cls(
-            mnemonic=mnemonic, encoding=enc, format=fmt, encoding_repr=spec["encoding"]
+            mnemonic=mnemonic,
+            encoding=enc,
+            format=fmt,
+            encoding_repr=spec["encoding"],
+            match_int=int(spec["match"], 0),
         )
 
 
@@ -349,6 +382,17 @@ def _get_dtypes(mnemonic: str) -> "dict[str, str]":
     if mnemonic.endswith(".copift"):
         return {"rs1": "FPR64", "rs2": "FPR64", "rs3": "FPR64", "rd": "FPR64"}
 
+    # Spatz post-increment scalar FP loads: FP destination, GPR base and
+    # increment (rv_xrrpost).
+    _RRPOST_FPR = {
+        "p.flb.rrpost": "FPR16",
+        "p.flh.rrpost": "FPR16",
+        "p.flw.rrpost": "FPR32",
+        "p.fld.rrpost": "FPR64",
+    }
+    if mnemonic in _RRPOST_FPR:
+        return {"rs1": "GPR", "rs2": "GPR", "rd": _RRPOST_FPR[mnemonic]}
+
     mn = mnemonic
     if _is_vector(mn):
         mn = re.sub(r"[\._][rR]", "", mn)
@@ -377,7 +421,27 @@ def _get_properties(mnemonic: str) -> "dict[str, object]":
     elif mnemonic in ("p.beqimm", "p.bneimm"):
         props["isBranch"] = 1
         props["isTerminator"] = 1
+    elif mnemonic == "vventclr":
+        props["hasSideEffects"] = 1
+    elif mnemonic.endswith(".rrpost") or mnemonic.startswith("vlx"):
+        # Spatz (post-increment) loads; the .rrpost forms also write back
+        # the incremented base address to rs1.
+        props["mayLoad"] = 1
+        if mnemonic.endswith(".rrpost"):
+            props["hasSideEffects"] = 1
     return props
+
+
+def _vec_scalar_class(mnemonic: str) -> str:
+    """Register class of the scalar operand of a vector-scalar instruction."""
+    return "FPR32" if (".vf" in mnemonic or ".vrf" in mnemonic) else "GPR"
+
+
+def _vec_reversed_srcs(mnemonic: str) -> bool:
+    """RVV asm convention: multiply-accumulate style instructions list the
+    multiplier first (vd, rs1/vs1, vs2 — LLVM's VALUr* classes); all others
+    use vd, vs2, rs1/vs1."""
+    return any(k in mnemonic for k in ("macc", "madd", "msac", "msub", "dotp"))
 
 
 # ---------------------------------------------------------------------------
@@ -446,6 +510,13 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
 
     fmt = inst.format
     if fmt == InstructionFormat.R:
+        # Spatz post-increment loads use memory-style asm syntax:
+        #   p.flw.rrpost rd, (rs1), rs2
+        argstr = (
+            "$rd, (${rs1}), $rs2"
+            if inst.mnemonic.endswith(".rrpost")
+            else "$rd, $rs1, $rs2"
+        )
         return (
             f"{props_str}"
             f"def {tblgen_name} : RVInstR<\n"
@@ -454,8 +525,176 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"                {_opcode_ref(e.opcode, tblgen_name)},\n"
             f"                (outs {dtype['rd']}:$rd),\n"
             f"                (ins {dtype['rs1']}:$rs1, {dtype['rs2']}:$rs2),\n"
-            f'                "{mnemonic}", "$rd, $rs1, $rs2">,\n'
+            f'                "{mnemonic}", "{argstr}">,\n'
             f"                Sched<[]>;\n"
+        )
+    if fmt == InstructionFormat.VEC_UNARY:
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins VR:$vs2, VMaskOp:$vm),\n"
+            f'                "{mnemonic}", "$vd, $vs2$vm",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> vs2;\n"
+            f"    bits<1> vm;\n"
+            f"    let Inst{{31-26}} = {e.funct6};\n"
+            f"    let Inst{{25}} = vm;\n"
+            f"    let Inst{{24-20}} = vs2;\n"
+            f"    let Inst{{19-15}} = {e.rs1};\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.VEC_VV:
+        # Source order per RVV convention (see _vec_reversed_srcs).
+        if _vec_reversed_srcs(inst.mnemonic):
+            ins = "VR:$vs1, VR:$vs2, VMaskOp:$vm"
+            argstr = "$vd, $vs1, $vs2$vm"
+        else:
+            ins = "VR:$vs2, VR:$vs1, VMaskOp:$vm"
+            argstr = "$vd, $vs2, $vs1$vm"
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins {ins}),\n"
+            f'                "{mnemonic}", "{argstr}",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> vs1;\n"
+            f"    bits<5> vs2;\n"
+            f"    bits<1> vm;\n"
+            f"    let Inst{{31-26}} = {e.funct6};\n"
+            f"    let Inst{{25}} = vm;\n"
+            f"    let Inst{{24-20}} = vs2;\n"
+            f"    let Inst{{19-15}} = vs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.VEC_VF:
+        # Source order per RVV convention (see _vec_reversed_srcs), e.g.
+        # vfwdotp.vf vd, rs1, vs2 (MAC-style) but vfxmul.vf vd, vs2, rs1.
+        scalar_cls = _vec_scalar_class(inst.mnemonic)
+        if _vec_reversed_srcs(inst.mnemonic):
+            ins = f"{scalar_cls}:$rs1, VR:$vs2, VMaskOp:$vm"
+            argstr = "$vd, $rs1, $vs2$vm"
+        else:
+            ins = f"VR:$vs2, {scalar_cls}:$rs1, VMaskOp:$vm"
+            argstr = "$vd, $vs2, $rs1$vm"
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins {ins}),\n"
+            f'                "{mnemonic}", "{argstr}",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<5> vs2;\n"
+            f"    bits<1> vm;\n"
+            f"    let Inst{{31-26}} = {e.funct6};\n"
+            f"    let Inst{{25}} = vm;\n"
+            f"    let Inst{{24-20}} = vs2;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.VEC_LOAD_US:
+        # Spatz custom unit-stride-style vector load (vlx*.v). The nf field
+        # is pinned to 0: segment forms are not expressible in asm.
+        mid = _extract_bits(inst.match_int, 26, 3)
+        lumop = _extract_bits(inst.match_int, 20, 5)
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins GPRMem:$rs1, VMaskOp:$vm),\n"
+            f'                "{mnemonic}", "$vd, (${{rs1}})$vm",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<1> vm;\n"
+            f"    let Inst{{31-29}} = 0b000; // nf pinned to 0\n"
+            f"    let Inst{{28-26}} = {mid};\n"
+            f"    let Inst{{25}} = vm;\n"
+            f"    let Inst{{24-20}} = {lumop};\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.VEC_LOAD_RR:
+        # Asm per existing Spatz kernels: p.vle32.v.rrpost vd, (rs1), rs2
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins GPRMem:$rs1, GPR:$rs2, VMaskOp:$vm),\n"
+            f'                "{mnemonic}", "$vd, (${{rs1}}), $rs2$vm",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<5> rs2;\n"
+            f"    bits<1> vm;\n"
+            f"    let Inst{{31-26}} = {e.funct6};\n"
+            f"    let Inst{{25}} = vm;\n"
+            f"    let Inst{{24-20}} = rs2;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.VEC_R4RF:
+        # Vector destination with vector sources encoded in the scalar rs2/rs3
+        # field positions (Ventaglio .vrf forms). Asm per existing kernels:
+        #   vfxmacc.vrf vd, rs1, vrs2, vrs3
+        scalar_cls = _vec_scalar_class(inst.mnemonic)
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs VR:$vd),\n"
+            f"                (ins {scalar_cls}:$rs1, VR:$rs2, VR:$rs3),\n"
+            f'                "{mnemonic}", "$vd, $rs1, $rs2, $rs3",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> vd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<5> rs2;\n"
+            f"    bits<5> rs3;\n"
+            f"    let Inst{{31-27}} = rs3;\n"
+            f"    let Inst{{26-25}} = {e.funct2};\n"
+            f"    let Inst{{24-20}} = rs2;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = vd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.NULLARY:
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs ),\n"
+            f"                (ins ),\n"
+            f'                "{mnemonic}", "",\n'
+            f"                [], InstFormatOther>,\n"
+            f"                Sched<[]> {{\n"
+            f"    let Inst = {inst.match_int:#010x};\n"
+            f"}}\n"
         )
     if fmt == InstructionFormat.RLUIMM5:
         return (
@@ -1115,6 +1354,7 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
         instructions: dict[str, Instruction] = {}
         pseudos: List[Instruction] = []
         uses: List[Tuple[str, str]] = []
+        skipped: List[str] = []
 
         for mnemonic, spec in group_spec.items():
             mn = mnemonic.replace("_", ".")
@@ -1122,6 +1362,7 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
                 inst = Instruction.from_dict(mn, spec)
             except (ValueError, NotImplementedError) as e:
                 logging.warning(f"Skipping {mn}: {e}")
+                skipped.append(mn)
                 continue
             if "is_pseudo_of" in spec:
                 inst_use = spec["is_pseudo_of"]["instruction"]
@@ -1142,6 +1383,7 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
                 lines.append(_indent_block(_tblgen_def(inst, ext_name)))
             except (ValueError, NotImplementedError) as e:
                 logging.warning(f"Skipping render of {inst.mnemonic}: {e}")
+                skipped.append(inst.mnemonic)
 
         for pseudo, (inst_use, ext_use) in zip(pseudos, uses):
             pfx = defprefix if inst_use in instructions else None
@@ -1155,7 +1397,17 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
 
         out_path = Path(f"inst.{ext_name}.td")
         out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        logging.info(f"inst.{ext_name}.td generated successfully")
+        if skipped:
+            # Partial generation is almost never intended: the extension's
+            # feature and decoder table still get registered, so the missing
+            # instructions silently fail to assemble.
+            logging.error(
+                f"inst.{ext_name}.td is INCOMPLETE: "
+                f"{len(skipped)} of {len(group_spec)} instructions skipped: "
+                f"{', '.join(skipped)}"
+            )
+        else:
+            logging.info(f"inst.{ext_name}.td generated successfully")
 
     make_llvm_features(extensions)
     make_llvm_csrs(csr_dict)
