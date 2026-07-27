@@ -179,16 +179,19 @@ class InstructionFormat(IntEnum):
     BIMM12 = auto()
     # True-vector formats (VR register operands). Encodings follow the
     # OP-V layout; asm conventions follow the existing Spatz kernels.
-    VEC_UNARY = auto()    # vd, vs2, vm            (funct6 | vm | vs2 | fixed | funct3 | vd)
-    VEC_VV = auto()       # vd, vs1, vs2, vm       (funct6 | vm | vs2 | vs1   | funct3 | vd)
-    VEC_VF = auto()       # vd, rs1(scalar), vs2, vm
+    VEC_UNARY = (
+        auto()
+    )  # vd, vs2, vm            (funct6 | vm | vs2 | fixed | funct3 | vd)
+    VEC_VV = auto()  # vd, vs1, vs2, vm       (funct6 | vm | vs2 | vs1   | funct3 | vd)
+    VEC_VF = auto()  # vd, rs1(scalar), vs2, vm
     VEC_LOAD_US = auto()  # vd, (rs1), vm; nf pinned to 0
     VEC_LOAD_RR = auto()  # vd, (rs1), rs2, vm
-    VEC_R4RF = auto()     # vd, rs1(scalar), rs2(VR), rs3(VR) in scalar field positions
-    NULLARY = auto()      # fully fixed encoding, no operands
+    VEC_R4RF = auto()  # vd, rs1(scalar), rs2(VR), rs3(VR) in scalar field positions
+    NULLARY = auto()  # fully fixed encoding, no operands
 
     @classmethod
     def _operand_map(cls):
+        no_operands: "Set[str]" = set()
         return (
             (cls.R, {"rd", "rs1", "rs2"}),
             (cls.RPRS3, {"rs1", "rs2", "prs3"}),
@@ -225,7 +228,7 @@ class InstructionFormat(IntEnum):
             (cls.VEC_LOAD_US, {"vm", "rs1", "vd"}),
             (cls.VEC_LOAD_RR, {"vm", "rs1", "rs2", "vd"}),
             (cls.VEC_R4RF, {"vd", "rs1", "rs2", "rs3"}),
-            (cls.NULLARY, set()),
+            (cls.NULLARY, no_operands),
         )
 
     @classmethod
@@ -384,14 +387,14 @@ def _get_dtypes(mnemonic: str) -> "dict[str, str]":
 
     # Spatz post-increment scalar FP loads: FP destination, GPR base and
     # increment (rv_xrrpost).
-    _RRPOST_FPR = {
+    rrpost_fpr = {
         "p.flb.rrpost": "FPR16",
         "p.flh.rrpost": "FPR16",
         "p.flw.rrpost": "FPR32",
         "p.fld.rrpost": "FPR64",
     }
-    if mnemonic in _RRPOST_FPR:
-        return {"rs1": "GPR", "rs2": "GPR", "rd": _RRPOST_FPR[mnemonic]}
+    if mnemonic in rrpost_fpr:
+        return {"rs1": "GPR", "rs2": "GPR", "rd": rrpost_fpr[mnemonic]}
 
     mn = mnemonic
     if _is_vector(mn):
