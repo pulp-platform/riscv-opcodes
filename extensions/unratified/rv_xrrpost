@@ -1,4 +1,5 @@
-# Register-register post-increment loads for Spatz
+# Spatz register-register post-increment load extension
+#
 # Split out of the Ventaglio (VFX) extension: these loads are usable
 # whenever Spatz is present, also with Ventaglio disabled.
 #
