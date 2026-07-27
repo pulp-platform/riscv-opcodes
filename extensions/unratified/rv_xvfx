@@ -1,4 +1,5 @@
-# Ventaglio (VFX) extension for Spatz
+# Spatz Ventaglio (VFX) extension
+#
 # Ported from the spatz branch (opcodes-vfx_CUSTOM + the vlx*.v entries of
 # opcodes-rvv, commit c411f5b). Ventaglio instructions are distributed over
 # several encoding regions; keep them together in this file until the

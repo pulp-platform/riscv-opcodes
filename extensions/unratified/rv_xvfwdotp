@@ -1,4 +1,5 @@
-# Widening floating-point dot-product for Spatz
+# Spatz widening floating-point dot-product extension
+#
 # Ported from the spatz branch (opcodes-rvv). Decoded by Spatz hardware
 # (referenced by hw/ip/snitch/src/snitch.sv in the Spatz repo).
 # Occupies OP-V funct6=0x3b with funct3=OPFVV/OPFVF; the ratified rv_v
