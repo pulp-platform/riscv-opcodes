@@ -30,9 +30,8 @@ shared files:
 
 Open items for the planned Ventaglio encoding cleanup:
 
-1. The Ventaglio CSRs in `csrs/unratified/rv_xventaglio.csv` (0x7C3-0x7C6)
-   share addresses with the Snitch CSRs in `csrs/unratified/rv_xpulp.csv`.
-   Neither hardware references the other's names, so both may coexist, but
-   consumers that switch over CSR *addresses* (e.g. installing `encoding.h`
-   into `riscv-isa-sim`) will see duplicates. The cleanup should assign
-   the Ventaglio CSRs unique addresses.
+1. (Resolved) The Ventaglio CSRs in `csrs/unratified/rv_xventaglio.csv`
+   originally shared addresses 0x7C3-0x7C6 with the Snitch CSRs in
+   `csrs/unratified/rv_xpulp.csv`; they now live at 0x7CA-0x7CD, unique across
+   the repository AND across upstream LLVM's vendor CSR tables (Qualcomm
+   Xqci claims 0x7C8-0x7C9).
