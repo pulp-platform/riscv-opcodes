@@ -1,14 +1,8 @@
 # Spatz register-register post-increment load extension
 #
-# Split out of the Ventaglio (VFX) extension: these loads are usable
-# whenever Spatz is present, also with Ventaglio disabled.
-#
 # The Spatz core internally re-encodes these to the corresponding plain
 # load (vle*.v / vlx*.v / fl*) on the accelerator interface, with the
 # post-increment handled in the scalar core.
-#
-# NOTE: the p.vlx*.v.rrpost forms re-encode to the vlx*.v loads defined
-# in rv_xvfx, so they additionally require that extension.
 #
 # INFO: overlaps with rv_xipu, rv32_xpulphwloop (custom-3 space)
 

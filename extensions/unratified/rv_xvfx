@@ -5,13 +5,8 @@
 # several encoding regions; keep them together in this file until the
 # planned Ventaglio encoding cleanup.
 #
-# The register-register post-increment loads (p.*.rrpost) live in
-# rv_xrrpost — they are usable without Ventaglio.
-
 # INFO: overlaps with rv_v (OP-V major opcode 0x57 and the mew=1
 #       unit-stride load slots formerly assigned to vle128..vle1024)
-# INFO: overlaps with rv_xfrep (custom-0 0x0B; Spatz does not implement
-#       frep, so no Spatz decoder ambiguity arises)
 
 # OP-V arithmetic (OPFVF, funct6 0x25/0x26)
 vfxmacc.vf     31..26=0x25 vm vs2 rs1 14..12=0x5 vd 6..0=0x57
