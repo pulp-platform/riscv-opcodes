@@ -492,6 +492,8 @@
 #define IRQ_M_CLUSTER     19
 #define IRQ_M_ACC         20  /* machine-level accelerator interrupt */
 
+#define MCAUSE_INTERRUPT  0x80000000  /* mcause interrupt bit (RV32) */
+
 #define MIP_SCIP          (1 << IRQ_S_CLUSTER)
 #define MIP_MCIP          (1 << IRQ_M_CLUSTER)
 #define MIP_MXIP          (1 << IRQ_M_ACC)

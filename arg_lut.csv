@@ -120,3 +120,6 @@
 "Luimm5", 29, 25
 "stagger_max", 14, 12
 "stagger_mask", 11, 8
+"mxvs3", 31, 27
+"vs4hi", 26, 25
+"vs4lo", 14, 12

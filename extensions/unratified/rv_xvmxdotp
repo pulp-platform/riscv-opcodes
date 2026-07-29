@@ -1,0 +1,11 @@
+# VMXDOTP extension for Spatz
+# Ported from the spatz branch (opcodes-vmxdotp_CUSTOM).
+# Uses the major-opcode slots reserved for >32-bit encodings
+# (inst[6:0] = 0x1F/0x3F/0x5F/0x7F).
+# The 5-bit vs4 operand is split: vs4hi (26..25) -> vs4[4:3],
+# vs4lo (14..12) -> vs4[2:0].
+
+vmxdotp.wf     rs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x5f
+vmxdotp.ww   mxvs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x7f
+vmxdotp.qf     rs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x1f
+vmxdotp.qq   mxvs3 vs4hi vs2 rs1 vs4lo vd 6..0=0x3f

@@ -1,5 +1,8 @@
 unratified/rv_xdma
 unratified/rv_xfrep
+unratified/rv_xrrpost
+unratified/rv_xvfx
+unratified/rv_xvfwdotp
 unratified/rv_xssr
 unratified/rv_xipu
 unratified/rv_xcopift

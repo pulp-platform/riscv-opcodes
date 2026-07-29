@@ -71,4 +71,6 @@
 # startgroup Xfauxhalf half-precision auxiliary operations - requires Xfhalf extension
 fmulex.s.h      rd rs1 rs2         31..27=0x09 rm       26..25=2 6..2=0x14 1..0=3
 fmacex.s.h      rd rs1 rs2         31..27=0x0A rm       26..25=2 6..2=0x14 1..0=3
+# Spatz addition: same-format conversion (rounding-only, h -> h)
+fcvt.h.h        rd rs1 24..20=2 31..27=0x08 rm       26..25=2 6..2=0x14 1..0=3
 # endgroup
