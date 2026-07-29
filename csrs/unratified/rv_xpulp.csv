@@ -11,5 +11,11 @@
 0x7C2, "barrier"
 0x7C6, "copift"
 0x7C7, "dump"
+# (Qualcomm Xqci claims 0x7C8-0x7C9)
+# Spatz Ventaglio CSRs (vtl*)
+0x7CA, "vtlreg"
+0x7CB, "vtlidxw"
+0x7CC, "vtlblks"
+0x7CD, "vtlratio"
 0x7D1, "stacklimit"
 0x800, "fmode"
