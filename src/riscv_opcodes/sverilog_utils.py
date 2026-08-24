@@ -13,7 +13,8 @@ def make_sverilog(instr_dict: InstrDict, csr_dict: CsrDict):
     for i in instr_dict:
         names_str += f"  localparam [31:0] {i.upper().replace('.','_'):<18s} = 32'b{instr_dict[i]['encoding'].replace('-','?')};\n"
     names_str += "  /* CSR Addresses */\n"
-    for num, name in [csr for csrs in csr_dict.values() for csr in csrs]:
+    all_csrs = [csr for csrs in csr_dict.values() for csr in csrs]
+    for num, name in sorted(all_csrs, key=lambda csr: csr[0]):
         names_str += (
             f"  localparam logic [11:0] CSR_{name.upper()} = 12'h{hex(num)[2:]};\n"
         )
