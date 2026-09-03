@@ -171,6 +171,16 @@
 
 #define MIDELEG_FORCED_MASK MIP_HS_MASK
 
+#define MCAUSE32_INT     _RISCV_UL(0x80000000)
+#define MCAUSE32_EXCCODE _RISCV_UL(0x7FFFFFFF)
+#define MCAUSE64_INT     _RISCV_ULL(0x8000000000000000)
+#define MCAUSE64_EXCCODE _RISCV_ULL(0x7FFFFFFFFFFFFFFF)
+
+#define SCAUSE32_INT     MCAUSE32_INT
+#define SCAUSE32_EXCCODE MCAUSE32_EXCCODE
+#define SCAUSE64_INT     MCAUSE64_INT
+#define SCAUSE64_EXCCODE MCAUSE64_EXCCODE
+
 #define SIP_SSIP MIP_SSIP
 #define SIP_STIP MIP_STIP
 
@@ -492,23 +502,9 @@
 #define IRQ_M_CLUSTER     19
 #define IRQ_M_ACC         20  /* machine-level accelerator interrupt */
 
-#define MCAUSE_INTERRUPT  0x80000000  /* mcause interrupt bit (RV32) */
-
 #define MIP_SCIP          (1 << IRQ_S_CLUSTER)
 #define MIP_MCIP          (1 << IRQ_M_CLUSTER)
 #define MIP_MXIP          (1 << IRQ_M_ACC)
-
-/* PULP/Snitch custom CSR addresses */
-#define CSR_SSR           0x7C0  // Stream semantic registers
-#define CSR_FPMODE        0x7C1  // Floating-point mode
-#define CSR_BARRIER       0x7C2  // Hardware barrier
-#define CSR_SC            0x7C3  // Scalar chaining
-#define CSR_USER_LOW      0x7C4  // AWUSER[31:0]
-#define CSR_USER_HIGH     0x7C5  // AWUSER[63:32]
-#define CSR_COPIFT        0x7C6  // Enable COPIFT
-#define CSR_DUMP          0x7C7  // Dump CSR
-#define CSR_STACKLIMIT    0x7D1  // Mempool stack overflow limit
-#define CSR_FMODE         0x800  // Floating-point mode (legacy)
 
 /* page table entry (PTE) fields */
 #define PTE_V     0x001 /* Valid */
@@ -545,11 +541,19 @@
 # define SSTATUS_SD SSTATUS64_SD
 # define RISCV_PGLEVEL_BITS 9
 # define SATP_MODE SATP64_MODE
+# define MCAUSE_INT MCAUSE64_INT
+# define MCAUSE_EXCCODE MCAUSE64_EXCCODE
+# define SCAUSE_INT SCAUSE64_INT
+# define SCAUSE_EXCCODE SCAUSE64_EXCCODE
 #else
 # define MSTATUS_SD MSTATUS32_SD
 # define SSTATUS_SD SSTATUS32_SD
 # define RISCV_PGLEVEL_BITS 10
 # define SATP_MODE SATP32_MODE
+# define MCAUSE_INT MCAUSE32_INT
+# define MCAUSE_EXCCODE MCAUSE32_EXCCODE
+# define SCAUSE_INT SCAUSE32_INT
+# define SCAUSE_EXCCODE SCAUSE32_EXCCODE
 #endif
 #define RISCV_PGSHIFT 12
 #define RISCV_PGSIZE (1 << RISCV_PGSHIFT)
