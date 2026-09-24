@@ -362,6 +362,15 @@ TBLGEN_OPERAND_TYPES = {
 
 
 def _get_dtypes(mnemonic: str) -> "dict[str, str]":
+    if mnemonic.startswith(("pace.", "vpace.")):
+        if mnemonic.endswith(".ah"):
+            reg = TBLGEN_OPERAND_TYPES[DataType.F16ALT]
+        elif mnemonic.endswith(".h"):
+            reg = TBLGEN_OPERAND_TYPES[DataType.F16]
+        else:
+            reg = TBLGEN_OPERAND_TYPES[DataType.F32]
+        return {"rs1": reg, "rs2": reg, "rs3": reg, "rd": reg}
+
     if mnemonic == "flh":
         return {"rs1": "GPR", "rd": TBLGEN_OPERAND_TYPES[DataType.F16]}
     if mnemonic == "flah":
