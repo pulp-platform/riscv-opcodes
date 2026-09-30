@@ -362,15 +362,6 @@ TBLGEN_OPERAND_TYPES = {
 
 
 def _get_dtypes(mnemonic: str) -> "dict[str, str]":
-    if mnemonic.startswith(("pace.", "vpace.")):
-        if mnemonic.endswith(".ah"):
-            reg = TBLGEN_OPERAND_TYPES[DataType.F16ALT]
-        elif mnemonic.endswith(".h"):
-            reg = TBLGEN_OPERAND_TYPES[DataType.F16]
-        else:
-            reg = TBLGEN_OPERAND_TYPES[DataType.F32]
-        return {"rs1": reg, "rs2": reg, "rs3": reg, "rd": reg}
-
     if mnemonic == "flh":
         return {"rs1": "GPR", "rd": TBLGEN_OPERAND_TYPES[DataType.F16]}
     if mnemonic == "flah":
@@ -412,14 +403,24 @@ def _get_dtypes(mnemonic: str) -> "dict[str, str]":
     inst_t = mn.upper().replace(".", "_").split("_")[1:]
     try:
         source_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[-1])]
-        dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
     except (ValueError, IndexError):
-        # No recognizable FP type suffix: treat as integer instruction.
-        return {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+        # No recognizable source FP type suffix: treat source operands as integer.
+        source_t = "GPR"
 
     predicates = ("fclass", "feq", "fne", "fgt", "flt", "fle", "fge")
-    if re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
-        dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER]
+
+    if mnemonic.startswith(("pace.", "vpace.")):
+        # PACE instructions have a single dot-delimited field representing
+        # the format of both source and destination operands.
+        dest_t = source_t
+    elif re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
+        dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER] 
+    else:
+        try:
+            dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
+        except (ValueError, IndexError):
+            # No recognizable destination FP type prefix: treat destination as integer.
+            dest_t = "GPR"
 
     return {"rs1": source_t, "rs2": source_t, "rs3": source_t, "rd": dest_t}
 

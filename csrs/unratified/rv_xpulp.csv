@@ -17,4 +17,5 @@
 0x7CA, "vtlblks"
 0x7CB, "vtlratio"
 0x7D1, "stacklimit"
+0x7D2, "pace"
 0x800, "fmode"
