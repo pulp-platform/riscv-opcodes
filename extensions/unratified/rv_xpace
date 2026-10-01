@@ -1,0 +1,22 @@
+# PACE extension
+# INFO: overlaps with rv32_xpulpbitop, rv32_xb
+
+pace.pwpa.s   rd rs1 24..20=0 31..27=0x0C 14..12=0 26..25=0 6..2=0x14 1..0=3
+pace.inv.s    rd rs1 24..20=0 31..27=0x0C 14..12=1 26..25=0 6..2=0x14 1..0=3
+pace.sqrt.s   rd rs1 24..20=0 31..27=0x0C 14..12=2 26..25=0 6..2=0x14 1..0=3
+pace.rsqrt.s  rd rs1 24..20=0 31..27=0x0C 14..12=3 26..25=0 6..2=0x14 1..0=3
+
+pace.pwpa.h   rd rs1 24..20=0 31..27=0x0C 14..12=0 26..25=2 6..2=0x14 1..0=3
+pace.inv.h    rd rs1 24..20=0 31..27=0x0C 14..12=1 26..25=2 6..2=0x14 1..0=3
+pace.sqrt.h   rd rs1 24..20=0 31..27=0x0C 14..12=2 26..25=2 6..2=0x14 1..0=3
+pace.rsqrt.h  rd rs1 24..20=0 31..27=0x0C 14..12=3 26..25=2 6..2=0x14 1..0=3
+
+vpace.pwpa.s   rd rs1 rs2 31..28=0xE 27..25=0 14..12=0 6..2=0x0C 1..0=3
+vpace.inv.s    rd rs1 rs2 31..28=0xE 27..25=1 14..12=0 6..2=0x0C 1..0=3
+vpace.sqrt.s   rd rs1 rs2 31..28=0xE 27..25=2 14..12=0 6..2=0x0C 1..0=3
+vpace.rsqrt.s  rd rs1 rs2 31..28=0xE 27..25=3 14..12=0 6..2=0x0C 1..0=3
+
+vpace.pwpa.h   rd rs1 rs2 31..28=0xE 27..25=0 14..12=2 6..2=0x0C 1..0=3
+vpace.inv.h    rd rs1 rs2 31..28=0xE 27..25=1 14..12=2 6..2=0x0C 1..0=3
+vpace.sqrt.h   rd rs1 rs2 31..28=0xE 27..25=2 14..12=2 6..2=0x0C 1..0=3
+vpace.rsqrt.h  rd rs1 rs2 31..28=0xE 27..25=3 14..12=2 6..2=0x0C 1..0=3
