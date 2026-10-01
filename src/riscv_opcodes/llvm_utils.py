@@ -414,7 +414,7 @@ def _get_dtypes(mnemonic: str) -> "dict[str, str]":
         # the format of both source and destination operands.
         dest_t = source_t
     elif re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
-        dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER] 
+        dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER]
     else:
         try:
             dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
