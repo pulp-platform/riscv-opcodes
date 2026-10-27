@@ -415,23 +415,26 @@ def _get_dtypes(mnemonic: str, ext_name: str = "") -> "dict[str, str]":
     try:
         source_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[-1])]
     except (ValueError, IndexError):
-        # No recognizable source FP type suffix: treat source operands as integer.
-        source_t = "GPR"
-
-    predicates = ("fclass", "feq", "fne", "fgt", "flt", "fle", "fge")
+        source_t = None
 
     if mnemonic.startswith(("pace.", "vpace.")):
         # PACE instructions have a single dot-delimited field representing
         # the format of both source and destination operands.
-        dest_t = source_t
-    elif re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
+        source_t = dest_t = source_t or "GPR"
+        return {"rs1": source_t, "rs2": source_t, "rs3": source_t, "rd": dest_t}
+
+    try:
+        dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
+    except (ValueError, IndexError):
+        dest_t = None
+    if source_t is None or dest_t is None:
+        # No recognizable FP type in both the destination prefix and the source
+        # suffix: treat as integer instruction (e.g. pv.pack.h, pv.shuffle2.b).
+        return {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+
+    predicates = ("fclass", "feq", "fne", "fgt", "flt", "fle", "fge")
+    if re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
         dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER]
-    else:
-        try:
-            dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
-        except (ValueError, IndexError):
-            # No recognizable destination FP type prefix: treat destination as integer.
-            dest_t = "GPR"
 
     return {"rs1": source_t, "rs2": source_t, "rs3": source_t, "rd": dest_t}
 
