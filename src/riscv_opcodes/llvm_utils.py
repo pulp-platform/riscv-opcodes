@@ -521,6 +521,102 @@ def _opcode_ref(opcode_bits: str, instr_name: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+_POSTMOD_RE = re.compile(r"^p\.(l|s)(b|bu|h|hu|w)\.(irpost|rrpost|rr)$")
+
+
+def _tblgen_postmod_def(inst: Instruction, tblgen_name: str, decoderns: str) -> str:
+    """Render Xpulp post-incrementing and register-register loads/stores.
+
+    Operands and asm syntax follow upstream CORE-V XCVmem (RISCVInstrInfoXCV.td),
+    which encodes the same instructions:
+        p.lw.irpost rd, (rs1), imm      p.sw.irpost rs2, (rs1), imm
+        p.lw.rrpost rd, (rs1), rs2      p.sw.rrpost rs2, (rs1), rs3
+        p.lw.rr     rd, rs2(rs1)        p.sw.rr     rs2, rs3(rs1)
+    Post-incrementing forms write the updated address back to rs1 ($rs1_wb).
+    """
+    m = _POSTMOD_RE.match(inst.mnemonic)
+    assert m is not None
+    is_load = m.group(1) == "l"
+    kind = m.group(3)
+    e = inst.encoding
+    opc = _opcode_ref(e.opcode, tblgen_name)
+    props = _render_properties(
+        {
+            "hasSideEffects": 0,
+            "mayLoad": int(is_load),
+            "mayStore": int(not is_load),
+            "DecoderNamespace": f'"{decoderns}"',
+        }
+    )
+    wb = '    let Constraints = "$rs1_wb = $rs1";\n'
+
+    if is_load and kind == "irpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstI<{e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd, GPR:$rs1_wb),\n"
+            f"                (ins GPRMem:$rs1, simm12_lo:$imm12),\n"
+            f'                "{inst.mnemonic}", "$rd, (${{rs1}}), ${{imm12}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    if is_load and kind == "rrpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstR<{e.funct7}, {e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd, GPR:$rs1_wb),\n"
+            f"                (ins GPRMem:$rs1, GPR:$rs2),\n"
+            f'                "{inst.mnemonic}", "$rd, (${{rs1}}), ${{rs2}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    if is_load:
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstR<{e.funct7}, {e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd),\n"
+            f"                (ins (CVrr $rs1, $rs2):$addr),\n"
+            f'                "{inst.mnemonic}", "$rd, $addr">,\n'
+            f"                Sched<[]>;\n"
+        )
+    if kind == "irpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstS<{e.funct3}, {opc},\n"
+            f"                (outs GPR:$rs1_wb),\n"
+            f"                (ins GPR:$rs2, GPR:$rs1, simm12_lo:$imm12),\n"
+            f'                "{inst.mnemonic}", "$rs2, (${{rs1}}), ${{imm12}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    # Register-register stores: the offset register prs3 is encoded in bits 11-7.
+    if kind == "rrpost":
+        outs, ins, argstr = (
+            "GPR:$rs1_wb",
+            "GPR:$rs2, GPR:$rs1, GPR:$rs3",
+            "$rs2, (${rs1}), ${rs3}",
+        )
+    else:
+        outs, ins, argstr = "", "GPR:$rs2, (CVrr $rs1, $rs3):$addr", "$rs2, $addr"
+    return (
+        f"{props}"
+        f"def {tblgen_name} : RVInst<\n"
+        f"                (outs {outs}),\n"
+        f"                (ins {ins}),\n"
+        f'                "{inst.mnemonic}", "{argstr}",\n'
+        f"                [], InstFormatOther>,\n"
+        f"                Sched<[]> {{\n"
+        f"    bits<5> rs1;\n"
+        f"    bits<5> rs2;\n"
+        f"    bits<5> rs3;\n"
+        f"    let Inst{{31-25}} = {e.funct7};\n"
+        f"    let Inst{{24-20}} = rs2;\n"
+        f"    let Inst{{19-15}} = rs1;\n"
+        f"    let Inst{{14-12}} = {e.funct3};\n"
+        f"    let Inst{{11-7}} = rs3;\n"
+        f"    let Inst{{6-0}} = {e.opcode};\n"
+        f"{wb if kind == 'rrpost' else ''}"
+        f"}}\n"
+    )
+
+
 def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     e = inst.encoding
     dtype = _get_dtypes(inst.mnemonic, ext_name)
@@ -531,6 +627,9 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     props = _get_properties(inst.mnemonic)
     props["DecoderNamespace"] = f'"{decoderns}"'
     props_str = _render_properties(props)
+
+    if _POSTMOD_RE.match(inst.mnemonic):
+        return _tblgen_postmod_def(inst, tblgen_name, decoderns)
 
     fmt = inst.format
     if fmt == InstructionFormat.R:
