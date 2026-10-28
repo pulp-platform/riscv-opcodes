@@ -913,7 +913,7 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"                {_opcode_ref(e.opcode, tblgen_name)},\n"
             f"                (outs {dtype['rd']}:$rd),\n"
             f"                (ins {dtype['rs1']}:$rs1, simm12_lo:$imm12),\n"
-            f'                "{mnemonic}", "$rd, $rs1, ${{imm12}}(${{rs1}})">,\n'
+            f'                "{mnemonic}", "$rd, $rs1, $imm12">,\n'
             f"                Sched<[]>;\n"
         )
     if fmt == InstructionFormat.IIMM12_RM:
