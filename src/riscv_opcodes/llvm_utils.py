@@ -939,7 +939,9 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"    bits<5> rs1;\n"
             f"    bits<6> imm6;\n"
             f"    let Inst{{31-26}} = {e.funct6};\n"
-            f"    let Inst{{25-20}} = imm6;\n"
+            # The hardware decodes the immediate as {Inst[24:20], Inst[25]}
+            f"    let Inst{{25}} = imm6{{0}};\n"
+            f"    let Inst{{24-20}} = imm6{{5-1}};\n"
             f"    let Inst{{19-15}} = rs1;\n"
             f"    let Inst{{14-12}} = {e.funct3};\n"
             f"    let Inst{{11-7}} = rd;\n"
