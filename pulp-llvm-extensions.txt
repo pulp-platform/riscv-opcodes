@@ -11,6 +11,9 @@ unratified/rv_xsmallfloat_b
 unratified/rv_xsmallfloat_vs
 unratified/rv_xsmallfloat_vh
 unratified/rv_xsmallfloat_vb
+unratified/rv_xsmallfloatinx
+unratified/rv_xsfltinx
+unratified/rv_xfcdotphalfinx
 unratified/rv32_xb
 unratified/rv32_xpulpabs
 unratified/rv32_xpulpbitop
@@ -18,6 +21,7 @@ unratified/rv32_xpulpbr
 unratified/rv32_xpulpclip
 unratified/rv32_xpulpmacsi
 unratified/rv32_xpulpminmax
+unratified/rv32_xpulppostmod
 unratified/rv32_xpulpslet
 unratified/rv32_xpulpvect
 unratified/rv32_xpulpvectshufflepack

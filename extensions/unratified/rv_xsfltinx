@@ -1,0 +1,8 @@
+# Xsfltinx - vectorial quarter-precision expanding dot-product extension in integer registers
+#
+# The alternate-format (.ab) variants have the same encodings as the .b ones
+# and are therefore not listed separately.
+vfdotpexa.s.b    rd rs1 rs2         31..30=2 29..25=0x1C 14=0 13..12=0 6..2=0x0C 1..0=3
+vfdotpexa.s.r.b  rd rs1 rs2         31..30=2 29..25=0x1C 14=1 13..12=0 6..2=0x0C 1..0=3
+vfdotpexb.s.b    rd rs1 rs2         31..30=2 29..25=0x1E 14=0 13..12=0 6..2=0x0C 1..0=3
+vfdotpexb.s.r.b  rd rs1 rs2         31..30=2 29..25=0x1E 14=1 13..12=0 6..2=0x0C 1..0=3

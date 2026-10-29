@@ -88,6 +88,11 @@ def _feature_description(ext_basename: str) -> str:
     return " ".join(lines)
 
 
+def _is_inx_ext(ext_path: str) -> bool:
+    """Extensions suffixed with 'inx' operate on the integer register file (like Zfinx)."""
+    return _ext_basename(ext_path).endswith("inx")
+
+
 def _ext_predicates(ext_basename: str) -> list[str]:
     predicates = [_ext_to_feature_flag(_ext_to_name(ext_basename))]
     if ext_basename.startswith("rv32_"):
@@ -154,6 +159,7 @@ class InstructionFormat(IntEnum):
     R = 0
     RPRS3 = auto()
     RLUIMM5 = auto()
+    RLUIMM5_IMM5 = auto()
     I = auto()
     R_RDZ = auto()
     U = auto()
@@ -196,6 +202,7 @@ class InstructionFormat(IntEnum):
             (cls.R, {"rd", "rs1", "rs2"}),
             (cls.RPRS3, {"rs1", "rs2", "prs3"}),
             (cls.RLUIMM5, {"rd", "rs1", "rs2", "Luimm5"}),
+            (cls.RLUIMM5_IMM5, {"rd", "rs1", "Luimm5", "imm5"}),
             (cls.I, {"rd", "rs1"}),
             (cls.R_RDZ, {"rs1", "rs2"}),
             (cls.U, {"rd"}),
@@ -361,7 +368,11 @@ TBLGEN_OPERAND_TYPES = {
 }
 
 
-def _get_dtypes(mnemonic: str) -> "dict[str, str]":
+def _get_dtypes(mnemonic: str, ext_name: str = "") -> "dict[str, str]":
+    # *inx extensions hold all floating-point operands in integer registers.
+    if ext_name.endswith("inx"):
+        return {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+
     if mnemonic == "flh":
         return {"rs1": "GPR", "rd": TBLGEN_OPERAND_TYPES[DataType.F16]}
     if mnemonic == "flah":
@@ -404,23 +415,26 @@ def _get_dtypes(mnemonic: str) -> "dict[str, str]":
     try:
         source_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[-1])]
     except (ValueError, IndexError):
-        # No recognizable source FP type suffix: treat source operands as integer.
-        source_t = "GPR"
-
-    predicates = ("fclass", "feq", "fne", "fgt", "flt", "fle", "fge")
+        source_t = None
 
     if mnemonic.startswith(("pace.", "vpace.")):
         # PACE instructions have a single dot-delimited field representing
         # the format of both source and destination operands.
-        dest_t = source_t
-    elif re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
+        source_t = dest_t = source_t or "GPR"
+        return {"rs1": source_t, "rs2": source_t, "rs3": source_t, "rd": dest_t}
+
+    try:
+        dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
+    except (ValueError, IndexError):
+        dest_t = None
+    if source_t is None or dest_t is None:
+        # No recognizable FP type in both the destination prefix and the source
+        # suffix: treat as integer instruction (e.g. pv.pack.h, pv.shuffle2.b).
+        return {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+
+    predicates = ("fclass", "feq", "fne", "fgt", "flt", "fle", "fge")
+    if re.match(rf"^(v)?({'|'.join(predicates)})", mnemonic, re.IGNORECASE):
         dest_t = TBLGEN_OPERAND_TYPES[DataType.INTEGER]
-    else:
-        try:
-            dest_t = TBLGEN_OPERAND_TYPES[DataType.from_str(inst_t[0])]
-        except (ValueError, IndexError):
-            # No recognizable destination FP type prefix: treat destination as integer.
-            dest_t = "GPR"
 
     return {"rs1": source_t, "rs2": source_t, "rs3": source_t, "rd": dest_t}
 
@@ -510,9 +524,105 @@ def _opcode_ref(opcode_bits: str, instr_name: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+_POSTMOD_RE = re.compile(r"^p\.(l|s)(b|bu|h|hu|w)\.(irpost|rrpost|rr)$")
+
+
+def _tblgen_postmod_def(inst: Instruction, tblgen_name: str, decoderns: str) -> str:
+    """Render Xpulp post-incrementing and register-register loads/stores.
+
+    Operands and asm syntax follow upstream CORE-V XCVmem (RISCVInstrInfoXCV.td),
+    which encodes the same instructions:
+        p.lw.irpost rd, (rs1), imm      p.sw.irpost rs2, (rs1), imm
+        p.lw.rrpost rd, (rs1), rs2      p.sw.rrpost rs2, (rs1), rs3
+        p.lw.rr     rd, rs2(rs1)        p.sw.rr     rs2, rs3(rs1)
+    Post-incrementing forms write the updated address back to rs1 ($rs1_wb).
+    """
+    m = _POSTMOD_RE.match(inst.mnemonic)
+    assert m is not None
+    is_load = m.group(1) == "l"
+    kind = m.group(3)
+    e = inst.encoding
+    opc = _opcode_ref(e.opcode, tblgen_name)
+    props = _render_properties(
+        {
+            "hasSideEffects": 0,
+            "mayLoad": int(is_load),
+            "mayStore": int(not is_load),
+            "DecoderNamespace": f'"{decoderns}"',
+        }
+    )
+    wb = '    let Constraints = "$rs1_wb = $rs1";\n'
+
+    if is_load and kind == "irpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstI<{e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd, GPR:$rs1_wb),\n"
+            f"                (ins GPRMem:$rs1, simm12_lo:$imm12),\n"
+            f'                "{inst.mnemonic}", "$rd, (${{rs1}}), ${{imm12}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    if is_load and kind == "rrpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstR<{e.funct7}, {e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd, GPR:$rs1_wb),\n"
+            f"                (ins GPRMem:$rs1, GPR:$rs2),\n"
+            f'                "{inst.mnemonic}", "$rd, (${{rs1}}), ${{rs2}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    if is_load:
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstR<{e.funct7}, {e.funct3}, {opc},\n"
+            f"                (outs GPR:$rd),\n"
+            f"                (ins (CVrr $rs1, $rs2):$addr),\n"
+            f'                "{inst.mnemonic}", "$rd, $addr">,\n'
+            f"                Sched<[]>;\n"
+        )
+    if kind == "irpost":
+        return (
+            f"{props}"
+            f"def {tblgen_name} : RVInstS<{e.funct3}, {opc},\n"
+            f"                (outs GPR:$rs1_wb),\n"
+            f"                (ins GPR:$rs2, GPR:$rs1, simm12_lo:$imm12),\n"
+            f'                "{inst.mnemonic}", "$rs2, (${{rs1}}), ${{imm12}}">,\n'
+            f"                Sched<[]> {{\n{wb}}}\n"
+        )
+    # Register-register stores: the offset register prs3 is encoded in bits 11-7.
+    if kind == "rrpost":
+        outs, ins, argstr = (
+            "GPR:$rs1_wb",
+            "GPR:$rs2, GPR:$rs1, GPR:$rs3",
+            "$rs2, (${rs1}), ${rs3}",
+        )
+    else:
+        outs, ins, argstr = "", "GPR:$rs2, (CVrr $rs1, $rs3):$addr", "$rs2, $addr"
+    return (
+        f"{props}"
+        f"def {tblgen_name} : RVInst<\n"
+        f"                (outs {outs}),\n"
+        f"                (ins {ins}),\n"
+        f'                "{inst.mnemonic}", "{argstr}",\n'
+        f"                [], InstFormatOther>,\n"
+        f"                Sched<[]> {{\n"
+        f"    bits<5> rs1;\n"
+        f"    bits<5> rs2;\n"
+        f"    bits<5> rs3;\n"
+        f"    let Inst{{31-25}} = {e.funct7};\n"
+        f"    let Inst{{24-20}} = rs2;\n"
+        f"    let Inst{{19-15}} = rs1;\n"
+        f"    let Inst{{14-12}} = {e.funct3};\n"
+        f"    let Inst{{11-7}} = rs3;\n"
+        f"    let Inst{{6-0}} = {e.opcode};\n"
+        f"{wb if kind == 'rrpost' else ''}"
+        f"}}\n"
+    )
+
+
 def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     e = inst.encoding
-    dtype = _get_dtypes(inst.mnemonic)
+    dtype = _get_dtypes(inst.mnemonic, ext_name)
     defprefix = _ext_to_defprefix(ext_name)
     decoderns = _ext_to_decoderns(ext_name)
     tblgen_name = defprefix + inst.mnemonic.upper().replace(".", "_")
@@ -520,6 +630,9 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     props = _get_properties(inst.mnemonic)
     props["DecoderNamespace"] = f'"{decoderns}"'
     props_str = _render_properties(props)
+
+    if _POSTMOD_RE.match(inst.mnemonic):
+        return _tblgen_postmod_def(inst, tblgen_name, decoderns)
 
     fmt = inst.format
     if fmt == InstructionFormat.R:
@@ -731,6 +844,29 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"    let Inst{{6-0}} = {e.opcode};\n"
             f"}}\n"
         )
+    if fmt == InstructionFormat.RLUIMM5_IMM5:
+        # Two immediates, e.g. p.extract rd, rs1, Luimm5, imm5
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs {dtype['rd']}:$rd),\n"
+            f"                (ins {dtype['rs1']}:$rs1, uimm5:$Luimm5, uimm5:$imm5),\n"
+            f'                "{mnemonic}", "$rd, $rs1, $Luimm5, $imm5",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> rd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<5> Luimm5;\n"
+            f"    bits<5> imm5;\n"
+            f"    let Inst{{31-30}} = {e.f2};\n"
+            f"    let Inst{{29-25}} = Luimm5;\n"
+            f"    let Inst{{24-20}} = imm5;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = rd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
     if fmt == InstructionFormat.RPRS3:
         return (
             f"{props_str}"
@@ -803,7 +939,9 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"    bits<5> rs1;\n"
             f"    bits<6> imm6;\n"
             f"    let Inst{{31-26}} = {e.funct6};\n"
-            f"    let Inst{{25-20}} = imm6;\n"
+            # The hardware decodes the immediate as {Inst[24:20], Inst[25]}
+            f"    let Inst{{25}} = imm6{{0}};\n"
+            f"    let Inst{{24-20}} = imm6{{5-1}};\n"
             f"    let Inst{{19-15}} = rs1;\n"
             f"    let Inst{{14-12}} = {e.funct3};\n"
             f"    let Inst{{11-7}} = rd;\n"
@@ -879,7 +1017,7 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"                {_opcode_ref(e.opcode, tblgen_name)},\n"
             f"                (outs {dtype['rd']}:$rd),\n"
             f"                (ins {dtype['rs1']}:$rs1, simm12_lo:$imm12),\n"
-            f'                "{mnemonic}", "$rd, $rs1, ${{imm12}}(${{rs1}})">,\n'
+            f'                "{mnemonic}", "$rd, $rs1, $imm12">,\n'
             f"                Sched<[]>;\n"
         )
     if fmt == InstructionFormat.IIMM12_RM:
@@ -1350,14 +1488,18 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
     Also generates ``feature.td`` and ``csr.td`` files with LLVM feature and
     CSR definitions.
     """
-    # Group instructions by their canonical extension basename.
+    # Group instructions by their canonical extension basename. Instructions
+    # imported into *inx extensions are additionally emitted in each inx group,
+    # where their operands are integer registers.
     groups: "dict[str, InstrDict]" = {}
     for mnemonic, spec in instr_dict.items():
         ext_paths = spec.get("extension", [])
         if not ext_paths:
             continue
-        ext_key = _ext_basename(ext_paths[0])
-        groups.setdefault(ext_key, {})[mnemonic] = spec
+        base_paths = [p for p in ext_paths if not _is_inx_ext(p)]
+        inx_paths = [p for p in ext_paths if _is_inx_ext(p)]
+        for ext_path in base_paths[:1] + inx_paths:
+            groups.setdefault(_ext_basename(ext_path), {})[mnemonic] = spec
 
     for ext_basename_str, group_spec in groups.items():
         ext_name = _ext_to_name(ext_basename_str)

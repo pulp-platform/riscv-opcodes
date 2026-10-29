@@ -16,6 +16,8 @@
 0x7C9, "vtlidxw"
 0x7CA, "vtlblks"
 0x7CB, "vtlratio"
+# MemPool CSRs
+0x7D0, "trace"
 0x7D1, "stacklimit"
 0x7D2, "pace"
 0x800, "fmode"
