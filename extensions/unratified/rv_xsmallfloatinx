@@ -117,6 +117,7 @@ $import rv_xsmallfloat_vh::vfmin.r.h
 $import rv_xsmallfloat_vh::vfmax.h
 $import rv_xsmallfloat_vh::vfmax.r.h
 $import rv_xsmallfloat_vh::vfsqrt.h
+$import rv_xsmallfloat_vh::vfexp.h
 $import rv_xsmallfloat_vh::vfmac.h
 $import rv_xsmallfloat_vh::vfmac.r.h
 $import rv_xsmallfloat_vh::vfmre.h
