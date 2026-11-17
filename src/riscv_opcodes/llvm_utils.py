@@ -88,6 +88,11 @@ def _feature_description(ext_basename: str) -> str:
     return " ".join(lines)
 
 
+def _is_inx_ext(ext_path: str) -> bool:
+    """Extensions suffixed with 'inx' operate on the integer register file (like Zfinx)."""
+    return _ext_basename(ext_path).endswith("inx")
+
+
 def _ext_predicates(ext_basename: str) -> list[str]:
     predicates = [_ext_to_feature_flag(_ext_to_name(ext_basename))]
     if ext_basename.startswith("rv32_"):
@@ -154,6 +159,7 @@ class InstructionFormat(IntEnum):
     R = 0
     RPRS3 = auto()
     RLUIMM5 = auto()
+    RLUIMM5_IMM5 = auto()
     I = auto()
     R_RDZ = auto()
     U = auto()
@@ -196,6 +202,7 @@ class InstructionFormat(IntEnum):
             (cls.R, {"rd", "rs1", "rs2"}),
             (cls.RPRS3, {"rs1", "rs2", "prs3"}),
             (cls.RLUIMM5, {"rd", "rs1", "rs2", "Luimm5"}),
+            (cls.RLUIMM5_IMM5, {"rd", "rs1", "Luimm5", "imm5"}),
             (cls.I, {"rd", "rs1"}),
             (cls.R_RDZ, {"rs1", "rs2"}),
             (cls.U, {"rd"}),
@@ -361,7 +368,11 @@ TBLGEN_OPERAND_TYPES = {
 }
 
 
-def _get_dtypes(mnemonic: str) -> "dict[str, str]":
+def _get_dtypes(mnemonic: str, ext_name: str = "") -> "dict[str, str]":
+    # *inx extensions hold all floating-point operands in integer registers.
+    if ext_name.endswith("inx"):
+        return {"rs1": "GPR", "rs2": "GPR", "rs3": "GPR", "rd": "GPR"}
+
     if mnemonic == "flh":
         return {"rs1": "GPR", "rd": TBLGEN_OPERAND_TYPES[DataType.F16]}
     if mnemonic == "flah":
@@ -512,7 +523,7 @@ def _opcode_ref(opcode_bits: str, instr_name: str) -> str:
 
 def _tblgen_def(inst: Instruction, ext_name: str) -> str:
     e = inst.encoding
-    dtype = _get_dtypes(inst.mnemonic)
+    dtype = _get_dtypes(inst.mnemonic, ext_name)
     defprefix = _ext_to_defprefix(ext_name)
     decoderns = _ext_to_decoderns(ext_name)
     tblgen_name = defprefix + inst.mnemonic.upper().replace(".", "_")
@@ -725,6 +736,29 @@ def _tblgen_def(inst: Instruction, ext_name: str) -> str:
             f"    let Inst{{31-30}} = {e.f2};\n"
             f"    let Inst{{29-25}} = imm5;\n"
             f"    let Inst{{24-20}} = rs2;\n"
+            f"    let Inst{{19-15}} = rs1;\n"
+            f"    let Inst{{14-12}} = {e.funct3};\n"
+            f"    let Inst{{11-7}} = rd;\n"
+            f"    let Inst{{6-0}} = {e.opcode};\n"
+            f"}}\n"
+        )
+    if fmt == InstructionFormat.RLUIMM5_IMM5:
+        # Two immediates, e.g. p.extract rd, rs1, Luimm5, imm5
+        return (
+            f"{props_str}"
+            f"def {tblgen_name} : RVInst<\n"
+            f"                (outs {dtype['rd']}:$rd),\n"
+            f"                (ins {dtype['rs1']}:$rs1, uimm5:$Luimm5, uimm5:$imm5),\n"
+            f'                "{mnemonic}", "$rd, $rs1, $Luimm5, $imm5",\n'
+            f"                [], InstFormatR>,\n"
+            f"                Sched<[]> {{\n"
+            f"    bits<5> rd;\n"
+            f"    bits<5> rs1;\n"
+            f"    bits<5> Luimm5;\n"
+            f"    bits<5> imm5;\n"
+            f"    let Inst{{31-30}} = {e.f2};\n"
+            f"    let Inst{{29-25}} = Luimm5;\n"
+            f"    let Inst{{24-20}} = imm5;\n"
             f"    let Inst{{19-15}} = rs1;\n"
             f"    let Inst{{14-12}} = {e.funct3};\n"
             f"    let Inst{{11-7}} = rd;\n"
@@ -1350,14 +1384,18 @@ def make_llvm(instr_dict: InstrDict, extensions: Sequence[str], csr_dict: CsrDic
     Also generates ``feature.td`` and ``csr.td`` files with LLVM feature and
     CSR definitions.
     """
-    # Group instructions by their canonical extension basename.
+    # Group instructions by their canonical extension basename. Instructions
+    # imported into *inx extensions are additionally emitted in each inx group,
+    # where their operands are integer registers.
     groups: "dict[str, InstrDict]" = {}
     for mnemonic, spec in instr_dict.items():
         ext_paths = spec.get("extension", [])
         if not ext_paths:
             continue
-        ext_key = _ext_basename(ext_paths[0])
-        groups.setdefault(ext_key, {})[mnemonic] = spec
+        base_paths = [p for p in ext_paths if not _is_inx_ext(p)]
+        inx_paths = [p for p in ext_paths if _is_inx_ext(p)]
+        for ext_path in base_paths[:1] + inx_paths:
+            groups.setdefault(_ext_basename(ext_path), {})[mnemonic] = spec
 
     for ext_basename_str, group_spec in groups.items():
         ext_name = _ext_to_name(ext_basename_str)
