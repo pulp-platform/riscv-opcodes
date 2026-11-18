@@ -239,3 +239,7 @@ $import rv_xsmallfloat_vb::vfdotpex.h.b
 $import rv_xsmallfloat_vb::vfdotpex.h.r.b
 $import rv_xsmallfloat_vb::vfndotpex.h.b
 $import rv_xsmallfloat_vb::vfndotpex.h.r.b
+$import rv_xsmallfloat_vb::vfdotpexa.s.b
+$import rv_xsmallfloat_vb::vfdotpexa.s.r.b
+$import rv_xsmallfloat_vb::vfdotpexb.s.b
+$import rv_xsmallfloat_vb::vfdotpexb.s.r.b

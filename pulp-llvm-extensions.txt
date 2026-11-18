@@ -12,7 +12,6 @@ unratified/rv_xsmallfloat_vs
 unratified/rv_xsmallfloat_vh
 unratified/rv_xsmallfloat_vb
 unratified/rv_xsmallfloatinx
-unratified/rv_xsfltinx
 unratified/rv_xfcdotphalfinx
 unratified/rv32_xb
 unratified/rv32_xpulpabs
